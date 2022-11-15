@@ -2,6 +2,7 @@ import {Routes, Route} from "react-router-dom";
 import ApplicantForm from "./components/ApplicantForm";
 import Navbar from "./components/Navbar";
 import ClientTable from "./components/ClientTable";
+import GroupTable from "./components/GroupTable";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Routes>
                 <Route path="/tilmeld" element={<ApplicantForm/>}/>
                 <Route path="/klientoversigt" element={<ClientTable/>} />
+                <Route path="/gruppeoversigt" element={<GroupTable/>} />
             </Routes>
 
         </>
