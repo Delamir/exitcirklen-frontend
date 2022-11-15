@@ -1,14 +1,17 @@
-
-import Table from "./Table";
+import Table from "./GenericTable";
 
 function ClientTable() {
+    const headers = [
+        "Navn",
+        "Alder",
+        "E-mail",
+        "Telefonnummer",
+        "Status",
+        "Længde status",
+        "",
+    ];
 
-    const headers = ["Navn", "Alder", "E-mail", "Telefonnummer", "Status", "Længde status", ""]
-
-    return (
-
-        <Table />
-    );
+    return <Table />;
 }
 
 export default ClientTable;
