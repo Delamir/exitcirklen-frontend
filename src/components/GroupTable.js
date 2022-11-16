@@ -37,6 +37,7 @@ function GroupTable() {
                         <td>{applicantGroup.price}</td>
                         <td>{applicantGroup.startDate}</td>
                         <td>nogle knapper</td>
+                        <button type="button" onClick={(event) => handleEditClick(event, applicantGroup.id)}>Edit</button>
                     </tr>
                     ))}
             </GenericTable>
