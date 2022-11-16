@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function NavBar() {
     return (
         <>
-            <Navbar bg="primary" variant="dark">
+            <Navbar className="bg-primary" variant="dark">
                 <Navbar.Brand className="ms-3">
                     <img src="/images/logo.png" alt="Exitcirklen" height="80" />
                 </Navbar.Brand>

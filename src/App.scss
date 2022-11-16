@@ -4,5 +4,9 @@ $theme-colors:(
 "primary": #005770
 );
 
+$navbar-dark-color: rgba(white,0.75);
+$navbar-dark-active-color: white;
+$navbar-dark-hover-color: white;
+
 @import "~bootstrap/scss/bootstrap";
 

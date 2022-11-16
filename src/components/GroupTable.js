@@ -1,4 +1,5 @@
 import GenericTable from "./GenericTable";
+import Container from "react-bootstrap/Container";
 
 function GroupTable() {
     
@@ -14,16 +15,9 @@ function GroupTable() {
     ];
 
     return (
-        <GenericTable headers={headers}>
-            <td>ugg</td>
-            <td>ugg</td>
-            <td>ugg</td>
-            <td>ugg</td>
-            <td>ugg</td>
-            <td>ugg</td>
-            <td>ugg</td>
-            <td>ugg</td>
-        </GenericTable>
+        <Container className="mt-5">
+            <GenericTable headers={headers} />
+        </Container>
     );
 }
 export default GroupTable;
