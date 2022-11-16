@@ -10,7 +10,9 @@ function GenericTable(props) {
                     ))}
                 </tr>
             </thead>
-            <tbody>{props.children}</tbody>
+            <tbody>
+            {props.children}
+            </tbody>
         </Table>
     );
 }
