@@ -10,8 +10,10 @@ const ApplicantForm = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [age, setAge] = useState("");
     const [gender, setGender] = useState("");
-    const [contactChoice, setContactChoice] = useState(-1);
+    const [contactChoice, setContactChoice] = useState(1);
     const [willSubscribe, setWillSubscripe] = useState(false);
+    const [city, setCity] = useState("");
+    const [priority, setPriority] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,6 +31,8 @@ const ApplicantForm = () => {
             newApplicant.age = age;
             newApplicant.gender = gender;
             newApplicant.contactChoice = contactChoice;
+            newApplicant.city = city;
+            newApplicant.priority = priority;
         } else {
             newApplicant.groupApplicant = false;
         }
@@ -71,6 +75,7 @@ const ApplicantForm = () => {
                     <Form.Control
                         type="email"
                         placeholder="Indtast e-mail"
+                        required
                         value={email}
                         onChange={(e) => setEmail(e.currentTarget.value)}
                     />
@@ -84,6 +89,7 @@ const ApplicantForm = () => {
                     <Form.Control
                         type="number"
                         placeholder="Indtast telefonnummer"
+                        required
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.currentTarget.value)}
                     />
@@ -95,6 +101,7 @@ const ApplicantForm = () => {
                             type="text"
                             placeholder="Indtast navn"
                             value={name}
+                            required={groupApplicant}
                             onChange={(e) => setName(e.currentTarget.value)}
                         />
                     </Form.Group>
@@ -104,6 +111,7 @@ const ApplicantForm = () => {
                             type="number"
                             placeholder="Indtast alder"
                             value={age}
+                            required={groupApplicant}
                             onChange={(e) => setAge(e.currentTarget.value)}
                         />
                     </Form.Group>
@@ -112,6 +120,7 @@ const ApplicantForm = () => {
                         <Form.Select
                             className="invalid-select"
                             value={gender}
+                            required={groupApplicant}
                             onChange={(e) => setGender(e.currentTarget.value)}
                         >
                             <option value="" disabled hidden>
@@ -122,6 +131,27 @@ const ApplicantForm = () => {
                             <option value="2">Non-binær</option>
                         </Form.Select>
                     </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>By hvor du vil have dit forløb:</Form.Label>
+                        <Form.Select
+                            className="invalid-select"
+                            value={city}
+                            required={groupApplicant}
+                            onChange={(e) => setCity(e.currentTarget.value)}
+                        >
+                            <option value="" disabled hidden>
+                                Vælg By
+                            </option>
+                            <option value="KØBENHAVN">København</option>
+                            <option value="HILLERØD">Hillerød</option>
+                            <option value="KØGE">Køge</option>
+                            <option value="ODENSE">Odense</option>
+                            <option value="AARHUS">Aarhus</option>
+                            <option value="ESBJERG">Esbjerg</option>
+                            <option value="AALBORG">Aalborg</option>
+                            <option value="NÆSTVED">Næstved</option>
+                        </Form.Select>
+                    </Form.Group>
 
                     <div onChange={(event) => setContactChoice(event)}>
                         <Form.Group className="">
@@ -130,6 +160,7 @@ const ApplicantForm = () => {
                                 label="Jeg vil gerne kontaktes via e-mail"
                                 name="contact-choice"
                                 value="1"
+                                checked={contactChoice === 1}
                                 onChange={(e) =>
                                     setContactChoice(e.currentTarget.value)
                                 }
@@ -141,6 +172,7 @@ const ApplicantForm = () => {
                                 label="Jeg vil gerne kontaktes via SMS"
                                 name="contact-choice"
                                 value="2"
+                                checked={contactChoice === 2}
                                 onChange={(e) =>
                                     setContactChoice(e.currentTarget.value)
                                 }
