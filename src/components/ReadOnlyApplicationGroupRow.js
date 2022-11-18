@@ -1,6 +1,7 @@
 import React from "react";
 
-const ReadOnlyApplicationGroupRow = ({applicantGroup}) => {
+const ReadOnlyApplicationGroupRow = ({applicantGroup, handleEditClick}) => {
+
     return (
         <tr key={applicantGroup.id}>
             <td>{applicantGroup.city}</td>
@@ -10,7 +11,13 @@ const ReadOnlyApplicationGroupRow = ({applicantGroup}) => {
             <td>{applicantGroup.availableSpots}</td>
             <td>{applicantGroup.price}</td>
             <td>{applicantGroup.startDate}</td>
-            <td>nogle knapper</td>
+            <td>
+                <button type="button"
+                        onClick={(event) =>
+                            handleEditClick(event, applicantGroup)}>
+                    Ændre
+                </button>
+            </td>
         </tr>
     );
 };
