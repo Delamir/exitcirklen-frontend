@@ -32,7 +32,7 @@ function GroupTable() {
     const handleEditFormChange = (event) => {
         event.preventDefault();
 
-        const fieldName = event.target.getAttribute("city");
+        const fieldName = event.target.getAttribute("name");
         const fieldValue = event.target.value;
 
         const newFormData = { ...editFormData }
@@ -45,7 +45,7 @@ function GroupTable() {
 
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null)
 
-    const [applicantGroups, setApplicantGroupsId] = useState([])
+    const [applicantGroups, setApplicantGroups] = useState([])
 
     const handleEditFormSubmit = (event) => {
         event.preventDefault();
@@ -86,9 +86,14 @@ function GroupTable() {
 
     useEffect(() =>{
         FetchApplicantGroups().then((applicantGroups) =>{
-            setApplicantGroupsId(applicantGroups.data)
+            setApplicantGroups(applicantGroups.data)
+            console.log(applicantGroups)
         })
     })
+
+    const handleCancelClick = () => {
+        setEditApplicantGroupId(null)
+    }
 
     return (
         <form>
@@ -100,7 +105,9 @@ function GroupTable() {
                             <EditApplicantGroup
                                 editFormData={editFormData}
                                 handleEditFormChange={handleEditFormChange}
-                                handleEditFormSubmit={handleEditFormSubmit}/>
+                                handleEditFormSubmit={handleEditFormSubmit}
+                                handleCancelClick={handleCancelClick}
+                            />
                             )  : (
                             <ReadOnlyApplicationGroupRow
                                 applicantGroup={applicantGroup}

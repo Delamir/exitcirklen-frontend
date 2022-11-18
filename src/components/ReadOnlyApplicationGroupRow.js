@@ -10,9 +10,9 @@ const ReadOnlyApplicationGroupRow = ({applicantGroup, handleEditClick}) => {
             <td>{applicantGroup.groupSize}</td>
             <td>{applicantGroup.availableSpots}</td>
             <td>{applicantGroup.price}</td>
-            <td>{applicantGroup.startDate}</td>
-            <td>
-                <button type="button"
+            <td>{applicantGroup.startDate.replace("T", " ")}</td>
+            <td className="d-flex gap-3 justify-content-center">
+                <button type="button" className="btn btn-success btn-floating"
                         onClick={(event) =>
                             handleEditClick(event, applicantGroup)}>
                     Ændre
