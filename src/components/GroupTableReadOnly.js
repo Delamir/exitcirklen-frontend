@@ -1,6 +1,6 @@
 import React from "react";
 
-const ReadOnlyApplicationGroupRow = ({ applicantGroup, handleEditClick }) => {
+const GroupTableReadOnly = ({ applicantGroup, handleEditClick }) => {
     return (
         <tr key={applicantGroup.id}>
             <td>{applicantGroup.city}</td>
@@ -23,4 +23,4 @@ const ReadOnlyApplicationGroupRow = ({ applicantGroup, handleEditClick }) => {
     );
 };
 
-export default ReadOnlyApplicationGroupRow;
+export default GroupTableReadOnly;

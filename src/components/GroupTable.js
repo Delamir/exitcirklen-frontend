@@ -2,8 +2,8 @@ import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
 import { FetchApplicantGroups } from "./FetchApplicantGroups";
 import { Fragment, useEffect, useState } from "react";
-import ReadOnlyApplicationGroupRow from "./ReadOnlyApplicationGroupRow";
-import EditApplicantGroup from "./EditApplicantGroup";
+import GroupTableReadOnly from "./GroupTableReadOnly";
+import GroupTableEditRows from "./GroupTableEditRows";
 import axios from "axios";
 
 function GroupTable() {
@@ -18,6 +18,10 @@ function GroupTable() {
         "Handlinger",
     ];
 
+    const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
+
+    const [applicantGroups, setApplicantGroups] = useState([]);
+
     const [editFormData, setEditFormData] = useState({
         city: "",
         address: "",
@@ -29,21 +33,18 @@ function GroupTable() {
     });
 
     const handleEditFormChange = (event) => {
+
         event.preventDefault();
-
         const fieldName = event.target.getAttribute("name");
-        const fieldValue = event.target.value;
 
+        const fieldValue = event.target.value;
         const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;
+
         console.log("hej", editFormData, newFormData[fieldName]);
-
         setEditFormData(newFormData);
+
     };
-
-    const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
-
-    const [applicantGroups, setApplicantGroups] = useState([]);
 
     const handleEditFormSubmit = (event) => {
         event.preventDefault();
@@ -104,14 +105,14 @@ function GroupTable() {
                     {applicantGroups?.map((applicantGroup) => (
                         <Fragment key={applicantGroup.id}>
                             {editApplicantGroupId === applicantGroup.id ? (
-                                <EditApplicantGroup
+                                <GroupTableEditRows
                                     editFormData={editFormData}
                                     handleEditFormChange={handleEditFormChange}
                                     handleEditFormSubmit={handleEditFormSubmit}
                                     handleCancelClick={handleCancelClick}
                                 />
                             ) : (
-                                <ReadOnlyApplicationGroupRow
+                                <GroupTableReadOnly
                                     applicantGroup={applicantGroup}
                                     handleEditClick={handleEditClick}
                                 />

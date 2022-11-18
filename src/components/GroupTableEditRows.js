@@ -1,6 +1,6 @@
 import React from "react";
 
-const EditApplicantGroup = ({
+const GroupTableEditRows = ({
     editFormData,
     handleEditFormChange,
     handleEditFormSubmit,
@@ -105,4 +105,4 @@ const EditApplicantGroup = ({
     );
 };
 
-export default EditApplicantGroup;
+export default GroupTableEditRows;
