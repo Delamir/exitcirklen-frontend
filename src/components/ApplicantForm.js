@@ -68,10 +68,9 @@ const ApplicantForm = () => {
         }
     };
 
-    const handleContactChoice = (e, value) => {
-        e.preventDefault();
-        console.log(value)
-    }
+    const handleContactChoice = (value) => {
+        setContactChoice(Number(value));
+    };
 
     return (
         <Container className="mt-5">
@@ -192,32 +191,29 @@ const ApplicantForm = () => {
                         ))}
                     </ReactSortable>
 
-                    <div onChange={(event) => setContactChoice(event.currentTarget.value)}>
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                                type="radio"
-                                label="Jeg vil gerne kontaktes via e-mail"
-                                name="contact-choice"
-                                value="1"
-                                checked={contactChoice === 1}
-                                onChange={(e) =>
-                                    handleContactChoice(e, e.currentTarget.value)
-                                }
-                            />
+                    <Form.Group className="mb-3">
+                        <Form.Check
+                            type="radio"
+                            label="Jeg vil gerne kontaktes via e-mail"
+                            name="contact-choice"
+                            value="1"
+                            checked={contactChoice === 1}
+                            onChange={(e) =>
+                                setContactChoice(Number(e.currentTarget.value))
+                            }
+                        />
 
-
-                            <Form.Check
-                                type="radio"
-                                label="Jeg vil gerne kontaktes via SMS"
-                                name="contact-choice"
-                                value="2"
-                                checked={contactChoice === 2}
-                                onChange={(e) =>
-                                    setContactChoice(e.currentTarget.value)
-                                }
-                            />
-                        </Form.Group>
-                    </div>
+                        <Form.Check
+                            type="radio"
+                            label="Jeg vil gerne kontaktes via SMS"
+                            name="contact-choice"
+                            value="2"
+                            checked={contactChoice === 2}
+                            onChange={(e) =>
+                                setContactChoice(Number(e.currentTarget.value))
+                            }
+                        />
+                    </Form.Group>
                 </div>
                 <Form.Group className="">
                     <Form.Check
