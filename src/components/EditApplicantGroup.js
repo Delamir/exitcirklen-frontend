@@ -4,8 +4,8 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
     return (
         <tr>
             <td>
-                <input
-                    type="text"
+                <input className="form-control"
+                       type="text"
                     required="required"
                     placeholder="Skriv en by..."
                     name="city"
@@ -14,7 +14,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        placeholder="Skriv en adresse..."
                        name="address"
@@ -23,7 +23,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        placeholder="Skriv et navn..."
                        name="name"
@@ -32,7 +32,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="number"
+                <input className="form-control" type="number"
                        required="required"
                        placeholder="Skriv en gruppe størrelse..."
                        name="groupSize"
@@ -41,7 +41,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        placeholder="Skriv et antal ledige pladser..."
                        name="availableSpots"
@@ -50,7 +50,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        placeholder="Skriv en pris..."
                        name="price"
@@ -59,7 +59,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="datetime-local"
+                <input className="form-control" type="datetime-local"
                        required="required"
                        placeholder="Skriv en dato for start..."
                        name="startDate"

@@ -2,7 +2,7 @@ import { Table } from "react-bootstrap";
 
 function GenericTable(props) {
     return (
-        <Table striped bordered hover size="large">
+        <Table responsive striped bordered hover size="large">
             <thead className="bg-primary text-white">
                 <tr>
                     {props.headers.map((header, index) => (

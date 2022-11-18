@@ -5,6 +5,7 @@ import {FetchApplicants} from "./FetchApplicants";
 import ClientTableEditRows from "./ClientTableEditRows";
 import ClientTableData from "./ClientTableData";
 import axios from "axios";
+import {Col} from "react-bootstrap";
 
 function ClientTable() {
 
@@ -90,8 +91,9 @@ function ClientTable() {
     }
 
     return (
-        <form>
-            <Container className="mt-5">
+
+        <Container className="mt-5">
+            <form className="form-horizontal">
                 <GenericTable headers={headers}>
                     {applicants?.sort((a, b) => a.lastChanged.localeCompare(b.lastChanged))
                         .map((applicant) => (
@@ -110,8 +112,9 @@ function ClientTable() {
                             </Fragment>
                         ))}
                 </GenericTable>
-            </Container>
-        </form>
+            </form>
+        </Container>
+
     );
 }
 

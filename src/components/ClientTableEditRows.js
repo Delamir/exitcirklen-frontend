@@ -4,56 +4,56 @@ function ClientTableEditRows({editFormData, handleEditFormChange, handleEditForm
     return(
         <tr>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        name="name"
                        value={editFormData.name}
                        onChange={handleEditFormChange}/>
             </td>
             <td>
-                <input type="number"
+                <input className="form-control" type="number"
                        required="required"
                        name="age"
                        value={editFormData.age}
                        onChange={handleEditFormChange}/>
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        name="email"
                        value={editFormData.email}
                        onChange={handleEditFormChange}/>
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        name="phoneNumber"
                        value={editFormData.phoneNumber}
                        onChange={handleEditFormChange} />
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        name="status"
                        value={editFormData.status}
                        onChange={handleEditFormChange}/>
             </td>
             <td>
-                <input type="datetime-local"
+                <input className="form-control" type="datetime-local"
                        required="required"
                        name="lastChanged"
                        value={editFormData.lastChanged}
                        onChange={handleEditFormChange}/>
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        name="city"
                        value={editFormData.city}
                        onChange={handleEditFormChange}/>
             </td>
             <td>
-                <input type="text"
+                <input className="form-control" type="text"
                        required="required"
                        name="description"
                        value={editFormData.description}
