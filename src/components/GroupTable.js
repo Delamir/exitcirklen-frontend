@@ -1,13 +1,12 @@
 import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
-import {FetchApplicantGroups} from "./FetchApplicantGroups";
-import {Fragment, useEffect, useState} from "react";
+import { FetchApplicantGroups } from "./FetchApplicantGroups";
+import { Fragment, useEffect, useState } from "react";
 import ReadOnlyApplicationGroupRow from "./ReadOnlyApplicationGroupRow";
 import EditApplicantGroup from "./EditApplicantGroup";
 import axios from "axios";
 
 function GroupTable() {
-    
     const headers = [
         "By",
         "Adresse",
@@ -19,15 +18,15 @@ function GroupTable() {
         "Handlinger",
     ];
 
-    const [editFormData, setEditFormData] = useState( {
-        city : "",
-        address : "",
-        name : "",
-        groupSize : "",
-        availableSpots : "",
-        price : "",
-        startDate : "",
-    })
+    const [editFormData, setEditFormData] = useState({
+        city: "",
+        address: "",
+        name: "",
+        groupSize: "",
+        availableSpots: "",
+        price: "",
+        startDate: "",
+    });
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
@@ -35,17 +34,16 @@ function GroupTable() {
         const fieldName = event.target.getAttribute("name");
         const fieldValue = event.target.value;
 
-        const newFormData = { ...editFormData }
+        const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;
-        console.log("hej", editFormData, newFormData[fieldName])
+        console.log("hej", editFormData, newFormData[fieldName]);
 
         setEditFormData(newFormData);
+    };
 
-    }
+    const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
 
-    const [editApplicantGroupId, setEditApplicantGroupId] = useState(null)
-
-    const [applicantGroups, setApplicantGroups] = useState([])
+    const [applicantGroups, setApplicantGroups] = useState([]);
 
     const handleEditFormSubmit = (event) => {
         event.preventDefault();
@@ -57,14 +55,18 @@ function GroupTable() {
             groupSize: editFormData.groupSize,
             availableSpots: editFormData.availableSpots,
             price: editFormData.price,
-            startDate: editFormData.startDate
-        }
+            startDate: editFormData.startDate,
+        };
 
-        axios.patch("http://localhost:8081/groups/" + editFormData.id, editedApplicantGroup)
-            .catch((error) => console.log(error))
+        axios
+            .patch(
+                "http://localhost:8081/groups/" + editFormData.id,
+                editedApplicantGroup
+            )
+            .catch((error) => console.log(error));
 
-        setEditApplicantGroupId(null)
-    }
+        setEditApplicantGroupId(null);
+    };
 
     const handleEditClick = (event, applicantGroup) => {
         event.preventDefault();
@@ -79,46 +81,45 @@ function GroupTable() {
             availableSpots: applicantGroup.availableSpots,
             price: applicantGroup.price,
             startDate: applicantGroup.startDate,
-        }
+        };
 
         setEditFormData(formValues);
-    }
+    };
 
-    useEffect(() =>{
-        FetchApplicantGroups().then((applicantGroups) =>{
-            setApplicantGroups(applicantGroups.data)
-            console.log(applicantGroups)
-        })
-    })
+    useEffect(() => {
+        FetchApplicantGroups().then((applicantGroups) => {
+            setApplicantGroups(applicantGroups.data);
+            console.log(applicantGroups);
+        });
+    });
 
     const handleCancelClick = () => {
-        setEditApplicantGroupId(null)
-    }
+        setEditApplicantGroupId(null);
+    };
 
     return (
         <form>
-        <Container className="mt-5">
-            <GenericTable headers={headers}>
-                {applicantGroups?.map((applicantGroup) => (
-                    <Fragment key={applicantGroup.id}>
-                        { editApplicantGroupId === applicantGroup.id ?(
-                            <EditApplicantGroup
-                                editFormData={editFormData}
-                                handleEditFormChange={handleEditFormChange}
-                                handleEditFormSubmit={handleEditFormSubmit}
-                                handleCancelClick={handleCancelClick}
-                            />
-                            )  : (
-                            <ReadOnlyApplicationGroupRow
-                                applicantGroup={applicantGroup}
-                                handleEditClick={handleEditClick}/>
-                        )}
-
-
-                    </Fragment>
+            <Container className="mt-5">
+                <GenericTable headers={headers}>
+                    {applicantGroups?.map((applicantGroup) => (
+                        <Fragment key={applicantGroup.id}>
+                            {editApplicantGroupId === applicantGroup.id ? (
+                                <EditApplicantGroup
+                                    editFormData={editFormData}
+                                    handleEditFormChange={handleEditFormChange}
+                                    handleEditFormSubmit={handleEditFormSubmit}
+                                    handleCancelClick={handleCancelClick}
+                                />
+                            ) : (
+                                <ReadOnlyApplicationGroupRow
+                                    applicantGroup={applicantGroup}
+                                    handleEditClick={handleEditClick}
+                                />
+                            )}
+                        </Fragment>
                     ))}
-            </GenericTable>
-        </Container>
+                </GenericTable>
+            </Container>
         </form>
     );
 }

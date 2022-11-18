@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Form, Container } from "react-bootstrap";
+import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 
 const ApplicantForm = () => {
@@ -14,6 +15,13 @@ const ApplicantForm = () => {
     const [willSubscribe, setWillSubscripe] = useState(false);
     const [city, setCity] = useState("");
     const [priority, setPriority] = useState("");
+
+    const [priorityList, setPriorityList] = useState([
+        { id: 1, name: "lyngby" },
+        { id: 2, name: "amager" },
+    ]);
+
+    const copenhagenOptionRef = useRef(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,7 +38,8 @@ const ApplicantForm = () => {
             newApplicant.name = name;
             newApplicant.age = age;
             newApplicant.gender = gender;
-            newApplicant.contactChoice = contactChoice;
+            newApplicant.contactCall = contactChoice === 2;
+            newApplicant.contactEmail = contactChoice === 1;
             newApplicant.city = city;
             newApplicant.priority = priority;
         } else {
@@ -44,6 +53,19 @@ const ApplicantForm = () => {
             });
 
         console.log(newApplicant);
+    };
+
+    const handleCityChange = (e) => {
+        e.preventDefault();
+
+        setCity(e.currentTarget.value);
+        console.log("ugg", e.currentTarget.value);
+        console.log("bugg", copenhagenOptionRef);
+        if (city === "KØBENHAVN") {
+            copenhagenOptionRef.current.style.display = "block";
+        } else {
+            copenhagenOptionRef.current.style.display = "none";
+        }
     };
 
     return (
@@ -137,7 +159,7 @@ const ApplicantForm = () => {
                             className="invalid-select"
                             value={city}
                             required={groupApplicant}
-                            onChange={(e) => setCity(e.currentTarget.value)}
+                            onChange={(e) => handleCityChange(e)}
                         >
                             <option value="" disabled hidden>
                                 Vælg By
@@ -152,6 +174,18 @@ const ApplicantForm = () => {
                             <option value="NÆSTVED">Næstved</option>
                         </Form.Select>
                     </Form.Group>
+
+                    <ReactSortable
+                        list={priorityList}
+                        setList={setPriorityList}
+                        className="mb-3"
+                        style={{ display: "none" }}
+                        ref={copenhagenOptionRef}
+                    >
+                        {priorityList.map((item) => (
+                            <div key={item.id}>{item.name}</div>
+                        ))}
+                    </ReactSortable>
 
                     <div onChange={(event) => setContactChoice(event)}>
                         <Form.Group className="">

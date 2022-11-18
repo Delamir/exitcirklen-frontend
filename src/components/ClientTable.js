@@ -1,18 +1,26 @@
 import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
-import {Fragment, useState, useEffect} from "react";
-import {FetchApplicants} from "./FetchApplicants";
+import { Fragment, useState, useEffect } from "react";
+import { FetchApplicants } from "./FetchApplicants";
 import ClientTableEditRows from "./ClientTableEditRows";
 import ClientTableData from "./ClientTableData";
 import axios from "axios";
-import {Col} from "react-bootstrap";
+import { Col } from "react-bootstrap";
 
 function ClientTable() {
+    const headers = [
+        "Navn",
+        "Alder",
+        "E-mail",
+        "Telefonnummer",
+        "Status",
+        "I Status Siden",
+        "By",
+        "Bemærkning",
+        "Handlinger",
+    ];
 
-    const headers = ["Navn", "Alder", "E-mail", "Telefonnummer", "Status", "I Status Siden", "By",
-        "Bemærkning", "Handlinger"]
-
-    const [applicants, setApplicants] = useState([])
+    const [applicants, setApplicants] = useState([]);
     const [editApplicant, setEditApplicant] = useState(null);
     const [editFormData, setEditFormData] = useState({
         name: "",
@@ -22,34 +30,34 @@ function ClientTable() {
         status: "",
         lastChanged: "",
         city: "",
-        description: ""
-    })
+        description: "",
+    });
 
     useEffect(() => {
         FetchApplicants().then((applicants) => {
-            setApplicants(applicants.data)
-        })
-    })
+            setApplicants(applicants.data);
+        });
+    });
 
     const handleEditFormChange = (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
-        const fieldName = event.target.getAttribute("name")
+        const fieldName = event.target.getAttribute("name");
         const fieldValue = event.target.value;
 
-        const newFormData = {...editFormData}
-        newFormData[fieldName] = fieldValue
+        const newFormData = { ...editFormData };
+        newFormData[fieldName] = fieldValue;
 
-        setEditFormData(newFormData)
-    }
+        setEditFormData(newFormData);
+    };
 
     const handleDeleteClick = (applicantId) => {
-        axios.delete("http://localhost:8081/applicants/" + applicantId)
-    }
+        axios.delete("http://localhost:8081/applicants/" + applicantId);
+    };
 
     const handleEditClick = (event, applicant) => {
-        event.preventDefault()
-        setEditApplicant(applicant.id)
+        event.preventDefault();
+        setEditApplicant(applicant.id);
 
         const formValues = {
             id: applicant.id,
@@ -60,14 +68,14 @@ function ClientTable() {
             status: applicant.status,
             lastChanged: applicant.lastChanged,
             city: applicant.city,
-            description: applicant.description
-        }
+            description: applicant.description,
+        };
 
-        setEditFormData(formValues)
-    }
+        setEditFormData(formValues);
+    };
 
     const handleEditFormSubmit = (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         const editedApplicant = {
             name: editFormData.name,
@@ -77,44 +85,56 @@ function ClientTable() {
             status: editFormData.status,
             lastChanged: editFormData.lastChanged,
             city: editFormData.city,
-            description: editFormData.description
-        }
+            description: editFormData.description,
+        };
 
-        axios.patch("http://localhost:8081/applicants/" + editFormData.id, editedApplicant)
-            .catch((error) => console.log(error))
+        axios
+            .patch(
+                "http://localhost:8081/applicants/" + editFormData.id,
+                editedApplicant
+            )
+            .catch((error) => console.log(error));
 
-        setEditApplicant(null)
-    }
+        setEditApplicant(null);
+    };
 
     const handleCancelClick = () => {
-        setEditApplicant(null)
-    }
+        setEditApplicant(null);
+    };
 
     return (
-
         <Container className="mt-5">
             <form className="form-horizontal">
                 <GenericTable headers={headers}>
-                    {applicants?.sort((a, b) => a.lastChanged.localeCompare(b.lastChanged))
+                    {applicants
+                        ?.sort((a, b) =>
+                            a.lastChanged.localeCompare(b.lastChanged)
+                        )
                         .map((applicant) => (
                             <Fragment key={applicant.id}>
                                 {editApplicant === applicant.id ? (
-                                    <ClientTableEditRows editFormData={editFormData}
-                                                         handleEditFormChange={handleEditFormChange}
-                                                         handleEditFormSubmit={handleEditFormSubmit}
-                                                         handleCancelClick={handleCancelClick}/>
+                                    <ClientTableEditRows
+                                        editFormData={editFormData}
+                                        handleEditFormChange={
+                                            handleEditFormChange
+                                        }
+                                        handleEditFormSubmit={
+                                            handleEditFormSubmit
+                                        }
+                                        handleCancelClick={handleCancelClick}
+                                    />
                                 ) : (
                                     <ClientTableData
                                         applicant={applicant}
                                         handleDeleteClick={handleDeleteClick}
-                                        handleEditClick={handleEditClick}/>
+                                        handleEditClick={handleEditClick}
+                                    />
                                 )}
                             </Fragment>
                         ))}
                 </GenericTable>
             </form>
         </Container>
-
     );
 }
 

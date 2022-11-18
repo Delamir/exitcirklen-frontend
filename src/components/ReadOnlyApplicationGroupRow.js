@@ -1,7 +1,6 @@
 import React from "react";
 
-const ReadOnlyApplicationGroupRow = ({applicantGroup, handleEditClick}) => {
-
+const ReadOnlyApplicationGroupRow = ({ applicantGroup, handleEditClick }) => {
     return (
         <tr key={applicantGroup.id}>
             <td>{applicantGroup.city}</td>
@@ -12,9 +11,11 @@ const ReadOnlyApplicationGroupRow = ({applicantGroup, handleEditClick}) => {
             <td>{applicantGroup.price}</td>
             <td>{applicantGroup.startDate.replace("T", " ")}</td>
             <td className="d-flex gap-3 justify-content-center">
-                <button type="button" className="btn btn-success btn-floating"
-                        onClick={(event) =>
-                            handleEditClick(event, applicantGroup)}>
+                <button
+                    type="button"
+                    className="btn btn-success btn-floating"
+                    onClick={(event) => handleEditClick(event, applicantGroup)}
+                >
                     Ændre
                 </button>
             </td>
@@ -22,4 +23,4 @@ const ReadOnlyApplicationGroupRow = ({applicantGroup, handleEditClick}) => {
     );
 };
 
-export default ReadOnlyApplicationGroupRow
+export default ReadOnlyApplicationGroupRow;
