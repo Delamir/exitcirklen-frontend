@@ -1,7 +1,9 @@
 import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
 import {FetchApplicantGroups} from "./FetchApplicantGroups";
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
+import ReadOnlyApplicationGroupRow from "./ReadOnlyApplicationGroupRow";
+import EditApplicantGroup from "./EditApplicantGroup";
 
 function GroupTable() {
     
@@ -25,23 +27,19 @@ function GroupTable() {
     })
 
     return (
+        <form>
         <Container className="mt-5">
             <GenericTable headers={headers}>
                 {applicantGroups?.map((applicantGroup) => (
-                    <tr key={applicantGroup.id}>
-                        <td>{applicantGroup.city}</td>
-                        <td>{applicantGroup.address}</td>
-                        <td>{applicantGroup.name}</td>
-                        <td>{applicantGroup.groupSize}</td>
-                        <td>{applicantGroup.availableSpots}</td>
-                        <td>{applicantGroup.price}</td>
-                        <td>{applicantGroup.startDate}</td>
-                        <td>nogle knapper</td>
-                        <button type="button" onClick={(event) => handleEditClick(event, applicantGroup.id)}>Edit</button>
-                    </tr>
+                    <Fragment>
+
+                        <EditApplicantGroup />
+                        <ReadOnlyApplicationGroupRow applicantGroup={applicantGroup} />
+                    </Fragment>
                     ))}
             </GenericTable>
         </Container>
+        </form>
     );
 }
 export default GroupTable;
