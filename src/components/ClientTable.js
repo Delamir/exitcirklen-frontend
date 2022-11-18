@@ -103,7 +103,9 @@ function ClientTable() {
     };
 
     return (
+
         <Container className="mt-5">
+            <h1>Klientoversigt</h1>
             <form className="form-horizontal">
                 <GenericTable headers={headers}>
                     {applicants
