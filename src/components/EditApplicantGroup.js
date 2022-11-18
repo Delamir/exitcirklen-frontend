@@ -59,7 +59,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                 />
             </td>
             <td>
-                <input type="text"
+                <input type="datetime-local"
                        required="required"
                        placeholder="Skriv en dato for start..."
                        name="startDate"
@@ -67,7 +67,7 @@ const EditApplicantGroup = ({ editFormData, handleEditFormChange, handleEditForm
                        onChange={handleEditFormChange}
                 />
             </td>
-            <td className="d-flex gap-3 justify-content-center">
+            <td className="d-flex gap-3 justify-content-center" >
                 <button type="submit" className="btn btn-success btn-floating"
                 onClick={(event) => handleEditFormSubmit(event)}>Gem</button>
                 <button type="button" className="btn btn-primary btn-floating"
