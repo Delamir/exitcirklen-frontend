@@ -9,7 +9,7 @@ function ClientTableData ({ applicant, handleDeleteClick, handleEditClick }) {
             <td>{applicant.status}</td>
             <td>{applicant.lastChanged.replace('T', ' ')}</td>
             <td>{applicant.city}</td>
-            <td>{applicant.description}</td>
+            <td className="col-2">{applicant.description}</td>
             <td className="d-flex gap-3 justify-content-center">
                 <button type="button" className="btn btn-success btn-floating"
                 onClick={(event) => handleEditClick(event, applicant)}>
