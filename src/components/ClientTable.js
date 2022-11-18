@@ -1,6 +1,6 @@
 import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
-import {useState, useEffect} from "react";
+import {Fragment, useState, useEffect} from "react";
 import {FetchApplicants} from "./FetchApplicants";
 import ClientTableEditRows from "./ClientTableEditRows";
 import ClientTableData from "./ClientTableData";
@@ -24,10 +24,10 @@ function ClientTable() {
                 <GenericTable headers={headers}>
                     {applicants?.sort((a, b) => a.lastChanged.localeCompare(b.lastChanged))
                         .map((applicant) => (
-                            <fragment>
+                            <Fragment>
                                 <ClientTableData applicant={applicant}/>
                                 <ClientTableEditRows/>
-                            </fragment>
+                            </Fragment>
                         ))}
                 </GenericTable>
             </Container>
