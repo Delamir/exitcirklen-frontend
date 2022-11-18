@@ -68,6 +68,10 @@ const ApplicantForm = () => {
         }
     };
 
+    const handleContactChoice = (value) => {
+        setContactChoice(Number(value));
+    };
+
     return (
         <Container className="mt-5">
             <Form onSubmit={(e) => handleSubmit(e)}>
@@ -75,7 +79,7 @@ const ApplicantForm = () => {
                     <Form.Label>Medlemstype:</Form.Label>
                     <Form.Check
                         type="radio"
-                        label="Jeg melde mig som støttemedlem"
+                        label="Jeg vil gerne melde mig som et støttemedlem"
                         name="applicant-type"
                         checked={!groupApplicant}
                         onChange={(e) =>
@@ -187,32 +191,29 @@ const ApplicantForm = () => {
                         ))}
                     </ReactSortable>
 
-                    <div onChange={(event) => setContactChoice(event)}>
-                        <Form.Group className="">
-                            <Form.Check
-                                type="radio"
-                                label="Jeg vil gerne kontaktes via e-mail"
-                                name="contact-choice"
-                                value="1"
-                                checked={contactChoice === 1}
-                                onChange={(e) =>
-                                    setContactChoice(e.currentTarget.value)
-                                }
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                                type="radio"
-                                label="Jeg vil gerne kontaktes via SMS"
-                                name="contact-choice"
-                                value="2"
-                                checked={contactChoice === 2}
-                                onChange={(e) =>
-                                    setContactChoice(e.currentTarget.value)
-                                }
-                            />
-                        </Form.Group>
-                    </div>
+                    <Form.Group className="mb-3">
+                        <Form.Check
+                            type="radio"
+                            label="Jeg vil gerne kontaktes via e-mail"
+                            name="contact-choice"
+                            value="1"
+                            checked={contactChoice === 1}
+                            onChange={(e) =>
+                                setContactChoice(Number(e.currentTarget.value))
+                            }
+                        />
+
+                        <Form.Check
+                            type="radio"
+                            label="Jeg vil gerne kontaktes via SMS"
+                            name="contact-choice"
+                            value="2"
+                            checked={contactChoice === 2}
+                            onChange={(e) =>
+                                setContactChoice(Number(e.currentTarget.value))
+                            }
+                        />
+                    </Form.Group>
                 </div>
                 <Form.Group className="">
                     <Form.Check
@@ -225,7 +226,7 @@ const ApplicantForm = () => {
                 <Form.Group className="">
                     <Form.Check
                         type="checkbox"
-                        label="Tilmeld Nyhedsbræv"
+                        label="Tilmeld Nyhedsbrev"
                         checked={wantsNewsletter}
                         onChange={() => setWantsNewsletter(!wantsNewsletter)}
                     />
