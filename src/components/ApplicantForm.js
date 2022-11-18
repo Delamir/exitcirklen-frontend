@@ -34,7 +34,6 @@ const ApplicantForm = () => {
         };
 
         if (groupApplicant) {
-            newApplicant.groupApplicant = true;
             newApplicant.name = name;
             newApplicant.age = age;
             newApplicant.gender = gender;
@@ -42,6 +41,7 @@ const ApplicantForm = () => {
             newApplicant.contactEmail = contactChoice === 1;
             newApplicant.city = city;
             newApplicant.priority = priority;
+            newApplicant.userType = groupApplicant ? 1 : 0;
         } else {
             newApplicant.groupApplicant = false;
         }
