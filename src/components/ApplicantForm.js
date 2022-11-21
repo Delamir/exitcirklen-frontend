@@ -37,8 +37,9 @@ const ApplicantForm = () => {
             newApplicant.name = name;
             newApplicant.age = age;
             newApplicant.gender = gender;
-            newApplicant.contactCall = contactChoice === 2;
-            newApplicant.contactEmail = contactChoice === 1;
+            newApplicant.contactCall = (Number(contactChoice) === 2);
+            newApplicant.contactText = (Number(contactChoice) === 1);
+            console.log(contactChoice)
             newApplicant.city = city;
             newApplicant.priority = priority;
             newApplicant.userType = groupApplicant ? 1 : 0;
@@ -194,7 +195,7 @@ const ApplicantForm = () => {
                     <Form.Group className="mb-3">
                         <Form.Check
                             type="radio"
-                            label="Jeg vil gerne kontaktes via e-mail"
+                            label="Jeg vil gerne kontaktes via en opringning"
                             name="contact-choice"
                             value="1"
                             checked={contactChoice === 1}
