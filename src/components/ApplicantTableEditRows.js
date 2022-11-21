@@ -1,6 +1,6 @@
 import React from "react";
 
-function ClientTableEditRows({
+function ApplicantTableEditRows({
     editFormData,
     handleEditFormChange,
     handleEditFormSubmit,
@@ -108,4 +108,4 @@ function ClientTableEditRows({
     );
 }
 
-export default ClientTableEditRows;
+export default ApplicantTableEditRows;
