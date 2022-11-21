@@ -1,4 +1,4 @@
-function ClientTableData({ applicant, handleDeleteClick, handleEditClick }) {
+function ApplicantTableData({ applicant, handleDeleteClick, handleEditClick }) {
     return (
         <tr key={applicant.id}>
             <td>{applicant.name}</td>
@@ -36,4 +36,4 @@ function ClientTableData({ applicant, handleDeleteClick, handleEditClick }) {
     );
 }
 
-export default ClientTableData;
+export default ApplicantTableData;

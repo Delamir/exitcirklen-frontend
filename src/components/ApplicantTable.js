@@ -1,13 +1,13 @@
 import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
-import { Fragment, useState, useEffect } from "react";
-import { FetchApplicants } from "./FetchApplicants";
-import ClientTableEditRows from "./ClientTableEditRows";
-import ClientTableData from "./ClientTableData";
+import {Fragment, useState, useEffect, useRef} from "react";
+import {FetchApplicants} from "./FetchApplicants";
+import ApplicantTableEditRows from "./ApplicantTableEditRows";
+import ApplicantTableData from "./ApplicantTableData";
 import axios from "axios";
-import { Col } from "react-bootstrap";
+import {FetchWaitingList} from "./FetchWaitingList";
 
-function ClientTable() {
+function ApplicantTable() {
     const headers = [
         "Navn",
         "Alder",
@@ -20,7 +20,7 @@ function ClientTable() {
         "Handlinger",
     ];
 
-    const [applicants, setApplicants] = useState([]);
+    const [tableData, setTableData] = useState()
     const [editApplicant, setEditApplicant] = useState(null);
     const [editFormData, setEditFormData] = useState({
         name: "",
@@ -33,11 +33,25 @@ function ClientTable() {
         description: "",
     });
 
+    const dropDownRef = useRef("1");
+
     useEffect(() => {
-        FetchApplicants().then((applicants) => {
-            setApplicants(applicants.data);
-        });
-    });
+        fetchTableData()
+    }, []);
+
+    const fetchTableData = () => {
+
+        if (Number(dropDownRef.current.value) === 1) {
+            FetchApplicants().then((response) => {
+                setTableData(() => response.data)
+            });
+        } else {
+            FetchWaitingList().then((response) => {
+                setTableData(() => response.data)
+            })
+
+        }
+    }
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
@@ -45,14 +59,15 @@ function ClientTable() {
         const fieldName = event.target.getAttribute("name");
         const fieldValue = event.target.value;
 
-        const newFormData = { ...editFormData };
+        const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
         setEditFormData(newFormData);
+        fetchTableData()
     };
 
     const handleDeleteClick = (applicantId) => {
-        axios.delete("http://localhost:8081/applicants/" + applicantId);
+        axios.delete("http://localhost:8081/applicants/" + applicantId).then(fetchTableData);
     };
 
     const handleEditClick = (event, applicant) => {
@@ -72,6 +87,7 @@ function ClientTable() {
         };
 
         setEditFormData(formValues);
+        fetchTableData()
     };
 
     const handleEditFormSubmit = (event) => {
@@ -96,24 +112,34 @@ function ClientTable() {
             .catch((error) => console.log(error));
 
         setEditApplicant(null);
+        fetchTableData()
     };
 
     const handleCancelClick = () => {
         setEditApplicant(null);
+        fetchTableData()
     };
 
     return (
+
         <Container className="mt-5">
+            <Container className="d-flex justify-content-between">
+                <h1>Klientoversigt</h1>
+                <select ref={dropDownRef} onChange={fetchTableData} className="mt-3">
+                    <option value="1">Klientoversigt</option>
+                    <option value="2">Venteliste</option>
+                </select>
+            </Container>
             <form className="form-horizontal">
                 <GenericTable headers={headers}>
-                    {applicants
+                    {tableData
                         ?.sort((a, b) =>
                             a.lastChanged.localeCompare(b.lastChanged)
                         )
                         .map((applicant) => (
                             <Fragment key={applicant.id}>
                                 {editApplicant === applicant.id ? (
-                                    <ClientTableEditRows
+                                    <ApplicantTableEditRows
                                         editFormData={editFormData}
                                         handleEditFormChange={
                                             handleEditFormChange
@@ -124,7 +150,7 @@ function ClientTable() {
                                         handleCancelClick={handleCancelClick}
                                     />
                                 ) : (
-                                    <ClientTableData
+                                    <ApplicantTableData
                                         applicant={applicant}
                                         handleDeleteClick={handleDeleteClick}
                                         handleEditClick={handleEditClick}
@@ -138,4 +164,4 @@ function ClientTable() {
     );
 }
 
-export default ClientTable;
+export default ApplicantTable;

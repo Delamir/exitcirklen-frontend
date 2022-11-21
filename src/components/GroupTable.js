@@ -101,6 +101,7 @@ function GroupTable() {
     return (
         <form>
             <Container className="mt-5">
+                <h1>Gruppeoversigt</h1>
                 <GenericTable headers={headers}>
                     {applicantGroups?.map((applicantGroup) => (
                         <Fragment key={applicantGroup.id}>
