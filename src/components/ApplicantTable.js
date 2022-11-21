@@ -109,10 +109,10 @@ function ApplicantTable() {
                 "http://localhost:8081/applicants/" + editFormData.id,
                 editedApplicant
             )
+            .then(fetchTableData)
             .catch((error) => console.log(error));
 
         setEditApplicant(null);
-        fetchTableData()
     };
 
     const handleCancelClick = () => {
