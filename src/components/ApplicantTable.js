@@ -122,14 +122,14 @@ function ApplicantTable() {
 
     return (
 
-        <Container className="mt-5">
-            <Container className="d-flex justify-content-between">
+        <div className="mt-5 mx-5 text-break">
+            <div className="d-flex justify-content-between">
                 <h1>Klientoversigt</h1>
                 <select ref={dropDownRef} onChange={fetchTableData} className="mt-3">
                     <option value="1">Klientoversigt</option>
                     <option value="2">Venteliste</option>
                 </select>
-            </Container>
+            </div>
             <form className="form-horizontal">
                 <GenericTable headers={headers}>
                     {tableData
@@ -160,7 +160,7 @@ function ApplicantTable() {
                         ))}
                 </GenericTable>
             </form>
-        </Container>
+        </div>
     );
 }
 

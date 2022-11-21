@@ -1,11 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {FetchApplicantStatus} from "./FetchApplicantStatus";
 
 function ApplicantTableEditRows({
-    editFormData,
-    handleEditFormChange,
-    handleEditFormSubmit,
-    handleCancelClick,
-}) {
+                                    editFormData,
+                                    handleEditFormChange,
+                                    handleEditFormSubmit,
+                                    handleCancelClick,
+                                }) {
+
+    const [status, setStatus] = useState([])
+
+    useEffect(() => {
+        FetchApplicantStatus().then((response) => {
+            setStatus(response.data)
+        })
+    })
+
     return (
         <tr>
             <td>
@@ -49,14 +59,15 @@ function ApplicantTableEditRows({
                 />
             </td>
             <td>
-                <input
-                    className="form-control"
-                    type="text"
-                    required="required"
-                    name="status"
-                    value={editFormData.status}
-                    onChange={handleEditFormChange}
-                />
+                <select className="form-control"
+                        required="required"
+                        name="status"
+                        value={editFormData.status}
+                        onChange={handleEditFormChange}>
+                    {status?.map((statuses, index) => (
+                        <option value={statuses} key={index}>{statuses}</option>
+                    ))}
+                </select>
             </td>
             <td>
                 <input
@@ -88,7 +99,7 @@ function ApplicantTableEditRows({
                     onChange={handleEditFormChange}
                 />
             </td>
-            <td className="d-flex gap-3 justify-content-center">
+            <td className="d-flex gap-3 justify-content-center text-nowrap">
                 <button
                     type="submit"
                     className="btn btn-success btn-floating"
