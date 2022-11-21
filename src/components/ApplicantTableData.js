@@ -6,7 +6,7 @@ function ApplicantTableData({ applicant, handleDeleteClick, handleEditClick }) {
             <td>{applicant.email}</td>
             <td>{applicant.phoneNumber}</td>
             <td>{applicant.status}</td>
-            <td>{applicant.lastChanged.replace("T", " ")}</td>
+            <td>{applicant.lastChanged.toString().replace("T", " ")}</td>
             <td>{applicant.city}</td>
             <td className="col-2">{applicant.description}</td>
             <td className="d-flex gap-3 justify-content-center">

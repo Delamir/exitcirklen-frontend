@@ -1,11 +1,11 @@
 import GenericTable from "./GenericTable";
 import Container from "react-bootstrap/Container";
-import {Fragment, useState, useEffect, useRef} from "react";
-import {FetchApplicants} from "./FetchApplicants";
+import { Fragment, useState, useEffect, useRef } from "react";
+import { FetchApplicants } from "./FetchApplicants";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableData from "./ApplicantTableData";
 import axios from "axios";
-import {FetchWaitingList} from "./FetchWaitingList";
+import { FetchWaitingList } from "./FetchWaitingList";
 
 function ApplicantTable() {
     const headers = [
@@ -20,7 +20,7 @@ function ApplicantTable() {
         "Handlinger",
     ];
 
-    const [tableData, setTableData] = useState()
+    const [tableData, setTableData] = useState();
     const [editApplicant, setEditApplicant] = useState(null);
     const [editFormData, setEditFormData] = useState({
         name: "",
@@ -36,22 +36,20 @@ function ApplicantTable() {
     const dropDownRef = useRef("1");
 
     useEffect(() => {
-        fetchTableData()
+        fetchTableData();
     }, []);
 
     const fetchTableData = () => {
-
         if (Number(dropDownRef.current.value) === 1) {
             FetchApplicants().then((response) => {
-                setTableData(() => response.data)
+                setTableData(() => response.data);
             });
         } else {
             FetchWaitingList().then((response) => {
-                setTableData(() => response.data)
-            })
-
+                setTableData(() => response.data);
+            });
         }
-    }
+    };
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
@@ -59,15 +57,17 @@ function ApplicantTable() {
         const fieldName = event.target.getAttribute("name");
         const fieldValue = event.target.value;
 
-        const newFormData = {...editFormData};
+        const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;
 
         setEditFormData(newFormData);
-        fetchTableData()
+        fetchTableData();
     };
 
     const handleDeleteClick = (applicantId) => {
-        axios.delete("http://localhost:8081/applicants/" + applicantId).then(fetchTableData);
+        axios
+            .delete("http://localhost:8081/applicants/" + applicantId)
+            .then(fetchTableData);
     };
 
     const handleEditClick = (event, applicant) => {
@@ -87,7 +87,7 @@ function ApplicantTable() {
         };
 
         setEditFormData(formValues);
-        fetchTableData()
+        fetchTableData();
     };
 
     const handleEditFormSubmit = (event) => {
@@ -112,20 +112,23 @@ function ApplicantTable() {
             .catch((error) => console.log(error));
 
         setEditApplicant(null);
-        fetchTableData()
+        fetchTableData();
     };
 
     const handleCancelClick = () => {
         setEditApplicant(null);
-        fetchTableData()
+        fetchTableData();
     };
 
     return (
-
         <Container className="mt-5">
             <Container className="d-flex justify-content-between">
                 <h1>Klientoversigt</h1>
-                <select ref={dropDownRef} onChange={fetchTableData} className="mt-3">
+                <select
+                    ref={dropDownRef}
+                    onChange={fetchTableData}
+                    className="mt-3"
+                >
                     <option value="1">Klientoversigt</option>
                     <option value="2">Venteliste</option>
                 </select>
@@ -134,7 +137,9 @@ function ApplicantTable() {
                 <GenericTable headers={headers}>
                     {tableData
                         ?.sort((a, b) =>
-                            a.lastChanged.localeCompare(b.lastChanged)
+                            a.lastChanged
+                                .toString()
+                                .localeCompare(b.lastChanged.toString())
                         )
                         .map((applicant) => (
                             <Fragment key={applicant.id}>
