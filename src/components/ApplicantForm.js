@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Form, Container } from "react-bootstrap";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ApplicantForm = () => {
     const [groupApplicant, setGroupApplicant] = useState(false);
@@ -15,11 +16,12 @@ const ApplicantForm = () => {
     const [willSubscribe, setWillSubscripe] = useState(false);
     const [city, setCity] = useState("");
     const [priority, setPriority] = useState("");
-
     const [priorityList, setPriorityList] = useState([
         { id: 1, name: "lyngby" },
         { id: 2, name: "amager" },
     ]);
+
+    const navigate = useNavigate();
 
     const copenhagenOptionRef = useRef(null);
 
@@ -37,9 +39,9 @@ const ApplicantForm = () => {
             newApplicant.name = name;
             newApplicant.age = age;
             newApplicant.gender = gender;
-            newApplicant.contactCall = (Number(contactChoice) === 2);
-            newApplicant.contactText = (Number(contactChoice) === 1);
-            console.log(contactChoice)
+            newApplicant.contactCall = Number(contactChoice) === 2;
+            newApplicant.contactText = Number(contactChoice) === 1;
+            console.log(contactChoice);
             newApplicant.city = city;
             newApplicant.priority = priority;
             newApplicant.userType = groupApplicant ? 1 : 0;
@@ -54,6 +56,7 @@ const ApplicantForm = () => {
             });
 
         console.log(newApplicant);
+        navigate("/");
     };
 
     const handleCityChange = (e) => {

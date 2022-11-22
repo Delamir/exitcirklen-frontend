@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import GroupTableReadOnly from "./GroupTableReadOnly";
 import GroupTableEditRows from "./GroupTableEditRows";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function GroupTable() {
     const headers = [
@@ -17,11 +18,8 @@ function GroupTable() {
         "Datoer for start",
         "Handlinger",
     ];
-
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
-
     const [applicantGroups, setApplicantGroups] = useState([]);
-
     const [editFormData, setEditFormData] = useState({
         city: "",
         address: "",
@@ -32,8 +30,9 @@ function GroupTable() {
         startDate: "",
     });
 
-    const handleEditFormChange = (event) => {
+    const navigate = useNavigate();
 
+    const handleEditFormChange = (event) => {
         event.preventDefault();
         const fieldName = event.target.getAttribute("name");
 
@@ -43,7 +42,6 @@ function GroupTable() {
 
         console.log("hej", editFormData, newFormData[fieldName]);
         setEditFormData(newFormData);
-
     };
 
     const handleEditFormSubmit = (event) => {
@@ -87,6 +85,11 @@ function GroupTable() {
         setEditFormData(formValues);
     };
 
+    const handleInviteClick = (e, applicantGroup) => {
+        e.preventDefault();
+        navigate(`/gruppe/${applicantGroup.id}`);
+    };
+
     useEffect(() => {
         FetchApplicantGroups().then((applicantGroups) => {
             setApplicantGroups(applicantGroups.data);
@@ -116,6 +119,7 @@ function GroupTable() {
                                 <GroupTableReadOnly
                                     applicantGroup={applicantGroup}
                                     handleEditClick={handleEditClick}
+                                    handleInviteClick={handleInviteClick}
                                 />
                             )}
                         </Fragment>
