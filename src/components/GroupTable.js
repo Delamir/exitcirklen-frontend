@@ -20,7 +20,7 @@ function GroupTable() {
         "Pris",
         "Datoer for start",
         <><span className="d-flex flex-row-reverse">
-            <button onClick={() => navigate("/opret-gruppe")} type="button" className=" btn opret text-white">+ Opret gruppe</button>
+            <button onClick={() => navigate("/opret-gruppe")} type="button" className=" btn btn-create text-white">+ Opret gruppe</button>
         </span></>,
     ];
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
