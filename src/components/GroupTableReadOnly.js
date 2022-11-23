@@ -1,6 +1,6 @@
 import React from "react";
 
-const GroupTableReadOnly = ({ applicantGroup, handleDeleteClick, handleEditClick, handleInviteClick }) => {
+const GroupTableReadOnly = ({ applicantGroup,handleNewClick, handleDeleteClick, handleEditClick, handleInviteClick }) => {
     return (
         <tr key={applicantGroup.id}>
             <td>{applicantGroup.city}</td>

@@ -8,6 +8,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function GroupTable() {
+
+    const navigate = useNavigate();
+
     const headers = [
         "By",
         "Adresse",
@@ -16,7 +19,9 @@ function GroupTable() {
         "Ledige Pladser",
         "Pris",
         "Datoer for start",
-        "Handlinger",
+        <><span className="d-flex flex-row-reverse">
+            <button onClick={() => navigate("/opret-gruppe")} type="button" className=" btn opret text-white">+ Opret gruppe</button>
+        </span></>,
     ];
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
     const [applicantGroups, setApplicantGroups] = useState([]);
@@ -34,7 +39,6 @@ function GroupTable() {
         fetchTableData();
     }, []);
 
-    const navigate = useNavigate();
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
@@ -78,6 +82,8 @@ function GroupTable() {
             .then(fetchTableData);
 
     };
+
+
 
     const handleEditClick = (event, applicantGroup) => {
         event.preventDefault();

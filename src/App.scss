@@ -13,9 +13,20 @@ $navbar-dark-hover-color: white;
 
 
 
-
 @import "~bootstrap/scss/bootstrap";
 
 select:invalid {
     color: gray;
 };
+
+
+.opret {
+    font-weight: bold;
+    text-align: right;
+    &:hover{
+        background-color: white;
+        color: map-get($theme-colors, primary) !important;
+    }
+
+
+}
