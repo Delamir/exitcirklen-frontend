@@ -55,7 +55,7 @@ const GroupTableEditRows = ({
             <td>
                 <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     required="required"
                     placeholder="Skriv et antal ledige pladser..."
                     name="availableSpots"
@@ -66,7 +66,7 @@ const GroupTableEditRows = ({
             <td>
                 <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     required="required"
                     placeholder="Skriv en pris..."
                     name="price"

@@ -30,6 +30,10 @@ function GroupTable() {
         startDate: "",
     });
 
+    useEffect(() => {
+        fetchTableData();
+    }, []);
+
     const navigate = useNavigate();
 
     const handleEditFormChange = (event) => {
@@ -61,10 +65,18 @@ function GroupTable() {
             .patch(
                 "http://localhost:8081/groups/" + editFormData.id,
                 editedApplicantGroup
-            )
+            ).then(fetchTableData)
             .catch((error) => console.log(error));
 
         setEditApplicantGroupId(null);
+    };
+
+    const handleDeleteClick = (e, applicantGroup) => {
+        console.log("helt suget", applicantGroup.id)
+        axios
+            .delete("http://localhost:8081/groups/" + applicantGroup.id)
+            .then(fetchTableData);
+
     };
 
     const handleEditClick = (event, applicantGroup) => {
@@ -82,6 +94,7 @@ function GroupTable() {
             startDate: applicantGroup.startDate,
         };
 
+        fetchTableData();
         setEditFormData(formValues);
     };
 
@@ -90,15 +103,16 @@ function GroupTable() {
         navigate(`/gruppe/${applicantGroup.id}`);
     };
 
-    useEffect(() => {
+    const fetchTableData = () => {
         FetchApplicantGroups().then((applicantGroups) => {
             setApplicantGroups(applicantGroups.data);
             console.log(applicantGroups);
         });
-    });
+    };
 
     const handleCancelClick = () => {
         setEditApplicantGroupId(null);
+        fetchTableData();
     };
 
     return (
@@ -114,10 +128,12 @@ function GroupTable() {
                                     handleEditFormChange={handleEditFormChange}
                                     handleEditFormSubmit={handleEditFormSubmit}
                                     handleCancelClick={handleCancelClick}
+
                                 />
                             ) : (
                                 <GroupTableReadOnly
                                     applicantGroup={applicantGroup}
+                                    handleDeleteClick={handleDeleteClick}
                                     handleEditClick={handleEditClick}
                                     handleInviteClick={handleInviteClick}
                                 />
