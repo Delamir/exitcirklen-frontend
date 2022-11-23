@@ -1,6 +1,6 @@
 import React from "react";
 
-const GroupTableReadOnly = ({ applicantGroup, handleEditClick, handleInviteClick }) => {
+const GroupTableReadOnly = ({ applicantGroup, handleDeleteClick, handleEditClick, handleInviteClick }) => {
     return (
         <tr key={applicantGroup.id}>
             <td>{applicantGroup.city}</td>
@@ -17,6 +17,13 @@ const GroupTableReadOnly = ({ applicantGroup, handleEditClick, handleInviteClick
                     onClick={(event) => handleEditClick(event, applicantGroup)}
                 >
                     Ændre
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-danger btn-floating"
+                    onClick={(event) => handleDeleteClick(event, applicantGroup)}
+                >
+                    Slet
                 </button>
                 <button
                     type="button"
