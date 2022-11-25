@@ -182,9 +182,14 @@ function ApplicantTable() {
                                 {(() => {
                                     let returnHeaderArrow = header + "  ↕"
 
+                                    if (header === "Handlinger") {
+                                        returnHeaderArrow = header
+                                    }
+
                                     if (clickedTableHeadIndex === index) {
                                         returnHeaderArrow = header + "   " + getArrow()
                                     }
+
                                     return returnHeaderArrow
                                 })()}
                             </th>
