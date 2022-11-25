@@ -7,8 +7,8 @@ function GenericTable(props) {
             <thead className="bg-primary text-white table-head-pointer">
                 <tr>
                     {props.headers.map((header, index) => (
-                        <th key={index} onClick={() => props.handleSort(header)}>
-                            {header + "   " + props.getArrow()}
+                        <th key={index}>
+                            {header}
                         </th>
                     ))}
                 </tr>
