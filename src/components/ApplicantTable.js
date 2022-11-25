@@ -144,8 +144,6 @@ function ApplicantTable() {
             ))
             setSortedBy("asc")
         }
-
-        return 1
     };
 
     const getArrow = () => {
@@ -155,8 +153,6 @@ function ApplicantTable() {
         } else {
             return "↓"
         }
-
-        // return "↕"
     }
 
 
