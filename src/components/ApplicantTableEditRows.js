@@ -1,3 +1,4 @@
+import {CiFloppyDisk} from "react-icons/ci";
 import React, {useEffect, useState} from "react";
 import {FetchApplicantStatus} from "./FetchApplicantStatus";
 
@@ -105,7 +106,7 @@ function ApplicantTableEditRows({
                     className="btn btn-success btn-floating"
                     onClick={(event) => handleEditFormSubmit(event)}
                 >
-                    Gem
+                    <CiFloppyDisk />
                 </button>
                 <button
                     type="button"
