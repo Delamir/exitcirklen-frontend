@@ -10,7 +10,7 @@ function ApplicantTableData({applicant, handleDeleteClick, handleEditClick}) {
             <td>{applicant.city}</td>
             <td className="col-2">{applicant.description}</td>
             <td>
-                <div className="d-flex gap-3 justify-content-center">
+                <div className="d-flex gap-3 justify-content-center text-nowrap">
                     <button
                         type="button"
                         className="btn btn-success btn-floating"

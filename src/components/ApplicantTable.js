@@ -1,26 +1,30 @@
 import GenericTable from "./GenericTable";
-import { Fragment, useState, useEffect, useRef } from "react";
-import { FetchApplicants } from "./FetchApplicants";
+import {Table} from "react-bootstrap";
+import {Fragment, useState, useEffect, useRef} from "react";
+import {FetchApplicants} from "./FetchApplicants";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableData from "./ApplicantTableData";
 import axios from "axios";
-import { FetchWaitingList } from "./FetchWaitingList";
+import {FetchWaitingList} from "./FetchWaitingList";
 
 function ApplicantTable() {
-    const headers = [
-        "Navn",
-        "Alder",
-        "E-mail",
-        "Telefonnummer",
-        "Status",
-        "I Status Siden",
-        "By",
-        "Bemærkning",
-        "Handlinger",
-    ];
+    const headers =
+        {
+            "name": "Navn",
+            "age": "Alder",
+            "email": "E-mail",
+            "phoneNumber": "Telefonnummer",
+            "status": "Status",
+            "lastChanged": "I Status Siden",
+            "city": "By",
+            "description": "Bemærkning",
+            "actions": "Handlinger"
+        };
 
     const [tableData, setTableData] = useState();
     const [editApplicant, setEditApplicant] = useState(null);
+    const [sortBy, setSortedBy] = useState("asc")
+    const [clickedTableHeadIndex, setClickedTableHeadIndex] = useState(-1)
     const [editFormData, setEditFormData] = useState({
         name: "",
         age: "",
@@ -56,7 +60,7 @@ function ApplicantTable() {
         const fieldName = event.target.getAttribute("name");
         const fieldValue = event.target.value;
 
-        const newFormData = { ...editFormData };
+        const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
         setEditFormData(newFormData);
@@ -120,6 +124,43 @@ function ApplicantTable() {
         fetchTableData();
     };
 
+    const handleSort = (header) => {
+        const toSort = Object.keys(headers).find(key => headers[key] === header)
+
+        if (sortBy === "asc") {
+            setTableData(tableData?.sort((a, b) =>
+                a[toSort]
+                    .toString()
+                    .localeCompare(b[toSort].toString())
+            ))
+
+            setSortedBy("dsc")
+        }
+
+        if (sortBy === "dsc") {
+            setTableData(tableData?.sort((a, b) =>
+                b[toSort]
+                    .toString()
+                    .localeCompare(a[toSort].toString())
+            ))
+            setSortedBy("asc")
+        }
+
+        return 1
+    };
+
+    const getArrow = () => {
+
+        if (sortBy === "asc") {
+            return "↑"
+        } else {
+            return "↓"
+        }
+
+        // return "↕"
+    }
+
+
     return (
 
         <div className="mt-5 mx-5 text-break">
@@ -135,14 +176,29 @@ function ApplicantTable() {
                 </select>
             </div>
             <form className="form-horizontal">
-                <GenericTable headers={headers}>
+                <Table responsive striped bordered hover size="large">
+                    <thead className="bg-primary text-white table-head-pointer">
+                    <tr>
+                        {Object.values(headers).map((header, index) => (
+                            <th key={index} onClick={() => {
+                                handleSort(header)
+                                setClickedTableHeadIndex(index)
+                            }}>
+                                {(() => {
+                                    let returnHeaderArrow = header + "  ↕"
+
+                                    if (clickedTableHeadIndex === index) {
+                                        returnHeaderArrow = header + "   " + getArrow()
+                                    }
+                                    return returnHeaderArrow
+                                })()}
+                            </th>
+                        ))}
+                    </tr>
+                    </thead>
+                    <tbody>
                     {tableData
-                        ?.sort((a, b) =>
-                            a.lastChanged
-                                .toString()
-                                .localeCompare(b.lastChanged.toString())
-                        )
-                        .map((applicant) => (
+                        ?.map((applicant) => (
                             <Fragment key={applicant.id}>
                                 {editApplicant === applicant.id ? (
                                     <ApplicantTableEditRows
@@ -164,7 +220,8 @@ function ApplicantTable() {
                                 )}
                             </Fragment>
                         ))}
-                </GenericTable>
+                    </tbody>
+                </Table>
             </form>
         </div>
     );

@@ -30,3 +30,9 @@ select:invalid {
 
 
 }
+
+.table-head-pointer th{
+    &:hover{
+        cursor: pointer;
+    }
+}
