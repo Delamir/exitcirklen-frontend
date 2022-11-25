@@ -1,4 +1,3 @@
-import GenericTable from "./GenericTable";
 import {Table} from "react-bootstrap";
 import {Fragment, useState, useEffect, useRef} from "react";
 import {FetchApplicants} from "./FetchApplicants";
