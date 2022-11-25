@@ -40,36 +40,45 @@ function ApplicantTableData({applicant, handleDeleteClick, handleEditClick}) {
             <td>{applicant.email}</td>
             <td>{applicant.phoneNumber}</td>
             <td>
-                <div>
-                    {applicant.status}
-                    <button className="btn outline mb-2 ms-1" onClick={handleOpen}>
-                        <CiCalendar/>
-                    </button>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box className="modal-visitation">
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                Book en visitation på {applicant.name}
-                            </Typography>
-                            <input
-                                className="form-control mt-4"
-                                type="datetime-local"
-                                required="required"
-                                name="bookedDate"
-                                onChange={handleChange}
-                                value={bookedDate}
-                            />
-                            <button type="submit" className="btn btn-primary btn-floating mt-4"
-                                    onClick={(event) => handleVisitationClick(event)}>
-                                Send Visitation
+                {(() => {
+                    let returnTd = applicant.status.replace("_", " ")
+
+                    if (applicant.status === "IKKE_VISITERET") {
+                        returnTd = <div>
+                            {applicant.status.replace("_", " ")}
+                            <button className="btn outline mb-2 ms-1" onClick={handleOpen}>
+                                <CiCalendar/>
                             </button>
-                        </Box>
-                    </Modal>
-                </div>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box className="modal-visitation">
+                                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                                        Book en visitation på {applicant.name}
+                                    </Typography>
+                                    <div className="d-flex gap-2">
+                                        <input
+                                            className="form-control mt-4"
+                                            type="datetime-local"
+                                            required="required"
+                                            name="bookedDate"
+                                            onChange={handleChange}
+                                            value={bookedDate}
+                                        />
+                                        <button type="submit" className="btn btn-primary btn-floating mt-4"
+                                                onClick={(event) => handleVisitationClick(event)}>
+                                            Book
+                                        </button>
+                                    </div>
+                                </Box>
+                            </Modal>
+                        </div>
+                    }
+                    return returnTd
+                })()}
             </td>
             <td>{applicant.lastChanged.toString().replace("T", " ")}</td>
             <td>{applicant.city}</td>
