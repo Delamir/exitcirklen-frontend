@@ -1,8 +1,11 @@
-import {CiCalendar, CiEdit, CiNoWaitingSign, CiTrash} from "react-icons/ci";
+import {CiCalendar, CiCircleCheck, CiEdit, CiNoWaitingSign, CiTrash} from "react-icons/ci";
 import {useState} from "react";
 import {Box, Modal, Typography} from "@mui/material";
 
-function ApplicantTableData({applicant, handleDeleteClick, handleEditClick, handleVisitationClick, handleCancelVisitationClick}) {
+function ApplicantTableData({
+                                applicant, handleDeleteClick, handleEditClick,
+                                handleVisitationClick, handleCancelVisitationClick, handleConfirmVisitationClick
+                            }) {
 
     const [bookedDate, setBookedDate] = useState();
     const [reason, setReason] = useState("");
@@ -48,7 +51,8 @@ function ApplicantTableData({applicant, handleDeleteClick, handleEditClick, hand
                     if (applicant.status === "IKKE_VISITERET") {
                         returnTd = <div>
                             {applicant.status.replace("_", " ")}
-                            <button className="btn outline mb-2 ms-1" onClick={handleOpenBookVisitation}>
+                            <button className="btn outline mb-2 ms-1 better-icon-size"
+                                    onClick={handleOpenBookVisitation}>
                                 <CiCalendar/>
                             </button>
                             <Modal
@@ -85,8 +89,20 @@ function ApplicantTableData({applicant, handleDeleteClick, handleEditClick, hand
                         returnTd =
                             <div>
                                 {applicant.status.replace("_", " ")}
-                                <button className="btn outline mb-2 ms-1" onClick={handleOpenCancelVisitation}>
-                                    <CiNoWaitingSign />
+                                <button className="btn outline mb-2 ms-1 better-icon-size" onClick={() => {
+                                    const confirmBox = window.confirm(
+                                        "Godkend visitation?"
+                                    );
+                                    if (confirmBox === true) {
+                                        handleConfirmVisitationClick(applicant);
+                                    }
+
+                                }}>
+                                    <CiCircleCheck/>
+                                </button>
+                                <button className="btn outline mb-2 better-icon-size"
+                                        onClick={handleOpenCancelVisitation}>
+                                    <CiNoWaitingSign/>
                                 </button>
                                 <Modal
                                     open={openCancelVisitation}

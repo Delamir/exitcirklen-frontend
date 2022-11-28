@@ -5,7 +5,6 @@ import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableData from "./ApplicantTableData";
 import axios from "axios";
 import {FetchWaitingList} from "./FetchWaitingList";
-import applicant from "./Applicant";
 
 function ApplicantTable() {
     const headers =
@@ -174,6 +173,15 @@ function ApplicantTable() {
             })
     }
 
+    const handleConfirmVisitationClick = (applicant) => {
+        axios
+            .post("http://localhost:8081/applicants/confirm-visitation", applicant)
+            .then((response) => {
+                fetchTableData()
+                console.log(response)
+            })
+    }
+
     return (
 
         <div className="mt-5 mx-5 text-break">
@@ -236,6 +244,7 @@ function ApplicantTable() {
                                         handleEditClick={handleEditClick}
                                         handleVisitationClick={handleVisitationClick}
                                         handleCancelVisitationClick={handleCancelVisitationClick}
+                                        handleConfirmVisitationClick={handleConfirmVisitationClick}
                                     />
                                 )}
                             </Fragment>
