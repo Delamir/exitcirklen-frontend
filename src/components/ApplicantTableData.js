@@ -1,36 +1,37 @@
-import {CiCalendar, CiEdit, CiTrash} from "react-icons/ci";
+import {CiCalendar, CiEdit, CiNoWaitingSign, CiTrash} from "react-icons/ci";
 import {useState} from "react";
 import {Box, Modal, Typography} from "@mui/material";
-import axios from "axios";
 
-function ApplicantTableData({applicant, handleDeleteClick, handleEditClick}) {
+function ApplicantTableData({applicant, handleDeleteClick, handleEditClick, handleVisitationClick, handleCancelVisitationClick}) {
 
     const [bookedDate, setBookedDate] = useState();
-    const [open, setOpen] = useState(false);
+    const [reason, setReason] = useState("");
+    const [openBookVisitation, setOpenBookVisitation] = useState(false);
+    const [openCancelVisitation, setOpenCancelVisitation] = useState(false);
 
-    const handleOpen = (event) => {
+    const handleOpenCancelVisitation = (event) => {
         event.preventDefault()
-        setOpen(true);
-    }
-    const handleClose = (event) => {
-        event.preventDefault()
-        setOpen(false);
+        setOpenCancelVisitation(true)
     }
 
-    const handleVisitationClick = (event) => {
+    const handleCloseCancelVisitation = () => {
+        setOpenCancelVisitation(false)
+    }
+
+    const handleOpenBookVisitation = (event) => {
         event.preventDefault()
-        console.log(bookedDate)
-        axios
-            .post("http://localhost:8081/applicants/visitation-request", {applicant: applicant, time: bookedDate})
-            .then((response) => {
-                console.log(response);
-            });
+        setOpenBookVisitation(true);
+    }
+    const handleCloseBookVisitation = () => {
+        setOpenBookVisitation(false);
+    }
 
-        handleClose(event)
-    };
-
-    const handleChange = (event) => {
+    const handleBookedDateChange = (event) => {
         setBookedDate(event.target.value)
+    }
+
+    const handleCancelVisitationChange = (event) => {
+        setReason(event.target.value)
     }
 
     return (
@@ -40,36 +41,83 @@ function ApplicantTableData({applicant, handleDeleteClick, handleEditClick}) {
             <td>{applicant.email}</td>
             <td>{applicant.phoneNumber}</td>
             <td>
-                <div>
-                    {applicant.status}
-                    <button className="btn outline mb-2 ms-1" onClick={handleOpen}>
-                        <CiCalendar/>
-                    </button>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box className="modal-visitation">
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                Book en visitation på {applicant.name}
-                            </Typography>
-                            <input
-                                className="form-control mt-4"
-                                type="datetime-local"
-                                required="required"
-                                name="bookedDate"
-                                onChange={handleChange}
-                                value={bookedDate}
-                            />
-                            <button type="submit" className="btn btn-primary btn-floating mt-4"
-                                    onClick={(event) => handleVisitationClick(event)}>
-                                Send Visitation
+                {(() => {
+                    let returnTd = applicant.status.replace("_", " ")
+
+                    // Modal for booking a visitation
+                    if (applicant.status === "IKKE_VISITERET") {
+                        returnTd = <div>
+                            {applicant.status.replace("_", " ")}
+                            <button className="btn outline mb-2 ms-1" onClick={handleOpenBookVisitation}>
+                                <CiCalendar/>
                             </button>
-                        </Box>
-                    </Modal>
-                </div>
+                            <Modal
+                                open={openBookVisitation}
+                                onClose={handleCloseBookVisitation}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box className="modal-visitation">
+                                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                                        Book en visitation på {applicant.name}
+                                    </Typography>
+                                    <div className="d-flex gap-2">
+                                        <input
+                                            className="form-control mt-4"
+                                            type="datetime-local"
+                                            required="required"
+                                            name="bookedDate"
+                                            onChange={handleBookedDateChange}
+                                            value={bookedDate}
+                                        />
+                                        <button type="submit" className="btn btn-primary btn-floating mt-4"
+                                                onClick={() => handleVisitationClick(bookedDate, applicant)}>
+                                            Book
+                                        </button>
+                                    </div>
+                                </Box>
+                            </Modal>
+                        </div>
+                    }
+
+                    // Modal for canceling visitation
+                    if (applicant.status === "I_PROCESS") {
+                        returnTd =
+                            <div>
+                                {applicant.status.replace("_", " ")}
+                                <button className="btn outline mb-2 ms-1" onClick={handleOpenCancelVisitation}>
+                                    <CiNoWaitingSign />
+                                </button>
+                                <Modal
+                                    open={openCancelVisitation}
+                                    onClose={handleCloseCancelVisitation}
+                                    aria-labelledby="modal-modal-title"
+                                    aria-describedby="modal-modal-description"
+                                >
+                                    <Box className="modal-visitation">
+                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                            Book en visitation på {applicant.name}
+                                        </Typography>
+                                        <div className="d-flex gap-2">
+                                            <input
+                                                className="form-control mt-4"
+                                                type="text"
+                                                required="required"
+                                                name="reason"
+                                                onChange={handleCancelVisitationChange}
+                                                value={reason}
+                                            />
+                                            <button type="submit" className="btn btn-primary btn-floating mt-4"
+                                                    onClick={() => handleCancelVisitationClick(reason, applicant)}>
+                                                Aflys visitering
+                                            </button>
+                                        </div>
+                                    </Box>
+                                </Modal>
+                            </div>
+                    }
+                    return returnTd
+                })()}
             </td>
             <td>{applicant.lastChanged.toString().replace("T", " ")}</td>
             <td>{applicant.city}</td>
