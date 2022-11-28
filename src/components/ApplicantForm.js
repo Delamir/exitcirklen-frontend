@@ -156,9 +156,9 @@ const ApplicantForm = () => {
                             <option value="" disabled hidden>
                                 Vælg Køn
                             </option>
-                            <option value="0">Kvinde</option>
-                            <option value="1">Mand</option>
-                            <option value="2">Non-binær</option>
+                            <option value="Female">Kvinde</option>
+                            <option value="Male">Mand</option>
+                            <option value="Non-binary">Non-binær</option>
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className="mb-3">
