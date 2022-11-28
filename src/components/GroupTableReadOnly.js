@@ -7,7 +7,7 @@ const GroupTableReadOnly = ({ applicantGroup,handleNewClick, handleDeleteClick, 
             <td>{applicantGroup.address}</td>
             <td>{applicantGroup.name}</td>
             <td>{applicantGroup.groupSize}</td>
-            <td>{applicantGroup.availableSpots}</td>
+            <td>{applicantGroup.groupSize - applicantGroup.inviteList.length}</td>
             <td>{applicantGroup.price}</td>
             <td>{applicantGroup.startDate.replace("T", " ")}</td>
             <td className="d-flex gap-3 justify-content-center">

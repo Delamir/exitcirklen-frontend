@@ -54,6 +54,7 @@ const GroupTableEditRows = ({
             </td>
             <td>
                 <input
+                    disabled
                     className="form-control"
                     type="number"
                     required="required"

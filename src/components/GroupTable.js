@@ -84,7 +84,6 @@ function GroupTable() {
     };
 
 
-
     const handleEditClick = (event, applicantGroup) => {
         event.preventDefault();
         setEditApplicantGroupId(applicantGroup.id);
@@ -95,7 +94,7 @@ function GroupTable() {
             address: applicantGroup.address,
             name: applicantGroup.name,
             groupSize: applicantGroup.groupSize,
-            availableSpots: applicantGroup.availableSpots,
+            availableSpots: applicantGroup.groupSize - applicantGroup.inviteList.length,
             price: applicantGroup.price,
             startDate: applicantGroup.startDate,
         };
