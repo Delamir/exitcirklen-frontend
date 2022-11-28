@@ -7,6 +7,7 @@ import Email from "./components/Email";
 import Survey from "./components/Survey";
 import Group from "./components/Group";
 import GroupForm from "./components/GroupForm";
+import Applicant from "./components/Applicant";
 
 function App() {
     return (
@@ -18,7 +19,7 @@ function App() {
                 <Route path="/tilmeld" element={<ApplicantForm/>}/>
                 <Route path="/klientoversigt" element={<ApplicantTable/>} />
                 <Route path="/gruppeoversigt" element={<GroupTable/>} />
-                <Route path="/testtest" element={<Email />} />
+                <Route path="/testtest" element={<Applicant />} />
                 <Route path="/survey/:id" element={<Survey />} />
                 <Route path="/gruppe/:id" element={<Group />} />
             </Routes>

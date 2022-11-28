@@ -155,6 +155,32 @@ function ApplicantTable() {
         }
     }
 
+    const handleVisitationClick = (bookedDate, applicant) => {
+        axios
+            .post("http://localhost:8081/applicants/visitation-request", {applicant: applicant, time: bookedDate})
+            .then((response) => {
+                fetchTableData()
+                console.log(response);
+            });
+    };
+
+    const handleCancelVisitationClick = (reason, applicant) => {
+        axios
+            .post("http://localhost:8081/applicants/cancel-visitation", {applicant: applicant, reason: reason})
+            .then((response) => {
+                fetchTableData()
+                console.log(response)
+            })
+    }
+
+    const handleConfirmVisitationClick = (applicant) => {
+        axios
+            .post("http://localhost:8081/applicants/confirm-visitation", applicant)
+            .then((response) => {
+                fetchTableData()
+                console.log(response)
+            })
+    }
 
     return (
 
@@ -180,14 +206,14 @@ function ApplicantTable() {
                                 setClickedTableHeadIndex(index)
                             }}>
                                 {(() => {
-                                    let returnHeaderArrow = header + "  ↕"
+                                    let returnHeaderArrow = header + " ↕"
 
                                     if (header === "Handlinger") {
                                         returnHeaderArrow = header
                                     }
 
                                     if (clickedTableHeadIndex === index) {
-                                        returnHeaderArrow = header + "   " + getArrow()
+                                        returnHeaderArrow = header + " " + getArrow()
                                     }
 
                                     return returnHeaderArrow
@@ -216,6 +242,9 @@ function ApplicantTable() {
                                         applicant={applicant}
                                         handleDeleteClick={handleDeleteClick}
                                         handleEditClick={handleEditClick}
+                                        handleVisitationClick={handleVisitationClick}
+                                        handleCancelVisitationClick={handleCancelVisitationClick}
+                                        handleConfirmVisitationClick={handleConfirmVisitationClick}
                                     />
                                 )}
                             </Fragment>
