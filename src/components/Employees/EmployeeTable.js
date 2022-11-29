@@ -55,6 +55,7 @@ function EmployeeTable() {
         newFormData[fieldName] = fieldValue
 
         setEditFormData(newFormData);
+        fetchTableData()
     }
 
     const handleEditFormSubmit = (event) => {
@@ -67,11 +68,11 @@ function EmployeeTable() {
             phoneNumber: editFormData.phoneNumber,
             responsibility: editFormData.responsibility,
         };
-
+        console.log("HANDLE EDIT FORM ")
+        console.log(editFormData)
         axios
-            .patch(
-                "http://localhost:8081/employees/" + editFormData.id,
-            editedEmployee
+            .put(
+                "http://localhost:8081/employees/" + editFormData.id, editedEmployee
         ).then(fetchTableData)
             .catch((error) => console.log(error));
 
