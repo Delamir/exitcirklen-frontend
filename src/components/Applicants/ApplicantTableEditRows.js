@@ -1,6 +1,6 @@
 import {CiFloppyDisk} from "react-icons/ci";
 import React, {useEffect, useState} from "react";
-import {FetchApplicantStatus} from "./FetchApplicantStatus";
+import {FetchApplicantStatus} from "../Fetch/FetchApplicantStatus";
 
 function ApplicantTableEditRows({
                                     editFormData,
@@ -106,7 +106,7 @@ function ApplicantTableEditRows({
                     className="btn btn-success btn-floating"
                     onClick={(event) => handleEditFormSubmit(event)}
                 >
-                    <CiFloppyDisk />
+                    <CiFloppyDisk/>
                 </button>
                 <button
                     type="button"

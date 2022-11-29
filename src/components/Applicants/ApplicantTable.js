@@ -1,10 +1,10 @@
 import {Table} from "react-bootstrap";
 import {Fragment, useState, useEffect, useRef} from "react";
-import {FetchApplicants} from "./FetchApplicants";
+import {FetchApplicants} from "../Fetch/FetchApplicants";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableData from "./ApplicantTableData";
 import axios from "axios";
-import {FetchWaitingList} from "./FetchWaitingList";
+import {FetchWaitingList} from "../Fetch/FetchWaitingList";
 
 function ApplicantTable() {
     const headers =

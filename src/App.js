@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import ApplicantForm from "./components/ApplicantForm";
-import Navbar from "./components/Navbar";
-import ApplicantTable from "./components/ApplicantTable";
-import GroupTable from "./components/GroupTable";
+import ApplicantForm from "./components/Applicants/ApplicantForm";
+import Navbar from "./components/Generics/Navbar";
+import ApplicantTable from "./components/Applicants/ApplicantTable";
+import GroupTable from "./components/ApplicantGroups/GroupTable";
 import Email from "./components/Email";
 import Survey from "./components/Survey";
-import Group from "./components/Group";
-import GroupForm from "./components/GroupForm";
-import Applicant from "./components/Applicant";
+import Group from "./components/ApplicantGroups/Group";
+import GroupForm from "./components/ApplicantGroups/GroupForm";
+import Applicant from "./components/Applicants/Applicant";
 
 function App() {
     return (

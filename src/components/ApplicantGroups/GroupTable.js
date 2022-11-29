@@ -1,6 +1,6 @@
-import GenericTable from "./GenericTable";
+import GenericTable from "../Generics/GenericTable";
 import Container from "react-bootstrap/Container";
-import { FetchApplicantGroups } from "./FetchApplicantGroups";
+import { FetchApplicantGroups } from "../Fetch/FetchApplicantGroups";
 import { Fragment, useEffect, useState } from "react";
 import GroupTableReadOnly from "./GroupTableReadOnly";
 import GroupTableEditRows from "./GroupTableEditRows";
