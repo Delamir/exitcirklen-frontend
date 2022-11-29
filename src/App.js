@@ -8,6 +8,7 @@ import Survey from "./components/Survey";
 import Group from "./components/ApplicantGroups/Group";
 import GroupForm from "./components/ApplicantGroups/GroupForm";
 import Applicant from "./components/Applicants/Applicant";
+import EmployeeTable from "./components/Employees/EmployeeTable";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Navbar></Navbar>
 
             <Routes>
+                <Route path="/medarbejderoversigt" element={<EmployeeTable/>}/>
                 <Route path="/opret-gruppe" element={<GroupForm/>}/>
                 <Route path="/tilmeld" element={<ApplicantForm/>}/>
                 <Route path="/klientoversigt" element={<ApplicantTable/>} />
