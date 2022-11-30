@@ -11,12 +11,15 @@ const EmployeeForm = () => {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [age, setAge] = useState("");
-    const [responsibility, setResponsibility] = useState("");
+    const [responsibility, setResponsibility] = useState();
+    const [responsibilityList, setResponsibilityList] = useState([]);
     const [employee, setEmployee] = useState("");
 
     useEffect(() => {
         FetchEmployeeResponsibility().then((response) => {
-            setResponsibility(response.data)
+            setResponsibilityList(response.data)
+            if (!responsibility)
+            setResponsibility(response.data[0])
         })
     })
 
@@ -32,19 +35,15 @@ const EmployeeForm = () => {
             age: age,
             responsibility: responsibility,
         };
-
-        if (employee) {
             newEmployee.name = name;
             newEmployee.email = email;
             newEmployee.phoneNumber = phoneNumber;
             newEmployee.age = age;
             newEmployee.responsibility = responsibility;
-        } else {
-            newEmployee.employee = false;
-        }
+
 
         axios
-            .post("http://localhost8081/employees", newEmployee)
+            .post("http://localhost:8081/employees", newEmployee)
             .then((response) => {
                 console.log(response);
             });
@@ -53,6 +52,12 @@ const EmployeeForm = () => {
         navigate("/medarbejderoversigt");
 
     };
+
+    const handleSelectChange = (e) => {
+        setResponsibility(e.currentTarget.value);
+        console.log(e.currentTarget.value);
+    }
+
     return (
         <Container className="mt-5">
             <form onSubmit={(e) => handleSubmit(e)}>
@@ -103,11 +108,11 @@ const EmployeeForm = () => {
                         className="invalid-select"
                         value={responsibility}
                         required
-                        onChange={(e) => setResponsibility(e.currentTarget.value)}
+                        onChange={handleSelectChange}
                     >
-                        {/*{responsibility?.map((responsibilities, index) => (
-                            <option value={responsibilities} key={index}>{responsibilities}</option>
-                        ))}*/}
+                        {responsibilityList?.map((responsibility, index) => (
+                            <option value={responsibility} key={index}>{responsibility}</option>
+                        ))}
 
                     </Form.Select>
                 </Form.Group>

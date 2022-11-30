@@ -24,6 +24,11 @@ function NavBar() {
                             <h4>Gruppeoversigt</h4>
                         </Nav.Link>
                     </Nav>
+                    <Nav>
+                        <Nav.Link as={Link} to={"/medarbejderoversigt"}>
+                            <h4>Medarbejderoversigt</h4>
+                        </Nav.Link>
+                    </Nav>
                 </Container>
             </Navbar>
         </>
