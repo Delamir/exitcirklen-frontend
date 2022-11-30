@@ -68,7 +68,9 @@ const EmployeeTableEditRows = ({
                     name="responsibility"
                     value={editFormData.responsibility}
                     onChange={handleEditFormChange}>
-                    {responsibility?.map}
+                    {responsibility?.map((responsibilities, index) => (
+                        <option value={responsibilities} key={index}>{responsibilities}</option>
+                    ))}
             </select>
             </td>
             <td className="d-flex gap-3 justify-content-center">

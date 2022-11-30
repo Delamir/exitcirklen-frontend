@@ -62,6 +62,7 @@ function EmployeeTable() {
         event.preventDefault();
 
         const editedEmployee = {
+            id: editFormData.id,
             name: editFormData.name,
             age: editFormData.age,
             email: editFormData.email,
@@ -70,11 +71,11 @@ function EmployeeTable() {
         };
         console.log("HANDLE EDIT FORM ")
         console.log(editFormData)
+        console.log(editFormData.id)
         axios
             .put(
                 "http://localhost:8081/employees/" + editFormData.id, editedEmployee
-        ).then(fetchTableData)
-            .catch((error) => console.log(error));
+        ).then(fetchTableData).catch((error) => console.log(error));
 
         setEditEmployeeId(null);
     }
