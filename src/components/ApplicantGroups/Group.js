@@ -158,7 +158,7 @@ const Group = () => {
                             onClick={handleAutoInvite}
                             variant="warning"
                         >
-                            Auto inviter
+                            Inviter alle
                         </Button>
                         </div>
                     </Form>
