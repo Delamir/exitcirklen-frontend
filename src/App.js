@@ -9,6 +9,7 @@ import Group from "./components/ApplicantGroups/Group";
 import GroupForm from "./components/ApplicantGroups/GroupForm";
 import Applicant from "./components/Applicants/Applicant";
 import EmployeeTable from "./components/Employees/EmployeeTable";
+import EmployeeForm from "./components/Employees/EmployeeForm"
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
             <Navbar></Navbar>
 
             <Routes>
+                <Route path="/opret-medarbejder" element={<EmployeeForm/>}/>
                 <Route path="/medarbejderoversigt" element={<EmployeeTable/>}/>
                 <Route path="/opret-gruppe" element={<GroupForm/>}/>
                 <Route path="/tilmeld" element={<ApplicantForm/>}/>
