@@ -75,7 +75,10 @@ function ApplicantTableData({
                                             value={bookedDate}
                                         />
                                         <button type="submit" className="btn btn-primary btn-floating mt-4"
-                                                onClick={() => handleVisitationClick(bookedDate, applicant)}>
+                                                onClick={() => {
+                                                    handleVisitationClick(bookedDate, applicant)
+                                                    handleCloseBookVisitation()
+                                                }}>
                                             Book
                                         </button>
                                     </div>
@@ -124,7 +127,10 @@ function ApplicantTableData({
                                                 value={reason}
                                             />
                                             <button type="submit" className="btn btn-primary btn-floating mt-4"
-                                                    onClick={() => handleCancelVisitationClick(reason, applicant)}>
+                                                    onClick={() => {
+                                                        handleCancelVisitationClick(reason, applicant)
+                                                        handleCloseCancelVisitation()
+                                                    }}>
                                                 Aflys visitering
                                             </button>
                                         </div>
