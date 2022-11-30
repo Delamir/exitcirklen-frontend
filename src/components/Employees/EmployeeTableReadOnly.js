@@ -20,7 +20,16 @@ const EmployeeTableReadOnly = ({employee, handleEditClick,handleDeleteClick,   }
                 <button
                     type="button"
                     className="btn btn-danger btn-floating"
-                    onClick={(event) => handleDeleteClick(event, employee)}
+                    onClick={(event) => {
+                        const confirmBox = window.confirm(
+                            "Vil du slette medarbejderen?"
+                        );
+
+                        if (confirmBox === true) {
+                            handleDeleteClick(event, employee)
+                        }
+
+                    }}
                 >
                     Slet
                 </button>
