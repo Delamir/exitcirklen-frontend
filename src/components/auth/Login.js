@@ -17,8 +17,7 @@ const Login = () => {
         AuthService.login(email, password)
             .then((response) => {
                 navigate("/");
-               // window.location.reload();
-                console.log(response);
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error, "error");
