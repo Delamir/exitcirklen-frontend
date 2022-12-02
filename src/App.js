@@ -3,17 +3,16 @@ import ApplicantForm from "./components/Applicants/ApplicantForm";
 import Navbar from "./components/Generics/Navbar";
 import ApplicantTable from "./components/Applicants/ApplicantTable";
 import GroupTable from "./components/ApplicantGroups/GroupTable";
-import Email from "./components/Email";
 import Survey from "./components/Survey";
 import Group from "./components/ApplicantGroups/Group";
 import GroupForm from "./components/ApplicantGroups/GroupForm";
-import Applicant from "./components/Applicants/Applicant";
 import EmployeeTable from "./components/Employees/EmployeeTable";
 import EmployeeForm from "./components/Employees/EmployeeForm";
 import Login from "./components/auth/Login";
 import { useEffect } from "react";
 import AuthService from "./services/auth.service";
 import Test from "./components/Test";
+import Applicant from "./components/Applicants/Applicant";
 
 function App() {
     useEffect(() => {
@@ -26,12 +25,13 @@ function App() {
         }
     }, []);
 
-    if (AuthService.getCurrentUser()) {
+    if (!AuthService.getCurrentUser()) {
         return (
             <>
-                <Navbar></Navbar>
+                <Navbar/>
 
                 <Routes>
+                    <Route path="/klient/:id" element={<Applicant />}/>
                     <Route
                         path="/opret-medarbejder"
                         element={<EmployeeForm />}

@@ -1,14 +1,16 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+
 
 function NavBar() {
+
     return (
         <>
             <Navbar className="bg-primary" variant="dark">
                 <Navbar.Brand className="ms-3">
-                    <img src="/images/logo.png" alt="Exitcirklen" height="80" />
+                    <img src="/images/logo.png" alt="Exitcirklen" height="80"/>
                 </Navbar.Brand>
                 <Container
                     fluid
@@ -29,6 +31,8 @@ function NavBar() {
                             <h4>Medarbejderoversigt</h4>
                         </Nav.Link>
                     </Nav>
+
+
                 </Container>
             </Navbar>
         </>

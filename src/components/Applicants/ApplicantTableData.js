@@ -1,6 +1,7 @@
-import {CiCalendar, CiCircleCheck, CiEdit, CiNoWaitingSign, CiTrash} from "react-icons/ci";
+import {CiCalendar, CiCircleCheck, CiEdit, CiNoWaitingSign, CiTrash, CiViewList} from "react-icons/ci";
 import {useState} from "react";
 import {Box, Modal, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function ApplicantTableData({
                                 applicant, handleDeleteClick, handleEditClick,
@@ -36,6 +37,8 @@ function ApplicantTableData({
     const handleCancelVisitationChange = (event) => {
         setReason(event.target.value)
     }
+
+    const navigate = useNavigate();
 
     return (
         <tr key={applicant.id}>
@@ -166,6 +169,10 @@ function ApplicantTableData({
                         }}
                     >
                         <CiTrash/>
+                    </button>
+                    <button className="btn btn-warning btn-floating"
+                    onClick={() => navigate("/klient/" + applicant.id)}>
+                        <CiViewList />
                     </button>
                 </div>
             </td>
