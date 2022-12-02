@@ -1,4 +1,5 @@
 import React from "react";
+import {CiEdit, CiTrash, CiViewList} from "react-icons/ci";
 
 const GroupTableReadOnly = ({ applicantGroup,handleNewClick, handleDeleteClick, handleEditClick, handleInviteClick }) => {
     return (
@@ -16,21 +17,21 @@ const GroupTableReadOnly = ({ applicantGroup,handleNewClick, handleDeleteClick, 
                     className="btn btn-success btn-floating"
                     onClick={(event) => handleEditClick(event, applicantGroup)}
                 >
-                    Ændre
+                    <CiEdit/>
                 </button>
                 <button
                     type="button"
                     className="btn btn-danger btn-floating"
                     onClick={(event) => handleDeleteClick(event, applicantGroup)}
                 >
-                    Slet
+                    <CiTrash/>
                 </button>
                 <button
                     type="button"
                     className="btn btn-warning btn-floating"
                     onClick={(e) => handleInviteClick(e, applicantGroup)}
                 >
-                    Inviter
+                    <CiViewList />
                 </button>
             </td>
         </tr>

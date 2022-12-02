@@ -178,8 +178,8 @@ const Applicant = () => {
                             value={status}
                             onChange={(e) => setStatus(e.currentTarget.value)}
                         >
-                            {statusList?.map((statuses, index) => (
-                                <option value={statuses} key={index}>{statuses}</option>
+                            {statusList?.map((status, index) => (
+                                <option value={status} key={index}>{status.replace("_", " ")}</option>
                             ))}
                         </Form.Select>
                     </Form.Group>

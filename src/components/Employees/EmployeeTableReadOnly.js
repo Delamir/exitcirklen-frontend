@@ -1,4 +1,5 @@
 import React from "react";
+import {CiEdit, CiTrash} from "react-icons/ci";
 
 
 const EmployeeTableReadOnly = ({employee, handleEditClick,handleDeleteClick,   }) => {
@@ -15,7 +16,7 @@ const EmployeeTableReadOnly = ({employee, handleEditClick,handleDeleteClick,   }
                     className="btn btn-success btn-floating"
                     onClick={(event) => handleEditClick(event, employee)}
                 >
-                    Ændre
+                    <CiEdit/>
                 </button>
                 <button
                     type="button"
@@ -31,7 +32,7 @@ const EmployeeTableReadOnly = ({employee, handleEditClick,handleDeleteClick,   }
 
                     }}
                 >
-                    Slet
+                    <CiTrash/>
                 </button>
 
             </td>
