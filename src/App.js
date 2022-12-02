@@ -25,13 +25,13 @@ function App() {
         }
     }, []);
 
-    if (!AuthService.getCurrentUser()) {
+    if (AuthService.getCurrentUser()) {
         return (
             <>
-                <Navbar/>
+                <Navbar />
 
                 <Routes>
-                    <Route path="/klient/:id" element={<Applicant />}/>
+                    <Route path="/klient/:id" element={<Applicant />} />
                     <Route
                         path="/opret-medarbejder"
                         element={<EmployeeForm />}
