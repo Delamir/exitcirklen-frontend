@@ -9,26 +9,57 @@ import Group from "./components/ApplicantGroups/Group";
 import GroupForm from "./components/ApplicantGroups/GroupForm";
 import Applicant from "./components/Applicants/Applicant";
 import EmployeeTable from "./components/Employees/EmployeeTable";
-import EmployeeForm from "./components/Employees/EmployeeForm"
+import EmployeeForm from "./components/Employees/EmployeeForm";
+import Login from "./components/auth/Login";
+import { useEffect } from "react";
+import AuthService from "./services/auth.service";
+import Test from "./components/Test";
 
 function App() {
-    return (
-        <>
-            <Navbar></Navbar>
+    useEffect(() => {
+        const employee = AuthService.getCurrentUser();
 
-            <Routes>
-                <Route path="/opret-medarbejder" element={<EmployeeForm/>}/>
-                <Route path="/medarbejderoversigt" element={<EmployeeTable/>}/>
-                <Route path="/opret-gruppe" element={<GroupForm/>}/>
-                <Route path="/tilmeld" element={<ApplicantForm/>}/>
-                <Route path="/klientoversigt" element={<ApplicantTable/>} />
-                <Route path="/gruppeoversigt" element={<GroupTable/>} />
-                <Route path="/testtest" element={<Applicant />} />
-                <Route path="/survey/:id" element={<Survey />} />
-                <Route path="/gruppe/:id" element={<Group />} />
-            </Routes>
-        </>
-    );
+        if (employee) {
+            console.log(employee, "logged in");
+        } else {
+            console.log("no emp");
+        }
+    }, []);
+
+    if (AuthService.getCurrentUser()) {
+        return (
+            <>
+                <Navbar></Navbar>
+
+                <Routes>
+                    <Route
+                        path="/opret-medarbejder"
+                        element={<EmployeeForm />}
+                    />
+                    <Route
+                        path="/medarbejderoversigt"
+                        element={<EmployeeTable />}
+                    />
+                    <Route path="/opret-gruppe" element={<GroupForm />} />
+                    <Route path="/tilmeld" element={<ApplicantForm />} />
+                    <Route
+                        path="/klientoversigt"
+                        element={<ApplicantTable />}
+                    />
+                    <Route path="/gruppeoversigt" element={<GroupTable />} />
+                    <Route path="/testtest" element={<Test />} />
+                    <Route path="/survey/:id" element={<Survey />} />
+                    <Route path="/gruppe/:id" element={<Group />} />
+                </Routes>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <Login />
+            </>
+        );
+    }
 }
 
 export default App;
