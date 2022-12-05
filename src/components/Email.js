@@ -1,11 +1,15 @@
-import axios from "axios";
 import React from "react";
 import { Button } from "react-bootstrap";
+import FetchService from "../services/FetchService";
 
 const Email = () => {
+
+    const fetchService = new FetchService();
+
     const handleClick = (e) => {
         console.log("clicked!");
-        axios.get("http://localhost:8081/applicants/send").then((response) => {
+        fetchService.fetchSendEmail()
+            .then((response) => {
             console.log(response);
         });
     };

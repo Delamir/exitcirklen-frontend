@@ -2,8 +2,8 @@ import React from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import {useRef} from "react";
+import FetchService from "../../services/FetchService";
 
 const GroupForm = () => {
     const [applicantGroup, setGroupApplicant] = useState(false);
@@ -21,6 +21,8 @@ const GroupForm = () => {
     const navigate = useNavigate();
 
     const copenhagenOptionRef = useRef(null);
+
+    const fetchService = new FetchService();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -54,14 +56,13 @@ const GroupForm = () => {
             newApplicantGroup.applicantGroup = false;
         }
 
-        axios
-            .post("http://localhost:8081/groups", newApplicantGroup)
+        fetchService.fetchCreateApplicantGroup(newApplicantGroup)
             .then((response) => {
                 console.log(response)
             });
 
         console.log(newApplicantGroup);
-        navigate("/");
+        navigate("/gruppeoversigt");
     };
 
     const handleCityChange = (e) => {

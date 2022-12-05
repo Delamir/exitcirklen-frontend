@@ -1,16 +1,18 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import FetchService from "../services/FetchService";
 
 const Survey = () => {
     const { id } = useParams();
 
     const [answers, setAnswers] = useState({ first: true, second: false });
 
+    const fetchService = new FetchService();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(`localhost:8180/applicants/${id}/survey`, answers);
+
+        fetchService.fetchSurvey(id, answers);
     };
 
     return (

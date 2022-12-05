@@ -5,19 +5,19 @@ const API_URL = "http://localhost:8081/";
 
 class UserService {
     getPublicContent() {
-        return axios.get(API_URL + "all");
+        return axios.get("/all");
     }
 
     getUserBoard() {
-        return axios.get(API_URL + "user", { headers: authHeader() });
+        return axios.get("/user", { headers: authHeader() });
     }
 
     getModeratorBoard() {
-        return axios.get(API_URL + "mod", { headers: authHeader() });
+        return axios.get("/mod", { headers: authHeader() });
     }
 
     getAdminBoard() {
-        return axios.get(API_URL + "test/admin", { headers: authHeader() }).catch((error) => {
+        return axios.get("/test/admin", { headers: authHeader() }).catch((error) => {
             if(error.code === "ERR_BAD_REQUEST"){
 
             } 

@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import {Button, Container, Form} from "react-bootstrap";
 import React, {useEffect} from "react";
 import FetchService from "../../services/FetchService";
@@ -21,7 +20,7 @@ const EmployeeForm = () => {
         fetchService.fetchEmployeeResponsibility().then((response) => {
             setResponsibilityList(response.data)
             if (!responsibility)
-            setResponsibility(response.data[0])
+                setResponsibility(response.data[0])
         })
     })
 
@@ -37,15 +36,13 @@ const EmployeeForm = () => {
             age: age,
             responsibility: responsibility,
         };
-            newEmployee.name = name;
-            newEmployee.email = email;
-            newEmployee.phoneNumber = phoneNumber;
-            newEmployee.age = age;
-            newEmployee.responsibility = responsibility;
+        newEmployee.name = name;
+        newEmployee.email = email;
+        newEmployee.phoneNumber = phoneNumber;
+        newEmployee.age = age;
+        newEmployee.responsibility = responsibility;
 
-
-        axios
-            .post("http://localhost:8081/employees", newEmployee)
+        fetchService.fetchCreateEmployee(newEmployee)
             .then((response) => {
                 console.log(response);
             });

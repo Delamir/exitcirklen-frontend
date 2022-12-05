@@ -1,7 +1,6 @@
 import {Fragment, useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import EmployeeTableReadOnly from "./EmployeeTableReadOnly";
 import EmployeeTableEditRows from "./EmployeeTableEditRows";
 import GenericTable from "../Generics/GenericTable";
@@ -20,7 +19,8 @@ function EmployeeTable() {
             "Telefonnummer",
             "Ansvarsområde",
             <><span className="d-flex flex-row-reverse">
-                <button onClick={() => navigate("/opret-medarbejder")} type="button" className=" btn btn-create text-white">+ Opret medarbejder</button>
+                <button onClick={() => navigate("/opret-medarbejder")} type="button"
+                        className=" btn btn-create text-white">+ Opret medarbejder</button>
             </span></>,
         ];
 
@@ -28,7 +28,7 @@ function EmployeeTable() {
 
     const [editEmployeeId, setEditEmployeeId] = useState(null);
     const [employee, setEmployee] = useState([]);
-    const [editFormData, setEditFormData] = useState( {
+    const [editFormData, setEditFormData] = useState({
         name: "",
         age: "",
         email: "",
@@ -53,7 +53,7 @@ function EmployeeTable() {
         const fieldName = event.target.getAttribute("name");
 
         const fieldValue = event.target.value;
-        const newFormData = { ...editFormData };
+        const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue
 
         setEditFormData(newFormData);
@@ -74,10 +74,9 @@ function EmployeeTable() {
         console.log("HANDLE EDIT FORM ")
         console.log(editFormData)
         console.log(editFormData.id)
-        axios
-            .put(
-                "http://localhost:8081/employees/" + editFormData.id, editedEmployee
-        ).then(fetchTableData).catch((error) => console.log(error));
+
+        fetchService.fetchPutEmployee(editFormData.id, editedEmployee)
+            .then(fetchTableData).catch((error) => console.log(error));
 
         setEditEmployeeId(null);
     }
@@ -105,9 +104,7 @@ function EmployeeTable() {
     };
 
     const handleDeleteClick = (e, employee) => {
-        console.log("helt suget", employee.id)
-        axios
-            .delete("http://localhost:8081/employees/" + employee.id)
+        fetchService.fetchDeleteEmployee(employee.id)
             .then(fetchTableData);
 
     };
@@ -141,4 +138,5 @@ function EmployeeTable() {
         </form>
     );
 }
+
 export default EmployeeTable;

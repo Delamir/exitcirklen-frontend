@@ -1,10 +1,9 @@
 import GenericTable from "../Generics/GenericTable";
 import Container from "react-bootstrap/Container";
-import { Fragment, useEffect, useState } from "react";
+import {Fragment, useEffect, useState} from "react";
 import GroupTableReadOnly from "./GroupTableReadOnly";
 import GroupTableEditRows from "./GroupTableEditRows";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import FetchService from "../../services/FetchService";
 
 function GroupTable() {
@@ -24,8 +23,6 @@ function GroupTable() {
         </span></>,
     ];
 
-    const fetchService = new FetchService();
-
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
     const [applicantGroups, setApplicantGroups] = useState([]);
     const [editFormData, setEditFormData] = useState({
@@ -38,6 +35,8 @@ function GroupTable() {
         startDate: "",
     });
 
+    const fetchService = new FetchService();
+
     useEffect(() => {
         fetchTableData();
     }, []);
@@ -48,7 +47,7 @@ function GroupTable() {
         const fieldName = event.target.getAttribute("name");
 
         const fieldValue = event.target.value;
-        const newFormData = { ...editFormData };
+        const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
         console.log("hej", editFormData, newFormData[fieldName]);
@@ -68,20 +67,15 @@ function GroupTable() {
             startDate: editFormData.startDate,
         };
 
-        axios
-            .patch(
-                "http://localhost:8081/groups/" + editFormData.id,
-                editedApplicantGroup
-            ).then(fetchTableData)
+        fetchService.fetchPatchApplicantGroup(editFormData.id, editedApplicantGroup)
+            .then(fetchTableData)
             .catch((error) => console.log(error));
 
         setEditApplicantGroupId(null);
     };
 
     const handleDeleteClick = (e, applicantGroup) => {
-        console.log("helt suget", applicantGroup.id)
-        axios
-            .delete("http://localhost:8081/groups/" + applicantGroup.id)
+        fetchService.fetchDeleteApplicantGroup(applicantGroup.id)
             .then(fetchTableData);
 
     };
@@ -153,4 +147,5 @@ function GroupTable() {
         </form>
     );
 }
+
 export default GroupTable;

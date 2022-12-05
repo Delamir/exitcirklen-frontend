@@ -17,7 +17,7 @@ function ApplicantTableEditRows({
         fetchService.fetchApplicantStatus().then((response) => {
             setStatus(response.data)
         })
-    })
+    }, [])
 
     return (
         <tr>

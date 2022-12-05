@@ -1,7 +1,7 @@
 import React from "react";
 import {CiEdit, CiTrash, CiViewList} from "react-icons/ci";
 
-const GroupTableReadOnly = ({ applicantGroup,handleNewClick, handleDeleteClick, handleEditClick, handleInviteClick }) => {
+const GroupTableReadOnly = ({ applicantGroup, handleDeleteClick, handleEditClick, handleInviteClick }) => {
     return (
         <tr key={applicantGroup.id}>
             <td>{applicantGroup.city}</td>

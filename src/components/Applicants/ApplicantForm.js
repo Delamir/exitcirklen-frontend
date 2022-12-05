@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Form, Container } from "react-bootstrap";
 import { ReactSortable } from "react-sortablejs";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import FetchService from "../../services/FetchService";
 
 const ApplicantForm = () => {
     const [groupApplicant, setGroupApplicant] = useState(false);
@@ -24,6 +24,8 @@ const ApplicantForm = () => {
     const navigate = useNavigate();
 
     const copenhagenOptionRef = useRef(null);
+
+    const fetchService = new FetchService();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -49,8 +51,7 @@ const ApplicantForm = () => {
             newApplicant.groupApplicant = false;
         }
 
-        axios
-            .post("http://localhost:8081/applicants", newApplicant)
+        fetchService.fetchCreateApplicant(newApplicant)
             .then((response) => {
                 console.log(response);
             });

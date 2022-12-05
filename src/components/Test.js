@@ -1,11 +1,13 @@
-import axios from "axios";
+
 import React, { useEffect } from "react";
-import authHeader from "../services/auth-header";
+import FetchService from "../services/FetchService";
 
 const Test = () => {
+
+    const fetchService = new FetchService();
+
     useEffect(() => {
-        axios
-            .get("http://localhost:8081/test/admin", { headers: authHeader() })
+        fetchService.fetchTestAdmin()
             .then((response) => {});
     }, []);
 

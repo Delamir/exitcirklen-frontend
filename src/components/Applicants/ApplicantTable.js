@@ -3,7 +3,6 @@ import {Fragment, useState, useEffect, useRef} from "react";
 import FetchService from "../../services/FetchService";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableData from "./ApplicantTableData";
-import axios from "axios";
 
 function ApplicantTable() {
     const headers =
@@ -68,8 +67,7 @@ function ApplicantTable() {
     };
 
     const handleDeleteClick = (applicantId) => {
-        axios
-            .delete("http://localhost:8081/applicants/" + applicantId)
+        fetchService.fetchDeleteApplicant(applicantId)
             .then(fetchTableData);
     };
 
@@ -107,11 +105,7 @@ function ApplicantTable() {
             description: editFormData.description,
         };
 
-        axios
-            .patch(
-                "http://localhost:8081/applicants/" + editFormData.id,
-                editedApplicant
-            )
+        fetchService.fetchPatchApplicant(editFormData.id, editedApplicant)
             .then(fetchTableData)
             .catch((error) => console.log(error));
 
@@ -157,8 +151,7 @@ function ApplicantTable() {
     }
 
     const handleVisitationClick = (bookedDate, applicant) => {
-        axios
-            .post("http://localhost:8081/applicants/visitation-request", {applicant: applicant, time: bookedDate})
+        fetchService.fetchVisitationRequest(applicant, bookedDate)
             .then((response) => {
                 fetchTableData()
                 console.log(response);
@@ -166,8 +159,7 @@ function ApplicantTable() {
     };
 
     const handleCancelVisitationClick = (reason, applicant) => {
-        axios
-            .post("http://localhost:8081/applicants/cancel-visitation", {applicant: applicant, reason: reason})
+        fetchService.fetchCancelVisitation(applicant, reason)
             .then((response) => {
                 fetchTableData()
                 console.log(response)
@@ -175,8 +167,7 @@ function ApplicantTable() {
     }
 
     const handleConfirmVisitationClick = (applicant) => {
-        axios
-            .post("http://localhost:8081/applicants/confirm-visitation", applicant)
+        fetchService.fetchConfirmVisitation(applicant)
             .then((response) => {
                 fetchTableData()
                 console.log(response)

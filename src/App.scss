@@ -52,3 +52,9 @@ select:invalid {
 .better-icon-size {
     font-size: x-large;
 }
+
+.gradient-custom {
+
+    background: map-get($theme-colors, primary);
+}
+

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Container, Form, FormGroup} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
@@ -43,10 +42,11 @@ const Applicant = () => {
         fetchService.fetchApplicantStatus().then((response) => {
             setStatusList(response.data)
         })
-    })
+    }, [])
 
     const fetchApplicant = () => {
-        axios.get(`http://localhost:8081/applicant/${id}`).then((response) => {
+        fetchService.fetchApplicant(id)
+            .then((response) => {
             const applicant = response.data;
             setGroupApplicant(applicant.userType === 1);
             setName(applicant.name);
@@ -93,7 +93,7 @@ const Applicant = () => {
             priority: priority
         }
 
-        axios.patch("http://localhost:8081/applicants/" + id, editedApplicant)
+        fetchService.fetchPatchApplicant(id, editedApplicant)
             .then(handlePrevious)
             .catch((error) => console.log(error))
 

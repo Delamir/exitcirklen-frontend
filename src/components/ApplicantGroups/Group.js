@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Col, Form, ListGroup, Row} from "react-bootstrap";
 import {useRef} from "react";
+import FetchService from "../../services/FetchService";
 
 const Group = () => {
     const {id} = useParams();
@@ -23,14 +23,16 @@ const Group = () => {
 
     const copenhagenOptionRef = useRef(null);
 
+    const fetchService = new FetchService();
+
 
     useEffect(() => {
         fetchData();
     }, [id]);
 
     const fetchData = () => {
-        axios
-            .get(`http://localhost:8081/groups/${id}`)
+
+        fetchService.fetchApplicantGroup(id)
             .then((response) => {
                 setName(response.data.name);
                 setAddress(response.data.address);
@@ -43,19 +45,16 @@ const Group = () => {
                 setAvailableSpots(response.data.availableSpots);
                 setGroup(response.data);
             })
-        axios
-            .get("http://localhost:8081/applicants/waiting-list")
+
+        fetchService.fetchWaitingList()
             .then((response) => setApplicants(response.data));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(
-            `http://localhost:8081/groups/${id}/send-invites`,
-            inviteList
-        );
 
-        fetchData();
+        fetchService.fetchGroupsSendInvites(id, inviteList)
+            .then(fetchData);
     };
 
     const handleChange = (e) => {
@@ -70,10 +69,10 @@ const Group = () => {
 
     const handleAutoInvite = (e) => {
         e.preventDefault()
-        axios.post(
-            `http://localhost:8081/groups/${id}/send-invites`,
-            applicants.slice(0, group.availableSpots).map(applicant => applicant.id)
-        ).then(fetchData);
+
+        fetchService.fetchGroupsSendInvites(id,
+            applicants.slice(0, group.availableSpots).map(applicant => applicant.id))
+            .then(fetchData)
     };
 
 
@@ -92,10 +91,8 @@ const Group = () => {
             description: description,
         };
 
-        axios
-            .patch("http://localhost:8081/groups/" + id,
-                editedApplicantGroup
-            ).then(fetchData)
+        fetchService.fetchPatchApplicantGroup(id, editedApplicantGroup)
+            .then(fetchData)
             .catch((error) => console.log(error))
 
         navigate("/gruppeoversigt")

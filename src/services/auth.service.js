@@ -1,11 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8081/auth/";
-
 class AuthService {
     login(email, password) {
         return axios
-            .post(API_URL + "signin", {
+            .post( "/auth/signin", {
                 email,
                 password,
             })
@@ -34,7 +32,7 @@ class AuthService {
     }
 
     register(username, email, password) {
-        return axios.post(API_URL + "signup", {
+        return axios.post("/signup", {
             username,
             email,
             password,
@@ -46,7 +44,7 @@ class AuthService {
     }
 
     refreshToken() {
-        return axios.post("auth/refreshtoken", {
+        return axios.post("/auth/refreshtoken", {
             refreshToken: this.getCurrentUser()["refreshToken"],
         });
     }
