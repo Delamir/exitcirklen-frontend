@@ -7,7 +7,7 @@ import "./App.scss";
 import axios from "axios";
 import authService from "./services/auth.service";
 
-axios.defaults.baseURL = "http://localhost:8081/";
+axios.defaults.baseURL = "http://localhost:8081";
 
 axios.interceptors.response.use(
     (res) => {
