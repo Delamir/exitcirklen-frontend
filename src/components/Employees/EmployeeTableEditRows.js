@@ -1,6 +1,6 @@
 import React from "react";
 import {useEffect, useState} from "react";
-import {FetchEmployeeResponsibility} from "../Fetch/FetchEmployeeResponsibility";
+import FetchService from "../../services/FetchService";
 
 
 
@@ -12,11 +12,13 @@ const EmployeeTableEditRows = ({
                                }) => {
 
     const [responsibility, setResponsibility] = useState([])
+    const fetchService = new FetchService();
 
     useEffect(() => {
-        FetchEmployeeResponsibility().then((response) => {
+        fetchService.fetchEmployeeResponsibility().then((response) => {
             setResponsibility(response.data)
         })
+
     })
 
     return (

@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {Button, Container, Form} from "react-bootstrap";
 import React, {useEffect} from "react";
-import {FetchEmployeeResponsibility} from "../Fetch/FetchEmployeeResponsibility";
+import FetchService from "../../services/FetchService";
 
 
 const EmployeeForm = () => {
@@ -15,8 +15,10 @@ const EmployeeForm = () => {
     const [responsibilityList, setResponsibilityList] = useState([]);
     const [employee, setEmployee] = useState("");
 
+    const fetchService = new FetchService();
+
     useEffect(() => {
-        FetchEmployeeResponsibility().then((response) => {
+        fetchService.fetchEmployeeResponsibility().then((response) => {
             setResponsibilityList(response.data)
             if (!responsibility)
             setResponsibility(response.data[0])

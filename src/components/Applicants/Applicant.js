@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Container, Form, FormGroup} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
-import {FetchApplicantStatus} from "../Fetch/FetchApplicantStatus";
+import FetchService from "../../services/FetchService";
 
 const Applicant = () => {
 
@@ -27,6 +27,9 @@ const Applicant = () => {
         {id: 1, name: "lyngby"},
         {id: 2, name: "amager"},
     ]);
+
+    const fetchService = new FetchService();
+
     const [willSubscribe, setWillSubscripe] = useState(false);
     const [wantsNewsletter, setWantsNewsletter] = useState(false);
 
@@ -37,7 +40,7 @@ const Applicant = () => {
     }, []);
 
     useEffect(() => {
-        FetchApplicantStatus().then((response) => {
+        fetchService.fetchApplicantStatus().then((response) => {
             setStatusList(response.data)
         })
     })

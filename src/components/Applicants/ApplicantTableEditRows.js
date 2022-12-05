@@ -1,6 +1,6 @@
 import {CiFloppyDisk} from "react-icons/ci";
 import React, {useEffect, useState} from "react";
-import {FetchApplicantStatus} from "../Fetch/FetchApplicantStatus";
+import FetchService from "../../services/FetchService";
 
 function ApplicantTableEditRows({
                                     editFormData,
@@ -11,8 +11,10 @@ function ApplicantTableEditRows({
 
     const [status, setStatus] = useState([])
 
+    const fetchService = new FetchService();
+
     useEffect(() => {
-        FetchApplicantStatus().then((response) => {
+        fetchService.fetchApplicantStatus().then((response) => {
             setStatus(response.data)
         })
     })

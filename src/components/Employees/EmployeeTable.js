@@ -1,11 +1,11 @@
 import {Fragment, useEffect, useState} from "react";
-import { FetchEmployees } from "../Fetch/FetchEmployees";
 import {Container} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import EmployeeTableReadOnly from "./EmployeeTableReadOnly";
 import EmployeeTableEditRows from "./EmployeeTableEditRows";
 import GenericTable from "../Generics/GenericTable";
+import FetchService from "../../services/FetchService";
 
 
 function EmployeeTable() {
@@ -24,6 +24,8 @@ function EmployeeTable() {
             </span></>,
         ];
 
+    const fetchService = new FetchService();
+
     const [editEmployeeId, setEditEmployeeId] = useState(null);
     const [employee, setEmployee] = useState([]);
     const [editFormData, setEditFormData] = useState( {
@@ -36,7 +38,7 @@ function EmployeeTable() {
 
     const fetchTableData = () => {
 
-        FetchEmployees().then((employee) => {
+        fetchService.fetchEmployees().then((employee) => {
             setEmployee(employee.data);
             console.log(employee);
         });

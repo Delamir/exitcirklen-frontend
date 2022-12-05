@@ -1,11 +1,11 @@
 import GenericTable from "../Generics/GenericTable";
 import Container from "react-bootstrap/Container";
-import { FetchApplicantGroups } from "../Fetch/FetchApplicantGroups";
 import { Fragment, useEffect, useState } from "react";
 import GroupTableReadOnly from "./GroupTableReadOnly";
 import GroupTableEditRows from "./GroupTableEditRows";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import FetchService from "../../services/FetchService";
 
 function GroupTable() {
 
@@ -23,6 +23,9 @@ function GroupTable() {
             <button onClick={() => navigate("/opret-gruppe")} type="button" className=" btn btn-create text-white">+ Opret gruppe</button>
         </span></>,
     ];
+
+    const fetchService = new FetchService();
+
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
     const [applicantGroups, setApplicantGroups] = useState([]);
     const [editFormData, setEditFormData] = useState({
@@ -109,7 +112,7 @@ function GroupTable() {
     };
 
     const fetchTableData = () => {
-        FetchApplicantGroups().then((applicantGroups) => {
+        fetchService.fetchApplicantGroups().then((applicantGroups) => {
             setApplicantGroups(applicantGroups.data);
             console.log(applicantGroups);
         });

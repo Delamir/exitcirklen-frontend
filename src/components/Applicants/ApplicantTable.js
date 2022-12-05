@@ -1,10 +1,9 @@
 import {Table} from "react-bootstrap";
 import {Fragment, useState, useEffect, useRef} from "react";
-import {FetchApplicants} from "../Fetch/FetchApplicants";
+import FetchService from "../../services/FetchService";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableData from "./ApplicantTableData";
 import axios from "axios";
-import {FetchWaitingList} from "../Fetch/FetchWaitingList";
 
 function ApplicantTable() {
     const headers =
@@ -19,6 +18,8 @@ function ApplicantTable() {
             "description": "Bemærkning",
             "actions": "Handlinger"
         };
+
+    const fetchService = new FetchService();
 
     const [tableData, setTableData] = useState();
     const [editApplicant, setEditApplicant] = useState(null);
@@ -43,11 +44,11 @@ function ApplicantTable() {
 
     const fetchTableData = () => {
         if (Number(dropDownRef.current.value) === 1) {
-            FetchApplicants().then((response) => {
+            fetchService.fetchApplicants().then((response) => {
                 setTableData(() => response.data);
             });
         } else {
-            FetchWaitingList().then((response) => {
+            fetchService.fetchWaitingList().then((response) => {
                 setTableData(() => response.data);
             });
         }
