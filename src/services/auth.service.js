@@ -11,7 +11,18 @@ class AuthService {
             })
             .then((response) => {
                 if (response.data.token) {
+                    console.log("ugg");
                     localStorage.setItem("user", JSON.stringify(response.data));
+                    axios.interceptors.request.use(
+                        (config) => {
+                            config.headers["Authorization"] =
+                                "Bearer " + response.data.token;
+                            return config;
+                        },
+                        (error) => {
+                            return Promise.reject(error);
+                        }
+                    );
                 }
 
                 return response.data;
@@ -32,6 +43,12 @@ class AuthService {
 
     getCurrentUser() {
         return JSON.parse(localStorage.getItem("user"));
+    }
+
+    refreshToken() {
+        return axios.post("auth/refreshtoken", {
+            refreshToken: this.getCurrentUser()["refreshToken"],
+        });
     }
 }
 
