@@ -1,9 +1,8 @@
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Button, Container, Form} from "react-bootstrap";
-import React, {useEffect} from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Container, Form } from "react-bootstrap";
+import React, { useEffect } from "react";
 import FetchService from "../../services/FetchService";
-
 
 const EmployeeForm = () => {
     const [name, setName] = useState("");
@@ -12,17 +11,18 @@ const EmployeeForm = () => {
     const [age, setAge] = useState("");
     const [responsibility, setResponsibility] = useState();
     const [responsibilityList, setResponsibilityList] = useState([]);
+    const [password, setPassword] = useState("");
+    const [city, setCity] = useState("");
     const [employee, setEmployee] = useState("");
 
     const fetchService = new FetchService();
 
     useEffect(() => {
         fetchService.fetchEmployeeResponsibility().then((response) => {
-            setResponsibilityList(response.data)
-            if (!responsibility)
-                setResponsibility(response.data[0])
-        })
-    })
+            setResponsibilityList(response.data);
+            if (!responsibility) setResponsibility(response.data[0]);
+        });
+    }, []);
 
     const navigate = useNavigate();
 
@@ -32,30 +32,36 @@ const EmployeeForm = () => {
         const newEmployee = {
             name: name,
             email: email,
+            password: password,
             phoneNumber: phoneNumber,
             age: age,
-            responsibility: responsibility,
+            city: city,
+            role: responsibility,
         };
         newEmployee.name = name;
         newEmployee.email = email;
         newEmployee.phoneNumber = phoneNumber;
         newEmployee.age = age;
-        newEmployee.responsibility = responsibility;
+        newEmployee.role = responsibility;
 
-        fetchService.fetchCreateEmployee(newEmployee)
-            .then((response) => {
-                console.log(response);
-            });
+        fetchService.fetchCreateEmployee(newEmployee).then((response) => {
+            console.log(response);
+        });
 
         console.log(newEmployee);
         navigate("/medarbejderoversigt");
-
     };
 
     const handleSelectChange = (e) => {
         setResponsibility(e.currentTarget.value);
         console.log(e.currentTarget.value);
-    }
+    };
+
+    const handleCityChange = (e) => {
+        e.preventDefault();
+
+        setCity(e.currentTarget.value);
+    };
 
     return (
         <Container className="mt-5">
@@ -80,13 +86,43 @@ const EmployeeForm = () => {
                         onChange={(e) => setEmail(e.currentTarget.value)}
                     />
                 </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Indtast kodeord"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.currentTarget.value)}
+                    />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>By:</Form.Label>
+                    <Form.Select
+                        className="invalid-select"
+                        value={city}
+                        onChange={(e) => handleCityChange(e)}
+                    >
+                        <option value="" disabled hidden>
+                            Vælg By
+                        </option>
+                        <option value="KØBENHAVN">København</option>
+                        <option value="HILLERØD">Hillerød</option>
+                        <option value="KØGE">Køge</option>
+                        <option value="ODENSE">Odense</option>
+                        <option value="AARHUS">Aarhus</option>
+                        <option value="ESBJERG">Esbjerg</option>
+                        <option value="AALBORG">Aalborg</option>
+                        <option value="NÆSTVED">Næstved</option>
+                    </Form.Select>
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>Telefonnummer:</Form.Label>
                     <Form.Control
                         type="number"
                         placeholder="Indtast telefonnummer"
-                        required
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.currentTarget.value)}
                     />
@@ -96,7 +132,6 @@ const EmployeeForm = () => {
                     <Form.Control
                         type="number"
                         placeholder="Indtast Alder"
-                        required
                         value={age}
                         onChange={(e) => setAge(e.currentTarget.value)}
                     />
@@ -110,20 +145,18 @@ const EmployeeForm = () => {
                         onChange={handleSelectChange}
                     >
                         {responsibilityList?.map((responsibility, index) => (
-                            <option value={responsibility} key={index}>{responsibility}</option>
+                            <option value={responsibility} key={index}>
+                                {responsibility}
+                            </option>
                         ))}
-
                     </Form.Select>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Opret medarbejder
                 </Button>
-
             </form>
         </Container>
-
-
-    )
+    );
 };
 
 export default EmployeeForm;

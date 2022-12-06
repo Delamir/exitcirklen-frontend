@@ -1,22 +1,25 @@
 import React from "react";
-import {CiEdit, CiTrash} from "react-icons/ci";
+import { CiEdit, CiTrash } from "react-icons/ci";
 
-
-const EmployeeTableReadOnly = ({employee, handleEditClick,handleDeleteClick,   }) => {
+const EmployeeTableReadOnly = ({
+    employee,
+    handleEditClick,
+    handleDeleteClick,
+}) => {
     return (
         <tr key={employee.id}>
             <td>{employee.name}</td>
             <td>{employee.age}</td>
             <td>{employee.email}</td>
             <td>{employee.phoneNumber}</td>
-            <td>{employee.responsibility}</td>
+            <td>{employee.role}</td>
             <td className="d-flex gap-3 justify-content-center">
                 <button
                     type="button"
                     className="btn btn-success btn-floating"
                     onClick={(event) => handleEditClick(event, employee)}
                 >
-                    <CiEdit/>
+                    <CiEdit />
                 </button>
                 <button
                     type="button"
@@ -27,14 +30,12 @@ const EmployeeTableReadOnly = ({employee, handleEditClick,handleDeleteClick,   }
                         );
 
                         if (confirmBox === true) {
-                            handleDeleteClick(event, employee)
+                            handleDeleteClick(event, employee);
                         }
-
                     }}
                 >
-                    <CiTrash/>
+                    <CiTrash />
                 </button>
-
             </td>
         </tr>
     );
