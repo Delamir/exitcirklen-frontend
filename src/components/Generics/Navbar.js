@@ -1,10 +1,12 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+
 import { Link } from "react-router-dom";
 import authService from "../../services/auth.service";
 import { useEffect } from "react";
 import { useRef } from "react";
+
 
 function NavBar() {
     const clientRef = useRef();
@@ -64,6 +66,7 @@ function NavBar() {
             </Navbar>
         </>
     );
+
 }
 
 export default NavBar;
