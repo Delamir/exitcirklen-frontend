@@ -47,24 +47,24 @@ const Applicant = () => {
     const fetchApplicant = () => {
         fetchService.fetchApplicant(id)
             .then((response) => {
-            const applicant = response.data;
-            setGroupApplicant(applicant.userType === 1);
-            setName(applicant.name);
-            setAge(applicant.age);
-            setCity(applicant.city);
-            setGender(applicant.gender);
-            setEmail(applicant.email);
-            setPhoneNumber(applicant.phoneNumber);
-            setAnsweredSurvey(applicant.answeredSurvey);
-            // setContactChoice(applicant.contactCall ? 1 : 0);
-            setDescription(applicant.description);
-            setStatus(applicant.status);
-            setGroup(applicant.group)
-            setPaidStatus(applicant.paidStatus)
-            setContactCall(applicant.contactCall);
-            setContactText(applicant.contactText);
-            setPriority(applicant.priority)
-        });
+                const applicant = response.data;
+                setGroupApplicant(applicant.userType === 1);
+                setName(applicant.name);
+                setAge(applicant.age);
+                setCity(applicant.city);
+                setGender(applicant.gender);
+                setEmail(applicant.email);
+                setPhoneNumber(applicant.phoneNumber);
+                setAnsweredSurvey(applicant.answeredSurvey);
+                // setContactChoice(applicant.contactCall ? 1 : 0);
+                setDescription(applicant.description);
+                setStatus(applicant.status);
+                setGroup(applicant.group)
+                setPaidStatus(applicant.paidStatus)
+                setContactCall(applicant.contactCall);
+                setContactText(applicant.contactText);
+                setPriority(applicant.priority)
+            });
     };
 
     const navigate = useNavigate();
@@ -246,12 +246,13 @@ const Applicant = () => {
                 </Form.Group>
                 <div className="d-flex gap-3">
                     <button type="submit" className="btn btn-success btn-floating"
-                    onClick={(event) => handleEditSubmit(event)}
+                            onClick={(event) => handleEditSubmit(event)}
                     >
                         Gem Ændringer
                     </button>
                     <button type="button" className="btn btn-primary btn-floating"
-                    onClick={handlePrevious}>Tilbage</button>
+                            onClick={handlePrevious}>Tilbage
+                    </button>
                 </div>
             </Form>
         </Container>

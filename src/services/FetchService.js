@@ -105,5 +105,26 @@ class FetchService {
     async fetchDeleteEmployee(id) {
         return await axios.delete("/employees/" + id)
     }
+
+    ///////////City//////////////
+    async fetchCity(id) {
+        return await axios.get("/cities/" + id)
+    }
+
+    async fetchCities() {
+        return await axios.get("/cities");
+    }
+
+    async fetchCreateCity(city) {
+        return await axios.post("/cities", city)
+    }
+
+    async fetchPutCity(id, city) {
+        return await axios.put("/cities/" + id, city)
+    }
+
+    async fetchDeleteCity(id) {
+        return await axios.get("/cities/" + id)
+    }
 }
 export default FetchService;
