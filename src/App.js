@@ -13,6 +13,8 @@ import {useEffect} from "react";
 import AuthService from "./services/auth.service";
 import Test from "./components/Test";
 import Applicant from "./components/Applicants/Applicant";
+import CityForm from "./components/Cities/CityForm";
+import CityTable from "./components/Cities/CityTable";
 
 function App() {
 
@@ -57,6 +59,11 @@ function App() {
                         element={<ApplicantTable/>}
                     />
                     <Route path="/gruppeoversigt" element={<GroupTable/>}/>
+                    <Route path="/byoversigt" element={<CityTable/>}/>
+                    <Route
+                        path="/opret-by"
+                        element={<CityForm/>}
+                    />
                     <Route path="/testtest" element={<Test/>}/>
                     <Route path="/survey/:id" element={<Survey/>}/>
                     <Route path="/gruppe/:id" element={<Group/>}/>

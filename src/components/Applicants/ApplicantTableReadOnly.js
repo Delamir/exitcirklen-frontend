@@ -3,7 +3,7 @@ import {useState} from "react";
 import {Box, Modal, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
-function ApplicantTableData({
+function ApplicantTableReadOnly({
                                 applicant, handleDeleteClick, handleEditClick,
                                 handleVisitationClick, handleCancelVisitationClick, handleConfirmVisitationClick
                             }) {
@@ -180,4 +180,4 @@ function ApplicantTableData({
     );
 }
 
-export default ApplicantTableData;
+export default ApplicantTableReadOnly;

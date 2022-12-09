@@ -2,7 +2,7 @@ import {Table} from "react-bootstrap";
 import {Fragment, useState, useEffect, useRef} from "react";
 import FetchService from "../../services/FetchService";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
-import ApplicantTableData from "./ApplicantTableData";
+import ApplicantTableReadOnly from "./ApplicantTableReadOnly";
 
 function ApplicantTable() {
     const headers =
@@ -230,7 +230,7 @@ function ApplicantTable() {
                                         handleCancelClick={handleCancelClick}
                                     />
                                 ) : (
-                                    <ApplicantTableData
+                                    <ApplicantTableReadOnly
                                         applicant={applicant}
                                         handleDeleteClick={handleDeleteClick}
                                         handleEditClick={handleEditClick}

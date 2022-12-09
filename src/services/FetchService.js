@@ -119,12 +119,12 @@ class FetchService {
         return await axios.post("/cities", city)
     }
 
-    async fetchPutCity(id, city) {
-        return await axios.put("/cities/" + id, city)
+    async fetchPutCity(id, editedCity) {
+        return await axios.put("/cities/" + id, editedCity)
     }
 
     async fetchDeleteCity(id) {
-        return await axios.get("/cities/" + id)
+        return await axios.delete("/cities/" + id)
     }
 }
 export default FetchService;
