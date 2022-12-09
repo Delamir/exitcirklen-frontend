@@ -42,10 +42,14 @@ function ApplicantTableReadOnly({
 
     return (
         <tr key={applicant.id}>
+            <td>{applicant.city}</td>
+            <td>{applicant.group?.name}</td>
             <td>{applicant.name}</td>
-            <td>{applicant.age}</td>
             <td>{applicant.email}</td>
             <td>{applicant.phoneNumber}</td>
+            <td>{applicant.age}</td>
+            <td>{applicant.lastChanged.toString().replace("T", " ")}</td>
+            <td className="col-2">{applicant.description}</td>
             <td>
                 {(() => {
                     let returnTd = applicant.status.replace("_", " ")
@@ -144,9 +148,6 @@ function ApplicantTableReadOnly({
                     return returnTd
                 })()}
             </td>
-            <td>{applicant.lastChanged.toString().replace("T", " ")}</td>
-            <td>{applicant.city}</td>
-            <td className="col-2">{applicant.description}</td>
             <td>
                 <div className="d-flex gap-3 justify-content-center text-nowrap">
                     <button

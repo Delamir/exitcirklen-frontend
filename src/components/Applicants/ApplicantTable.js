@@ -7,14 +7,15 @@ import ApplicantTableReadOnly from "./ApplicantTableReadOnly";
 function ApplicantTable() {
     const headers =
         {
+            "city": "By",
+            "group": "Gruppe",
             "name": "Navn",
-            "age": "Alder",
             "email": "E-mail",
             "phoneNumber": "Telefonnummer",
-            "status": "Status",
+            "age": "Alder",
             "lastChanged": "I Status Siden",
-            "city": "By",
             "description": "Bemærkning",
+            "status": "Status",
             "actions": "Handlinger"
         };
 

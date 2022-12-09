@@ -1,7 +1,7 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 $custom-colors:(
-"primary": #005770
+"primary": #018293
 );
 
 $theme-colors: map-merge($theme-colors , $custom-colors );
@@ -54,7 +54,27 @@ select:invalid {
 }
 
 .gradient-custom {
-
     background: map-get($theme-colors, primary);
+
+}
+
+.login-hover {
+    &:hover {
+        cursor: pointer;
+        color: white;
+    }
+}
+
+.login-font {
+    color: lightblue;
+}
+
+.conor-pos {
+    right: 10px;
+    top: 5px;
+}
+
+.opacity-33 {
+    opacity: 40%;
 }
 
