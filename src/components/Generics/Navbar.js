@@ -1,11 +1,11 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-
 import {Link} from "react-router-dom";
 import authService from "../../services/auth.service";
 import {useEffect} from "react";
 import {useRef} from "react";
+import {BsGearFill} from "react-icons/bs";
 
 
 function NavBar() {
@@ -66,6 +66,27 @@ function NavBar() {
                                 <h4>Medarbejderoversigt</h4>
                             </Nav.Link>
                         </Nav>
+
+
+                        <Nav className="dropdownMenu">
+                            <Nav.Link>
+                            <h4 style={{"display": "inline"}}>
+                            <ul>
+                            <li><a href="#">Oversigt</a>
+                                <ul>
+                                    <Nav.Link as={Link} to={"/byoversigt"}>
+                                    <li><a>Byoversigt</a></li>
+                            </Nav.Link>
+                                    <Nav.Link as={Link} to={""}>
+                                    <li><a href="#">Rolleoversigt</a></li>
+                                    </Nav.Link>
+                                </ul>
+                            </li>
+                            </ul>
+                            </h4>
+                            </Nav.Link>
+                        </Nav>
+
                     </div>
                 </Container>
             </Navbar>

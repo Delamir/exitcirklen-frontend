@@ -1,0 +1,48 @@
+
+
+
+
+
+.dropdownMenu ul {
+  margin:0;padding:0;
+  list-style-type:none;
+  float:left;
+  display:inline-block;
+}
+
+.dropdownMenu ul li {
+  position:relative;
+  float:left;
+}
+
+li > a:after { content: ' »'; } /* Change this in order to change the Dropdown symbol */
+
+li > a:only-child:after { content: ''; }
+
+
+.dropdownMenu ul li ul li a {
+  padding:20px;
+  display:inline-block;
+  color:rgba(white,0.75);
+  text-decoration:none;
+}
+
+.dropdownMenu ul li a {
+
+  color:rgba(white,0.75);
+  text-decoration:none;
+}
+
+.dropdownMenu ul li a:hover {
+  color: white;
+}
+
+
+.dropdownMenu ul li ul li {
+  width:100%;
+  border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+.dropdownMenu ul li:hover ul {
+  display:block;
+}
