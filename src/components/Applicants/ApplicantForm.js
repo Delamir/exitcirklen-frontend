@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Form, Container } from "react-bootstrap";
-import { ReactSortable } from "react-sortablejs";
-import { useNavigate } from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, Form, Container} from "react-bootstrap";
+import {ReactSortable} from "react-sortablejs";
+import {useNavigate} from "react-router-dom";
 import FetchService from "../../services/FetchService";
+import SamtykkeerklringDELTAGER09012022 from "../../documentsPDF/SamtykkeerklringDELTAGER09012022.pdf";
+import Vedtgter_Exitcirklen_NEW_nov_2018_1 from "../../documentsPDF/Vedtgter_Exitcirklen_NEW_nov_2018_1.pdf";
 
 const ApplicantForm = () => {
     const [groupApplicant, setGroupApplicant] = useState(false);
@@ -17,8 +19,8 @@ const ApplicantForm = () => {
     const [city, setCity] = useState("");
     const [priority, setPriority] = useState("");
     const [priorityList, setPriorityList] = useState([
-        { id: 1, name: "lyngby" },
-        { id: 2, name: "amager" },
+        {id: 1, name: "lyngby"},
+        {id: 2, name: "amager"},
     ]);
 
     const navigate = useNavigate();
@@ -188,7 +190,7 @@ const ApplicantForm = () => {
                         list={priorityList}
                         setList={setPriorityList}
                         className="mb-3"
-                        style={{ display: "none" }}
+                        style={{display: "none"}}
                         ref={copenhagenOptionRef}
                     >
                         {priorityList.map((item) => (
@@ -223,25 +225,36 @@ const ApplicantForm = () => {
                 <Form.Group className="">
                     <Form.Check
                         type="checkbox"
-                        label="Tilmeld Kontingent på 300 kr årligt"
-                        checked={willSubscribe}
-                        onChange={() => setWillSubscripe(!willSubscribe)}
-                    />
-                </Form.Group>
-                <Form.Group className="">
-                    <Form.Check
-                        type="checkbox"
                         label="Tilmeld Nyhedsbrev"
                         checked={wantsNewsletter}
                         onChange={() => setWantsNewsletter(!wantsNewsletter)}
                     />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                <Form.Group className="d-flex justify-content gap-1">
                     <Form.Check
                         required
                         type="checkbox"
-                        label="Jeg accepterer Exitcirklens vedtægter"
+                        label="Jeg accepterer Exitcirklens"
                     />
+                    <a href={SamtykkeerklringDELTAGER09012022}
+                       target="_blank"
+                       rel="noreferrer"
+                    >
+                        samtykkeerklæring
+                    </a>
+                </Form.Group>
+                <Form.Group className="d-flex justify-content gap-1 mb-3">
+                    <Form.Check
+                        required
+                        type="checkbox"
+                        label="Jeg accepterer Exitcirklens"
+                    />
+                    <a href={Vedtgter_Exitcirklen_NEW_nov_2018_1}
+                       target="_blank"
+                       rel="noreferrer"
+                    >
+                        vedtægter
+                    </a>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Tilmeld
