@@ -22,7 +22,7 @@ function CityTable() {
 
 
     const fetchService = new FetchService();
-
+    const [cursor, setCursor] = useState("pointer");
     const [tableData, setTableData] = useState();
     const [editCity, setEditCity] = useState(null);
     const [editFormData, setEditFormData] = useState({
@@ -36,6 +36,7 @@ function CityTable() {
 
     const fetchTableData = () => {
         fetchService.fetchCities().then((response) => {
+            setCursor("pointer");
             setTableData(() => response.data);
         });
     };
@@ -54,6 +55,7 @@ function CityTable() {
     };
 
     const handleDeleteClick = (event, cityId) => {
+        setCursor("wait");
         fetchService.fetchDeleteCity(Number(cityId))
             .then(fetchTableData);
     };
@@ -67,7 +69,7 @@ function CityTable() {
             name: city.name,
             address: city.address,
         };
-
+        setCursor("wait");
         setEditFormData(formValues);
         fetchTableData();
     };
@@ -80,7 +82,7 @@ function CityTable() {
             name: editFormData.name,
             address: editFormData.address,
         };
-
+        setCursor("wait");
         fetchService.fetchPutCity(editFormData.id, editedCity)
             .then(fetchTableData)
             .catch((error) => console.log(error));
@@ -90,6 +92,7 @@ function CityTable() {
 
     const handleCancelClick = () => {
         setEditCity(null);
+        setCursor("wait");
         fetchTableData();
     }
 

@@ -30,6 +30,7 @@ function EmployeeTable() {
 
     const fetchService = new FetchService();
 
+    const [cursor, setCursor] = useState("pointer");
     const [editEmployeeId, setEditEmployeeId] = useState(null);
     const [employee, setEmployee] = useState([]);
     const [editFormData, setEditFormData] = useState({
@@ -42,6 +43,7 @@ function EmployeeTable() {
 
     const fetchTableData = () => {
         fetchService.fetchEmployees().then((employee) => {
+            setCursor("pointer");
             setEmployee(employee.data);
             console.log(employee);
         });
@@ -78,6 +80,7 @@ function EmployeeTable() {
         console.log(editFormData);
         console.log(editFormData.id);
 
+        setCursor("wait");
         fetchService
             .fetchPutEmployee(editFormData.id, editedEmployee)
             .then(fetchTableData)
@@ -100,17 +103,21 @@ function EmployeeTable() {
             responsibility: employee.role,
         };
 
+        setCursor("wait");
         setEditFormData(formValues);
         fetchTableData();
     };
 
     const handleCancelClick = () => {
         setEditEmployeeId(null);
+        setCursor("wait");
         fetchTableData();
     };
 
     const handleDeleteClick = (e, employee) => {
-        fetchService.fetchDeleteEmployee(employee.id).then(fetchTableData);
+        setCursor("wait");
+        fetchService.fetchDeleteEmployee(employee.id)
+            .then(fetchTableData);
     };
 
     return (

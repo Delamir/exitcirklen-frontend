@@ -30,6 +30,7 @@ function GroupTable() {
         </>,
     ];
 
+    const [cursor, setCursor] = useState("pointer");
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
     const [applicantGroups, setApplicantGroups] = useState([]);
     const [editFormData, setEditFormData] = useState({
@@ -73,15 +74,15 @@ function GroupTable() {
             price: editFormData.price,
             startDate: editFormData.startDate,
         };
-
+        setCursor("wait");
         fetchService.fetchPatchApplicantGroup(editFormData.id, editedApplicantGroup)
             .then(fetchTableData)
             .catch((error) => console.log(error));
-
         setEditApplicantGroupId(null);
     };
 
     const handleDeleteClick = (e, applicantGroup) => {
+        setCursor("wait");
         fetchService.fetchDeleteApplicantGroup(applicantGroup.id)
             .then(fetchTableData);
 
@@ -103,6 +104,7 @@ function GroupTable() {
             startDate: applicantGroup.startDate,
         };
 
+        setCursor("wait");
         fetchTableData();
         setEditFormData(formValues);
     };
@@ -114,6 +116,7 @@ function GroupTable() {
 
     const fetchTableData = () => {
         fetchService.fetchApplicantGroups().then((applicantGroups) => {
+            setCursor("pointer");
             setApplicantGroups(applicantGroups.data);
             console.log(applicantGroups);
         });
@@ -121,12 +124,13 @@ function GroupTable() {
 
     const handleCancelClick = () => {
         setEditApplicantGroupId(null);
+        setCursor("wait");
         fetchTableData();
     };
 
     return (
         <form>
-            <Container className="mt-5">
+            <Container style={{"cursor" : cursor}} className="mt-5">
                 <h1>Gruppeoversigt</h1>
                 <GenericTable headers={headers}>
                     {applicantGroups?.map((applicantGroup) => (

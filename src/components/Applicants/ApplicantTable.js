@@ -21,6 +21,7 @@ function ApplicantTable() {
 
     const fetchService = new FetchService();
 
+    const [cursor, setCursor] = useState("pointer");
     const [tableData, setTableData] = useState();
     const [editApplicant, setEditApplicant] = useState(null);
     const [sortBy, setSortedBy] = useState("asc")
@@ -45,10 +46,12 @@ function ApplicantTable() {
     const fetchTableData = () => {
         if (Number(dropDownRef.current.value) === 1) {
             fetchService.fetchApplicants().then((response) => {
+                setCursor("pointer");
                 setTableData(() => response.data);
             });
         } else {
             fetchService.fetchWaitingList().then((response) => {
+                setCursor("pointer");
                 setTableData(() => response.data);
             });
         }
@@ -63,11 +66,13 @@ function ApplicantTable() {
         const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
+        setCursor("pointer");
         setEditFormData(newFormData);
         fetchTableData();
     };
 
     const handleDeleteClick = (applicantId) => {
+        setCursor("wait");
         fetchService.fetchDeleteApplicant(applicantId)
             .then(fetchTableData);
     };
@@ -88,6 +93,7 @@ function ApplicantTable() {
             description: applicant.description,
         };
 
+        setCursor("wait");
         setEditFormData(formValues);
         fetchTableData();
     };
@@ -105,7 +111,7 @@ function ApplicantTable() {
             city: editFormData.city,
             description: editFormData.description,
         };
-
+        setCursor("wait");
         fetchService.fetchPatchApplicant(editFormData.id, editedApplicant)
             .then(fetchTableData)
             .catch((error) => console.log(error));
@@ -116,6 +122,7 @@ function ApplicantTable() {
 
     const handleCancelClick = () => {
         setEditApplicant(null);
+        setCursor("wait");
         fetchTableData();
     };
 
@@ -152,6 +159,7 @@ function ApplicantTable() {
     }
 
     const handleVisitationClick = (bookedDate, applicant) => {
+        setCursor("wait");
         fetchService.fetchVisitationRequest(applicant, bookedDate)
             .then((response) => {
                 fetchTableData()
@@ -160,6 +168,7 @@ function ApplicantTable() {
     };
 
     const handleCancelVisitationClick = (reason, applicant) => {
+        setCursor("wait");
         fetchService.fetchCancelVisitation(applicant, reason)
             .then((response) => {
                 fetchTableData()
@@ -168,6 +177,7 @@ function ApplicantTable() {
     }
 
     const handleConfirmVisitationClick = (applicant) => {
+        setCursor("wait");
         fetchService.fetchConfirmVisitation(applicant)
             .then((response) => {
                 fetchTableData()
