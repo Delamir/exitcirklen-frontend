@@ -202,7 +202,7 @@ function ApplicantTable() {
 
     return (
 
-        <div className="mt-5 mx-5 text-break">
+        <div style={{"cursor" : cursor}} className="mt-5 mx-5 text-break">
             <div className="d-flex justify-content-between">
                 <h1>Klientoversigt</h1>
                 <select

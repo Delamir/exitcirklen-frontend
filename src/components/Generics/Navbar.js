@@ -12,6 +12,7 @@ function NavBar() {
     const clientRef = useRef();
     const groupRef = useRef();
     const employeeRef = useRef();
+    const adminToolsRef = useRef();
 
     const handleLogout = () => {
         authService.logout();
@@ -24,9 +25,11 @@ function NavBar() {
             console.log("ugga");
             groupRef.current.style.display = "none";
             employeeRef.current.style.display = "none";
+            adminToolsRef.current.style.display = "none";
         }
         if (employee.roles[0] === "GRUPPEANSVARLIG") {
             employeeRef.current.style.display = "none";
+            adminToolsRef.current.style.display = "none";
         }
     }, []);
     const employee = authService.getCurrentUser();
@@ -68,7 +71,7 @@ function NavBar() {
                         </Nav>
 
 
-                        <Nav className="dropdownMenu">
+                        <Nav className="dropdownMenu" ref={adminToolsRef}>
                             <Nav.Link>
                             <h4 style={{"display": "inline"}}>
                             <ul>

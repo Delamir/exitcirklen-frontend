@@ -122,7 +122,7 @@ function EmployeeTable() {
 
     return (
         <form>
-            <Container className="mt-5">
+            <Container style={{"cursor" : cursor}} className="mt-5">
                 <h1>Medarbejderoversigt</h1>
                 <GenericTable headers={headers}>
                     {employee?.map((employee) => (
