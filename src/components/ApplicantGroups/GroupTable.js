@@ -32,6 +32,7 @@ function GroupTable() {
 
     const [cursor, setCursor] = useState("pointer");
     const [editApplicantGroupId, setEditApplicantGroupId] = useState(null);
+    const [cityList, setCityList] = useState([]);
     const [applicantGroups, setApplicantGroups] = useState([]);
     const [editFormData, setEditFormData] = useState({
         city: "",
@@ -49,16 +50,25 @@ function GroupTable() {
         fetchTableData();
     }, []);
 
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+        })
+    }, [])
+
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
         const fieldName = event.target.getAttribute("name");
 
-        const fieldValue = event.target.value;
+        let fieldValue = event.target.value;
+        if(fieldName === "city") {
+            fieldValue = cityList[event.target.value]
+        }
+
         const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
-        console.log("hej", editFormData, newFormData[fieldName]);
         setEditFormData(newFormData);
     };
 
@@ -141,7 +151,7 @@ function GroupTable() {
                                     handleEditFormChange={handleEditFormChange}
                                     handleEditFormSubmit={handleEditFormSubmit}
                                     handleCancelClick={handleCancelClick}
-
+                                    cityList={cityList}
                                 />
                             ) : (
                                 <GroupTableReadOnly

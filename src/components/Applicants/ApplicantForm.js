@@ -16,22 +16,30 @@ const ApplicantForm = () => {
     const [gender, setGender] = useState("");
     const [contactChoice, setContactChoice] = useState(1);
     const [willSubscribe, setWillSubscripe] = useState(false);
-    const [city, setCity] = useState("");
+    const [cityList, setCityList] = useState([]);
+    const [city, setCity] = useState();
     const [priority, setPriority] = useState("");
     const [priorityList, setPriorityList] = useState([
         {id: 1, name: "lyngby"},
         {id: 2, name: "amager"},
     ]);
 
+    const fetchService = new FetchService();
+
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+            setCity(response.data[0])
+        })
+    }, [])
+
     const navigate = useNavigate();
 
     const copenhagenOptionRef = useRef(null);
 
-    const fetchService = new FetchService();
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        console.log(city)
         const newApplicant = {
             email: email,
             phoneNumber: phoneNumber,
@@ -65,14 +73,15 @@ const ApplicantForm = () => {
     const handleCityChange = (e) => {
         e.preventDefault();
 
-        setCity(e.currentTarget.value);
-        console.log("ugg", e.currentTarget.value);
-        console.log("bugg", copenhagenOptionRef);
-        if (city === "KØBENHAVN") {
-            copenhagenOptionRef.current.style.display = "block";
-        } else {
-            copenhagenOptionRef.current.style.display = "none";
-        }
+
+        setCity(cityList[e.currentTarget.value]);
+        // console.log("ugg", e.currentTarget.value);
+        // console.log("bugg", copenhagenOptionRef);
+        // if (city === "KØBENHAVN") {
+        //     copenhagenOptionRef.current.style.display = "block";
+        // } else {
+        //     copenhagenOptionRef.current.style.display = "none";
+        // }
     };
 
     const handleContactChoice = (value) => {
@@ -168,21 +177,12 @@ const ApplicantForm = () => {
                         <Form.Label>By hvor du vil have dit forløb:</Form.Label>
                         <Form.Select
                             className="invalid-select"
-                            value={city}
                             required={groupApplicant}
                             onChange={(e) => handleCityChange(e)}
                         >
-                            <option value="" disabled hidden>
-                                Vælg By
-                            </option>
-                            <option value="KØBENHAVN">København</option>
-                            <option value="HILLERØD">Hillerød</option>
-                            <option value="KØGE">Køge</option>
-                            <option value="ODENSE">Odense</option>
-                            <option value="AARHUS">Aarhus</option>
-                            <option value="ESBJERG">Esbjerg</option>
-                            <option value="AALBORG">Aalborg</option>
-                            <option value="NÆSTVED">Næstved</option>
+                            {cityList?.map((cityToChose, index) => (
+                                <option value={index} key={index}>{cityToChose.name}</option>
+                            ))}
                         </Form.Select>
                     </Form.Group>
 

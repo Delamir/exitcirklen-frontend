@@ -42,7 +42,7 @@ function ApplicantTableReadOnly({
 
     return (
         <tr key={applicant.id}>
-            <td>{applicant.city}</td>
+            <td>{applicant.city?.name}</td>
             <td>{applicant.group?.name}</td>
             <td>{applicant.name}</td>
             <td>{applicant.email}</td>

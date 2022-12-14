@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useRef} from "react";
 import FetchService from "../../services/FetchService";
+import {useEffect} from "react";
 
 const GroupForm = () => {
     const [applicantGroup, setGroupApplicant] = useState(false);
@@ -14,7 +15,8 @@ const GroupForm = () => {
     const [groupSize, setGroupSize] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [city, setCity] = useState("");
+    const [cityList, setCityList] = useState([]);
+    const [city, setCity] = useState({});
     const [availableSpots, setAvailableSpots] = useState("");
     const [discount, setDiscount] = useState(false);
 
@@ -23,6 +25,13 @@ const GroupForm = () => {
     const copenhagenOptionRef = useRef(null);
 
     const fetchService = new FetchService();
+
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+            setCity(response.data[0])
+        })
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -68,14 +77,14 @@ const GroupForm = () => {
     const handleCityChange = (e) => {
         e.preventDefault();
 
-        setCity(e.currentTarget.value);
-        console.log("ugg", e.currentTarget.value);
-        console.log("bugg", copenhagenOptionRef);
-        if (city === "KØBENHAVN") {
-            copenhagenOptionRef.current.style.display = "block";
-        } else {
-            copenhagenOptionRef.current.style.display = "none";
-        }
+        setCity(cityList[e.currentTarget.value]);
+        // console.log("ugg", e.currentTarget.value);
+        // console.log("bugg", copenhagenOptionRef);
+        // if (city === "KØBENHAVN") {
+        //     copenhagenOptionRef.current.style.display = "block";
+        // } else {
+        //     copenhagenOptionRef.current.style.display = "none";
+        // }
     };
 
     return (
@@ -95,20 +104,11 @@ const GroupForm = () => {
                     <Form.Label>By hvor du vil have dit forløb:</Form.Label>
                     <Form.Select
                         className="invalid-select"
-                        value={city}
                         onChange={(e) => handleCityChange(e)}
                     >
-                        <option value="" disabled hidden>
-                            Vælg By
-                        </option>
-                        <option value="KØBENHAVN">København</option>
-                        <option value="HILLERØD">Hillerød</option>
-                        <option value="KØGE">Køge</option>
-                        <option value="ODENSE">Odense</option>
-                        <option value="AARHUS">Aarhus</option>
-                        <option value="ESBJERG">Esbjerg</option>
-                        <option value="AALBORG">Aalborg</option>
-                        <option value="NÆSTVED">Næstved</option>
+                        {cityList?.map((cityToChose, index) => (
+                            <option value={index} key={cityToChose.id}>{cityToChose.name}</option>
+                        ))}
                     </Form.Select>
                 </Form.Group>
                 <Form.Group>

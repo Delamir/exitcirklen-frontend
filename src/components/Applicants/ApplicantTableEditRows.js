@@ -7,9 +7,11 @@ function ApplicantTableEditRows({
                                     handleEditFormChange,
                                     handleEditFormSubmit,
                                     handleCancelClick,
+                                    cityList
                                 }) {
 
     const [status, setStatus] = useState([])
+
 
     const fetchService = new FetchService();
 
@@ -19,8 +21,28 @@ function ApplicantTableEditRows({
         })
     }, [])
 
+
+    console.log(editFormData.city)
+
     return (
         <tr>
+            <td>
+                <select className="form-control"
+                        required="required"
+                        name="city"
+                        onChange={handleEditFormChange}>
+                    {cityList?.map((city, index) => {
+                        if (city.id === editFormData.city.id) {
+                            return <option value={index} key={city.id} selected>{city.name}</option>
+                        }
+                        return <option value={index} key={city.id}>{city.name}</option>
+                    })
+                    }
+                </select>
+            </td>
+            <td>
+                {editFormData.group?.name}
+            </td>
             <td>
                 <input
                     className="form-control"
@@ -28,16 +50,6 @@ function ApplicantTableEditRows({
                     required="required"
                     name="name"
                     value={editFormData.name}
-                    onChange={handleEditFormChange}
-                />
-            </td>
-            <td>
-                <input
-                    className="form-control"
-                    type="number"
-                    required="required"
-                    name="age"
-                    value={editFormData.age}
                     onChange={handleEditFormChange}
                 />
             </td>
@@ -62,15 +74,14 @@ function ApplicantTableEditRows({
                 />
             </td>
             <td>
-                <select className="form-control"
-                        required="required"
-                        name="status"
-                        value={editFormData.status}
-                        onChange={handleEditFormChange}>
-                    {status?.map((statuses, index) => (
-                        <option value={statuses} key={index}>{statuses}</option>
-                    ))}
-                </select>
+                <input
+                    className="form-control"
+                    type="number"
+                    required="required"
+                    name="age"
+                    value={editFormData.age}
+                    onChange={handleEditFormChange}
+                />
             </td>
             <td>
                 <input
@@ -87,20 +98,21 @@ function ApplicantTableEditRows({
                     className="form-control"
                     type="text"
                     required="required"
-                    name="city"
-                    value={editFormData.city}
-                    onChange={handleEditFormChange}
-                />
-            </td>
-            <td>
-                <input
-                    className="form-control"
-                    type="text"
-                    required="required"
                     name="description"
                     value={editFormData.description}
                     onChange={handleEditFormChange}
                 />
+            </td>
+            <td>
+                <select className="form-control"
+                        required="required"
+                        name="status"
+                        value={editFormData.status}
+                        onChange={handleEditFormChange}>
+                    {status?.map((statuses, index) => (
+                        <option value={statuses} key={index}>{statuses.replace("_", " ")}</option>
+                    ))}
+                </select>
             </td>
             <td className="d-flex gap-3 justify-content-center text-nowrap">
                 <button

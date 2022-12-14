@@ -15,7 +15,8 @@ const Group = () => {
     const [groupSize, setGroupSize] = useState();
     const [description, setDescription] = useState();
     const [price, setPrice] = useState();
-    const [city, setCity] = useState();
+    const [cityList, setCityList] = useState([])
+    const [city, setCity] = useState({});
     const [name, setName] = useState();
     const [availableSpots, setAvailableSpots] = useState();
 
@@ -29,6 +30,12 @@ const Group = () => {
     useEffect(() => {
         fetchData();
     }, [id]);
+
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+        })
+    }, [])
 
     const fetchData = () => {
 
@@ -101,14 +108,14 @@ const Group = () => {
     const handleCityChange = (e) => {
         e.preventDefault();
 
-        setCity(e.currentTarget.value);
-        console.log("ugg", e.currentTarget.value);
-        console.log("bugg", copenhagenOptionRef);
-        if (city === "KØBENHAVN") {
-            copenhagenOptionRef.current.style.display = "block";
-        } else {
-            copenhagenOptionRef.current.style.display = "none";
-        }
+        setCity(cityList[e.currentTarget.value]);
+        // console.log("ugg", e.currentTarget.value);
+        // console.log("bugg", copenhagenOptionRef);
+        // if (city === "KØBENHAVN") {
+        //     copenhagenOptionRef.current.style.display = "block";
+        // } else {
+        //     copenhagenOptionRef.current.style.display = "none";
+        // }
     };
 
     return (<>
@@ -195,20 +202,15 @@ const Group = () => {
             <Form.Label>By hvor du vil have dit forløb:</Form.Label>
             <Form.Select
                 className="invalid-select"
-                value={city}
                 onChange={(e) => handleCityChange(e)}
             >
-                <option value="" disabled hidden>
-                    Vælg By
-                </option>
-                <option value="KØBENHAVN">København</option>
-                <option value="HILLERØD">Hillerød</option>
-                <option value="KØGE">Køge</option>
-                <option value="ODENSE">Odense</option>
-                <option value="AARHUS">Aarhus</option>
-                <option value="ESBJERG">Esbjerg</option>
-                <option value="AALBORG">Aalborg</option>
-                <option value="NÆSTVED">Næstved</option>
+                {cityList?.map((cityFromList, index) => {
+                    if (cityFromList.id === city.id) {
+                        return <option value={index} key={cityFromList.id} selected>{cityFromList.name}</option>
+                    }
+                    return <option value={index} key={cityFromList.id}>{cityFromList.name}</option>
+                })
+                }
             </Form.Select>
         </Form.Group>
 

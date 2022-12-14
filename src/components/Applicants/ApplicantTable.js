@@ -25,6 +25,7 @@ function ApplicantTable() {
     const [tableData, setTableData] = useState();
     const [editApplicant, setEditApplicant] = useState(null);
     const [sortBy, setSortedBy] = useState("asc")
+    const [cityList, setCityList] = useState([])
     const [clickedTableHeadIndex, setClickedTableHeadIndex] = useState(-1)
     const [editFormData, setEditFormData] = useState({
         name: "",
@@ -43,11 +44,18 @@ function ApplicantTable() {
         fetchTableData();
     }, []);
 
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+        })
+    }, [])
+
     const fetchTableData = () => {
         if (Number(dropDownRef.current.value) === 1) {
             fetchService.fetchApplicants().then((response) => {
                 setCursor("pointer");
                 setTableData(() => response.data);
+                console.log(response.data, " TABLEDATA")
             });
         } else {
             fetchService.fetchWaitingList().then((response) => {
@@ -61,11 +69,16 @@ function ApplicantTable() {
         event.preventDefault();
 
         const fieldName = event.target.getAttribute("name");
-        const fieldValue = event.target.value;
+        let fieldValue = event.target.value;
+        if(fieldName === "city") {
+            fieldValue = cityList[event.target.value]
+        }
+
 
         const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
+        console.log(newFormData)
         setCursor("pointer");
         setEditFormData(newFormData);
         fetchTableData();
@@ -81,6 +94,7 @@ function ApplicantTable() {
         event.preventDefault();
         setEditApplicant(applicant.id);
 
+
         const formValues = {
             id: applicant.id,
             name: applicant.name,
@@ -93,6 +107,7 @@ function ApplicantTable() {
             description: applicant.description,
         };
 
+
         setCursor("wait");
         setEditFormData(formValues);
         fetchTableData();
@@ -100,7 +115,6 @@ function ApplicantTable() {
 
     const handleEditFormSubmit = (event) => {
         event.preventDefault();
-
         const editedApplicant = {
             name: editFormData.name,
             age: editFormData.age,
@@ -185,6 +199,7 @@ function ApplicantTable() {
             })
     }
 
+
     return (
 
         <div className="mt-5 mx-5 text-break">
@@ -239,6 +254,7 @@ function ApplicantTable() {
                                             handleEditFormSubmit
                                         }
                                         handleCancelClick={handleCancelClick}
+                                        cityList={cityList}
                                     />
                                 ) : (
                                     <ApplicantTableReadOnly

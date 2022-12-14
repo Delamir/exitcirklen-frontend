@@ -5,19 +5,25 @@ const GroupTableEditRows = ({
     handleEditFormChange,
     handleEditFormSubmit,
     handleCancelClick,
+    cityList
 }) => {
     return (
         <tr>
             <td>
-                <input
+                <select
                     className="form-control"
-                    type="text"
                     required="required"
-                    placeholder="Skriv en by..."
                     name="city"
-                    value={editFormData.city}
                     onChange={handleEditFormChange}
-                />
+                >
+                    {cityList?.map((city, index) => {
+                        if (city.id === editFormData.city.id) {
+                            return <option value={index} key={city.id} selected>{city.name}</option>
+                        }
+                        return <option value={index} key={city.id}>{city.name}</option>
+                    })
+                    }
+                </select>
             </td>
             <td>
                 <input

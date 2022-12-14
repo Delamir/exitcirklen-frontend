@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Container, Form, FormGroup} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import FetchService from "../../services/FetchService";
+import {responsiveFontSizes} from "@mui/material";
 
 const Applicant = () => {
 
@@ -20,7 +21,8 @@ const Applicant = () => {
     const [contactText, setContactText] = useState(false);
     const [description, setDescription] = useState("");
     const [paidStatus, setPaidStatus] = useState(false)
-    const [city, setCity] = useState("");
+    const [cityList, setCityList] = useState([])
+    const [city, setCity] = useState({});
     const [priority, setPriority] = useState("");
     const [priorityList, setPriorityList] = useState([
         {id: 1, name: "lyngby"},
@@ -37,6 +39,12 @@ const Applicant = () => {
     useEffect(() => {
         fetchApplicant();
     }, []);
+
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+        })
+    }, [])
 
     useEffect(() => {
         fetchService.fetchApplicantStatus().then((response) => {
@@ -164,15 +172,20 @@ const Applicant = () => {
                 <div className="d-flex gap-3">
                     <Form.Group className="mb-3">
                         <Form.Label>By</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Indtast by"
+                        <Form.Select
                             required
-                            value={city}
                             onChange={(e) =>
-                                setPhoneNumber(e.currentTarget.value)
+                                setCity(cityList[e.currentTarget.value])
                             }
-                        />
+                        >
+                            {cityList?.map((cityFromList, index) => {
+                                if (cityFromList.id === city.id) {
+                                    return <option value={index} key={cityFromList.id} selected>{cityFromList.name}</option>
+                                }
+                                return <option value={index} key={cityFromList.id}>{cityFromList.name}</option>
+                            })
+                            }
+                        </Form.Select>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Status</Form.Label>
