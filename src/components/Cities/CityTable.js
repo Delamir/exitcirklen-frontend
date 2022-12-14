@@ -50,6 +50,7 @@ function CityTable() {
         const newFormData = {...editFormData};
         newFormData[fieldName] = fieldValue;
 
+        setCursor("wait");
         setEditFormData(newFormData);
         fetchTableData();
     };
@@ -99,7 +100,7 @@ function CityTable() {
 
     return (
         <form>
-            <Container className="mt-5">
+            <Container style={{"cursor" : cursor}} className="mt-5">
                 <h1>Byoversigt</h1>
                 <GenericTable headers={headers}>
                     {tableData?.map((city) => (
