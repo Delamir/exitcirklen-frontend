@@ -12,7 +12,8 @@ const EmployeeForm = () => {
     const [responsibility, setResponsibility] = useState();
     const [responsibilityList, setResponsibilityList] = useState([]);
     const [password, setPassword] = useState("");
-    const [city, setCity] = useState("");
+    const [cityList, setCityList] = useState([]);
+    const [city, setCity] = useState({});
     const [employee, setEmployee] = useState("");
 
     const fetchService = new FetchService();
@@ -23,6 +24,13 @@ const EmployeeForm = () => {
             if (!responsibility) setResponsibility(response.data[0]);
         });
     }, []);
+
+    useEffect(() => {
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+            setCity(response.data[0])
+        })
+    }, [])
 
     const navigate = useNavigate();
 
@@ -60,7 +68,7 @@ const EmployeeForm = () => {
     const handleCityChange = (e) => {
         e.preventDefault();
 
-        setCity(e.currentTarget.value);
+        setCity(cityList[e.currentTarget.value]);
     };
 
     return (
@@ -101,20 +109,11 @@ const EmployeeForm = () => {
                     <Form.Label>By:</Form.Label>
                     <Form.Select
                         className="invalid-select"
-                        value={city}
                         onChange={(e) => handleCityChange(e)}
                     >
-                        <option value="" disabled hidden>
-                            Vælg By
-                        </option>
-                        <option value="KØBENHAVN">København</option>
-                        <option value="HILLERØD">Hillerød</option>
-                        <option value="KØGE">Køge</option>
-                        <option value="ODENSE">Odense</option>
-                        <option value="AARHUS">Aarhus</option>
-                        <option value="ESBJERG">Esbjerg</option>
-                        <option value="AALBORG">Aalborg</option>
-                        <option value="NÆSTVED">Næstved</option>
+                        {cityList?.map((cityToChose, index) => (
+                            <option value={index} key={cityToChose.id}>{cityToChose.name}</option>
+                        ))}
                     </Form.Select>
                 </Form.Group>
 

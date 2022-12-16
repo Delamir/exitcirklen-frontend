@@ -15,6 +15,7 @@ function EmployeeTable() {
         "E-mail",
         "Telefonnummer",
         "Ansvarsområde",
+        "By",
         <>
             <span className="d-flex flex-row-reverse">
                 <button
@@ -32,6 +33,7 @@ function EmployeeTable() {
 
     const [cursor, setCursor] = useState("pointer");
     const [editEmployeeId, setEditEmployeeId] = useState(null);
+    const [cityList, setCityList] = useState([]);
     const [employee, setEmployee] = useState([]);
     const [editFormData, setEditFormData] = useState({
         name: "",
@@ -39,6 +41,7 @@ function EmployeeTable() {
         email: "",
         phoneNumber: "",
         responsibility: "",
+        city: "",
     });
 
     const fetchTableData = () => {
@@ -51,13 +54,19 @@ function EmployeeTable() {
 
     useEffect(() => {
         fetchTableData();
+        fetchService.fetchCities().then((response) => {
+            setCityList(response.data)
+        })
     }, []);
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
         const fieldName = event.target.getAttribute("name");
 
-        const fieldValue = event.target.value;
+        let fieldValue = event.target.value;
+        if(fieldName === "city") {
+            fieldValue = cityList[event.target.value]
+        }
         const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;
 
@@ -75,6 +84,7 @@ function EmployeeTable() {
             email: editFormData.email,
             phoneNumber: editFormData.phoneNumber,
             responsibility: editFormData.responsibility,
+            city: editFormData.city
         };
         console.log("HANDLE EDIT FORM ");
         console.log(editFormData);
@@ -82,7 +92,7 @@ function EmployeeTable() {
 
         setCursor("wait");
         fetchService
-            .fetchPutEmployee(editFormData.id, editedEmployee)
+            .fetchPatchEmployee(editFormData.id, editedEmployee)
             .then(fetchTableData)
             .catch((error) => console.log(error));
 
@@ -133,6 +143,7 @@ function EmployeeTable() {
                                     handleEditFormChange={handleEditFormChange}
                                     handleEditFormSubmit={handleEditFormSubmit}
                                     handleCancelClick={handleCancelClick}
+                                    cityList={cityList}
                                 />
                             ) : (
                                 <EmployeeTableReadOnly

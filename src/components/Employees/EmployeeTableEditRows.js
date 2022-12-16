@@ -3,12 +3,12 @@ import {useEffect, useState} from "react";
 import FetchService from "../../services/FetchService";
 
 
-
 const EmployeeTableEditRows = ({
                                    editFormData,
                                    handleEditFormChange,
                                    handleEditFormSubmit,
                                    handleCancelClick,
+                                   cityList
                                }) => {
 
     const [responsibility, setResponsibility] = useState([])
@@ -73,7 +73,23 @@ const EmployeeTableEditRows = ({
                     {responsibility?.map((responsibilities, index) => (
                         <option value={responsibilities} key={index}>{responsibilities}</option>
                     ))}
-            </select>
+                </select>
+            </td>
+            <td>
+                <select
+                    className="form-control"
+                    required="required"
+                    name="city"
+                    onChange={handleEditFormChange}
+                >
+                    {cityList?.map((city, index) => {
+                        if (city.id === editFormData.city.id) {
+                            return <option value={index} key={city.id} selected>{city.name}</option>
+                        }
+                        return <option value={index} key={city.id}>{city.name}</option>
+                    })
+                    }
+                </select>
             </td>
             <td className="d-flex gap-3 justify-content-center">
                 <button

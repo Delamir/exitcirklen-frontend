@@ -11,6 +11,10 @@ class FetchService {
         return await axios.get("/applicants/" + id)
     }
 
+    async fetchApplicantsByCity(cityId) {
+        return await axios.get("applicants/by/" + cityId)
+    }
+
     async fetchPatchApplicant(id, editedApplicant) {
         return await axios.patch("/applicants/" + id, editedApplicant)
     }
@@ -29,6 +33,10 @@ class FetchService {
 
     async fetchWaitingList() {
         return await axios.get("/applicants/waiting-list");
+    }
+
+    async fetchWaitingListByCity(cityId) {
+        return await axios.get("/applicants/waiting-list/" + cityId);
     }
 
     async fetchVisitationRequest(applicant, date) {
@@ -100,6 +108,10 @@ class FetchService {
 
     async fetchPutEmployee(id, employee) {
         return await axios.put("/employees/" + id, employee)
+    }
+
+    async fetchPatchEmployee(id, employee) {
+        return await  axios.patch("/employees/" + id, employee)
     }
 
     async fetchDeleteEmployee(id) {

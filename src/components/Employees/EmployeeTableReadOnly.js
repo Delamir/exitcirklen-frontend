@@ -13,6 +13,7 @@ const EmployeeTableReadOnly = ({
             <td>{employee.email}</td>
             <td>{employee.phoneNumber}</td>
             <td>{employee.role}</td>
+            <td>{employee.city?.name}</td>
             <td className="d-flex gap-3 justify-content-center">
                 <button
                     type="button"

@@ -3,6 +3,7 @@ import {Fragment, useState, useEffect, useRef} from "react";
 import FetchService from "../../services/FetchService";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableReadOnly from "./ApplicantTableReadOnly";
+import AuthService from "../../services/auth.service";
 
 function ApplicantTable() {
     const headers =
@@ -39,29 +40,43 @@ function ApplicantTable() {
     });
 
     const dropDownRef = useRef("1");
+    const employee = AuthService.getCurrentUser();
 
     useEffect(() => {
         fetchTableData();
-    }, []);
-
-    useEffect(() => {
         fetchService.fetchCities().then((response) => {
             setCityList(response.data)
         })
     }, [])
 
+
     const fetchTableData = () => {
-        if (Number(dropDownRef.current.value) === 1) {
-            fetchService.fetchApplicants().then((response) => {
-                setCursor("pointer");
-                setTableData(() => response.data);
-                console.log(response.data, " TABLEDATA")
-            });
+        if(employee.roles[0] === "ADMINISTRATOR") {
+            if (Number(dropDownRef.current.value) === 1) {
+                fetchService.fetchApplicants().then((response) => {
+                    setCursor("pointer");
+                    setTableData(() => response.data);
+                    console.log(response.data, " TABLEDATA")
+                });
+            } else {
+                fetchService.fetchWaitingList().then((response) => {
+                    setCursor("pointer");
+                    setTableData(() => response.data);
+                });
+            }
         } else {
-            fetchService.fetchWaitingList().then((response) => {
-                setCursor("pointer");
-                setTableData(() => response.data);
-            });
+            if (Number(dropDownRef.current.value) === 1) {
+                fetchService.fetchApplicantsByCity(employee.city.id).then((response) => {
+                    setCursor("pointer");
+                    setTableData(() => response.data);
+                    console.log(response.data, " TABLEDATA")
+                });
+            } else {
+                fetchService.fetchWaitingListByCity(employee.city.id).then((response) => {
+                    setCursor("pointer");
+                    setTableData(() => response.data);
+                });
+            }
         }
     };
 
