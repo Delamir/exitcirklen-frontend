@@ -5,6 +5,7 @@ import GroupTableReadOnly from "./GroupTableReadOnly";
 import GroupTableEditRows from "./GroupTableEditRows";
 import {useNavigate} from "react-router-dom";
 import FetchService from "../../services/FetchService";
+import AuthService from "../../services/auth.service";
 
 function GroupTable() {
 
@@ -124,12 +125,21 @@ function GroupTable() {
         navigate(`/gruppe/${applicantGroup.id}`);
     };
 
+    const employee = AuthService.getCurrentUser();
+
     const fetchTableData = () => {
-        fetchService.fetchApplicantGroups().then((applicantGroups) => {
-            setCursor("pointer");
-            setApplicantGroups(applicantGroups.data);
-            console.log(applicantGroups);
-        });
+        if (employee.roles[0] === "ADMINISTRATOR") {
+            fetchService.fetchApplicantGroups().then((applicantGroups) => {
+                setCursor("pointer");
+                setApplicantGroups(applicantGroups.data);
+                console.log(applicantGroups);
+            });
+        } else {
+            fetchService.fetchApplicantGroupByCity(employee.city.id).then((applicantGroups) => {
+                setCursor("pointer");
+                setApplicantGroups(applicantGroups.data);
+            })
+        }
     };
 
     const handleCancelClick = () => {

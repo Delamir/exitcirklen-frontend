@@ -77,6 +77,10 @@ class FetchService {
         return await axios.get("/groups");
     }
 
+    async fetchApplicantGroupByCity(cityId) {
+        return await axios.get("/groups/by/" + cityId)
+    }
+
     async fetchGroupsSendInvites(id, inviteList) {
         return await axios.post("/groups/" + id + "/send-invites", inviteList)
     }
