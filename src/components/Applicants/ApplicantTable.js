@@ -219,14 +219,14 @@ function ApplicantTable() {
 
         <div style={{"cursor" : cursor}} className="mt-5 mx-5 text-break">
             <div className="d-flex justify-content-between">
-                <h1>Klientoversigt</h1>
+                <h1>Venteliste</h1>
                 <select
                     ref={dropDownRef}
                     onChange={fetchTableData}
                     className="mt-3"
                 >
-                    <option value="1">Klientoversigt</option>
-                    <option value="2">Venteliste</option>
+                    <option value="1">Venteliste</option>
+                    {/*<option value="2">Venteliste</option>*/}
                 </select>
             </div>
             <form className="form-horizontal">

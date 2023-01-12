@@ -55,7 +55,7 @@ function NavBar() {
                     >
                         <Nav ref={clientRef}>
                             <Nav.Link as={Link} to={"/klientoversigt"}>
-                                <h4>Klientoversigt</h4>
+                                <h4>Venteliste</h4>
                             </Nav.Link>
                         </Nav>
 

@@ -163,9 +163,9 @@ const Applicant = () => {
                             value={gender}
                             onChange={(e) => setGender(e.currentTarget.value)}
                         >
-                            <option value="0">Kvinde</option>
-                            <option value="1">Mand</option>
-                            <option value="2">Non-binær</option>
+                            <option value="Female">Kvinde</option>
+                            <option value="Male">Mand</option>
+                            <option value="Non-binary">Non-binær</option>
                         </Form.Select>
                     </Form.Group>
                 </div>

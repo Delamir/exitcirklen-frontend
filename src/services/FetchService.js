@@ -103,7 +103,7 @@ class FetchService {
     }
 
     async fetchEmployeeResponsibility() {
-        return await axios.get("/employee/responsibility");
+        return await axios.get("/employees/responsibility");
     }
 
     async fetchCreateEmployee(employee) {

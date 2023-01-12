@@ -51,6 +51,7 @@ const ApplicantForm = () => {
             newApplicant.name = name;
             newApplicant.age = age;
             newApplicant.gender = gender;
+            newApplicant.contactEmail = Number(contactChoice) === 3
             newApplicant.contactCall = Number(contactChoice) === 2;
             newApplicant.contactText = Number(contactChoice) === 1;
             console.log(contactChoice);
@@ -95,7 +96,7 @@ const ApplicantForm = () => {
                     <Form.Label>Medlemstype:</Form.Label>
                     <Form.Check
                         type="radio"
-                        label="Jeg vil gerne melde mig som et støttemedlem"
+                        label="Jeg vil gerne oprettes som støttemedlem"
                         name="applicant-type"
                         checked={!groupApplicant}
                         onChange={(e) =>
@@ -104,7 +105,7 @@ const ApplicantForm = () => {
                     />
                     <Form.Check
                         type="radio"
-                        label="Jeg vil gerne komme ind i et gruppeforløb"
+                        label="Jeg vil gerne tilmeldes et gruppeforløb"
                         name="applicant-type"
                         checked={groupApplicant}
                         onChange={(e) =>
@@ -174,7 +175,7 @@ const ApplicantForm = () => {
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label>By hvor du vil have dit forløb:</Form.Label>
+                        <Form.Label>By hvor jeg ønsker at deltage i et gruppeforløb</Form.Label>
                         <Form.Select
                             className="invalid-select"
                             required={groupApplicant}
@@ -199,9 +200,10 @@ const ApplicantForm = () => {
                     </ReactSortable>
 
                     <Form.Group className="mb-3">
+                        <Form.Label> I må gerne kontakte mig vedrørende visitationssamtale og pladstilbud:</Form.Label>
                         <Form.Check
                             type="radio"
-                            label="Jeg vil gerne kontaktes via en opringning"
+                            label="via opkald"
                             name="contact-choice"
                             value="1"
                             checked={contactChoice === 1}
@@ -212,10 +214,21 @@ const ApplicantForm = () => {
 
                         <Form.Check
                             type="radio"
-                            label="Jeg vil gerne kontaktes via SMS"
+                            label="via sms"
                             name="contact-choice"
                             value="2"
                             checked={contactChoice === 2}
+                            onChange={(e) =>
+                                setContactChoice(Number(e.currentTarget.value))
+                            }
+                        />
+
+                        <Form.Check
+                            type="radio"
+                            label="via e-mail"
+                            name="contact-choice"
+                            value="3"
+                            checked={contactChoice === 3}
                             onChange={(e) =>
                                 setContactChoice(Number(e.currentTarget.value))
                             }
