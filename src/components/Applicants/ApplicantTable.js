@@ -52,6 +52,7 @@ function ApplicantTable() {
 
     const fetchTableData = () => {
         if(employee.roles[0] === "ADMINISTRATOR") {
+            console.log("ADMIN HEJ")
             if (Number(dropDownRef.current.value) === 1) {
                 fetchService.fetchApplicants().then((response) => {
                     setCursor("pointer");
@@ -65,6 +66,7 @@ function ApplicantTable() {
                 });
             }
         } else {
+            console.log("ADMIN ELSE HEJ")
             if (Number(dropDownRef.current.value) === 1) {
                 fetchService.fetchApplicantsByCity(employee.city.id).then((response) => {
                     setCursor("pointer");
