@@ -1,30 +1,32 @@
+import { InteractionType } from "@azure/msal-browser";
+import { useMsalAuthentication } from "@azure/msal-react";
 import axios from "axios";
+import { loginRequest, protectedResources } from "../configs/authConfig";
 
 class FetchService {
-
     /////////////Applicant/////////////
     async fetchApplicants() {
         return await axios.get("/applicants");
     }
 
     async fetchApplicant(id) {
-        return await axios.get("/applicants/" + id)
+        return await axios.get("/applicants/" + id);
     }
 
     async fetchApplicantsByCity(cityId) {
-        return await axios.get("applicants/by/" + cityId)
+        return await axios.get("applicants/by/" + cityId);
     }
 
     async fetchPatchApplicant(id, editedApplicant) {
-        return await axios.patch("/applicants/" + id, editedApplicant)
+        return await axios.patch("/applicants/" + id, editedApplicant);
     }
 
     async fetchCreateApplicant(applicant) {
-        return await axios.post("/applicants", applicant)
+        return await axios.post("/applicants", applicant);
     }
 
     async fetchDeleteApplicant(id) {
-        return await axios.delete("/applicants/" + id)
+        return await axios.delete("/applicants/" + id);
     }
 
     async fetchApplicantStatus() {
@@ -42,26 +44,26 @@ class FetchService {
     async fetchVisitationRequest(applicant, date) {
         return await axios.post("/applicants/visitation-request", {
             applicant: applicant,
-            time: date
-        })
+            time: date,
+        });
     }
 
     async fetchCancelVisitation(applicant, reason) {
         return await axios.post("/applicants/cancel-visitation", {
             applicant: applicant,
-            reason: reason
-        })
+            reason: reason,
+        });
     }
     async fetchConfirmVisitation(applicant) {
-        return await axios.post("/applicants/confirm-visitation", applicant)
+        return await axios.post("/applicants/confirm-visitation", applicant);
     }
 
     async fetchSendEmail() {
-        return await axios.get("/applicants/send")
+        return await axios.get("/applicants/send");
     }
 
     async fetchSurvey(id, answers) {
-        return await axios.post("/applicants/" + id + "/survey", answers)
+        return await axios.post("/applicants/" + id + "/survey", answers);
     }
 
     async fetchTestAdmin() {
@@ -70,7 +72,7 @@ class FetchService {
 
     ////////////Group////////////////
     async fetchApplicantGroup(id) {
-        return await axios.get("/groups/" + id)
+        return await axios.get("/groups/" + id);
     }
 
     async fetchApplicantGroups() {
@@ -78,23 +80,23 @@ class FetchService {
     }
 
     async fetchApplicantGroupByCity(cityId) {
-        return await axios.get("/groups/by/" + cityId)
+        return await axios.get("/groups/by/" + cityId);
     }
 
     async fetchGroupsSendInvites(id, inviteList) {
-        return await axios.post("/groups/" + id + "/send-invites", inviteList)
+        return await axios.post("/groups/" + id + "/send-invites", inviteList);
     }
 
     async fetchPatchApplicantGroup(id, editedApplicantGroup) {
-        return await axios.patch("/groups/" + id, editedApplicantGroup)
+        return await axios.patch("/groups/" + id, editedApplicantGroup);
     }
 
     async fetchCreateApplicantGroup(applicantGroup) {
-        return await axios.post("/groups", applicantGroup)
+        return await axios.post("/groups", applicantGroup);
     }
 
     async fetchDeleteApplicantGroup(id) {
-        return await axios.delete("/groups/" + id)
+        return await axios.delete("/groups/" + id);
     }
 
     ///////////Employee//////////////
@@ -107,40 +109,65 @@ class FetchService {
     }
 
     async fetchCreateEmployee(employee) {
-        return await axios.post("/employees", employee)
+        return await axios.post("/employees", employee);
     }
 
     async fetchPutEmployee(id, employee) {
-        return await axios.put("/employees/" + id, employee)
+        return await axios.put("/employees/" + id, employee);
     }
 
     async fetchPatchEmployee(id, employee) {
-        return await  axios.patch("/employees/" + id, employee)
+        return await axios.patch("/employees/" + id, employee);
     }
 
     async fetchDeleteEmployee(id) {
-        return await axios.delete("/employees/" + id)
+        return await axios.delete("/employees/" + id);
+    }
+
+    async getCurrentUser() {
+        return await axios.get("/employees/current");
     }
 
     ///////////City//////////////
     async fetchCity(id) {
-        return await axios.get("/cities/" + id)
+        return await axios.get("/cities/" + id);
     }
 
-    async fetchCities() {
-        return await axios.get("/cities");
+    async fetchCities(token) {
+        console.log(token, "TOKEN");
+        // this.callApi(token);
+        return await axios.get("/");
+    }
+
+    /**
+     * Attaches a given access token to a Microsoft Graph API call. Returns information about the user
+     */
+    async callApi(accessToken) {
+        const headers = new Headers();
+        const bearer = `Bearer ${accessToken}`;
+
+        headers.append("Authorization", bearer);
+
+        const options = {
+            method: "GET",
+            headers: headers,
+        };
+
+        return fetch("http://localhost:8081/cities", options)
+            .then((response) => response.json())
+            .catch((error) => console.log(error));
     }
 
     async fetchCreateCity(city) {
-        return await axios.post("/cities", city)
+        return await axios.post("/cities", city);
     }
 
     async fetchPutCity(id, editedCity) {
-        return await axios.put("/cities/" + id, editedCity)
+        return await axios.put("/cities/" + id, editedCity);
     }
 
     async fetchDeleteCity(id) {
-        return await axios.delete("/cities/" + id)
+        return await axios.delete("/cities/" + id);
     }
 }
 export default FetchService;

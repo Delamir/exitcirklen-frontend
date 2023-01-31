@@ -3,7 +3,7 @@ import axios from "axios";
 class AuthService {
     login(email, password) {
         return axios
-            .post( "/auth/signin", {
+            .post("/auth/signin", {
                 email,
                 password,
             })
@@ -39,8 +39,13 @@ class AuthService {
         });
     }
 
-    getCurrentUser() {
-        return JSON.parse(localStorage.getItem("user"));
+    getCurrentUser(instance) {
+        
+        if (localStorage.getItem("user"))
+            return JSON.parse(localStorage.getItem("user"));
+        
+        axios.get("/auth/",instance.getActiveAccount().username);
+
     }
 
     refreshToken() {

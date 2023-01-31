@@ -7,8 +7,45 @@ import "./App.scss";
 import axios from "axios";
 import authService from "./services/auth.service";
 
-axios.defaults.baseURL = "http://localhost:8081";
+import {
+    PublicClientApplication,
+    EventType,
+    EventMessage,
+    AuthenticationResult,
+} from "@azure/msal-browser";
+import { msalConfig } from "./configs/authConfig";
+import { useMsalAuthentication } from "@azure/msal-react";
 
+/**
+ * MSAL should be instantiated outside of the component tree to prevent it from being re-instantiated on re-renders.
+ * For more, visit: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-react/docs/getting-started.md
+ */
+const msalInstance = new PublicClientApplication(msalConfig);
+
+// Default to using the first account if no account is active on page load
+if (
+    !msalInstance.getActiveAccount() &&
+    msalInstance.getAllAccounts().length > 0
+) {
+    // Account selection logic is app dependent. Adjust as needed for different use cases.
+    msalInstance.setActiveAccount(msalInstance.getAllAccounts()[0]);
+}
+
+// Optional - This will update account state if a user signs in from another tab or window
+msalInstance.enableAccountStorageEvents();
+
+// Listen for sign-in event and set active account
+msalInstance.addEventCallback((event) => {
+    if (event.eventType === EventType.LOGIN_SUCCESS && event.payload.account) {
+        const account = event.payload.account;
+        msalInstance.setActiveAccount(account);
+    }
+});
+
+axios.defaults.baseURL = "http://localhost:8081";
+axios.defaults.headers.common["Authorization"] = "Bearer " + "startvalue";
+
+/*
 axios.interceptors.response.use(
     (res) => {
         return res;
@@ -53,12 +90,12 @@ axios.interceptors.response.use(
         return Promise.reject(err);
     }
 );
-
+*/
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <App />
+            <App instance={msalInstance} />
         </BrowserRouter>
     </React.StrictMode>
 );

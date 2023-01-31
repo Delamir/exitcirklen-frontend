@@ -1,33 +1,33 @@
-import {Table} from "react-bootstrap";
-import {Fragment, useState, useEffect, useRef} from "react";
+import { Table } from "react-bootstrap";
+import { Fragment, useState, useEffect, useRef } from "react";
 import FetchService from "../../services/FetchService";
 import ApplicantTableEditRows from "./ApplicantTableEditRows";
 import ApplicantTableReadOnly from "./ApplicantTableReadOnly";
 import AuthService from "../../services/auth.service";
+import { useMsal } from "@azure/msal-react";
 
 function ApplicantTable() {
-    const headers =
-        {
-            "city": "By",
-            "group": "Gruppe",
-            "name": "Navn",
-            "email": "E-mail",
-            "phoneNumber": "Telefonnummer",
-            "age": "Alder",
-            "lastChanged": "I Status Siden",
-            "description": "Bemærkning",
-            "status": "Status",
-            "actions": "Handlinger"
-        };
+    const headers = {
+        city: "By",
+        group: "Gruppe",
+        name: "Navn",
+        email: "E-mail",
+        phoneNumber: "Telefonnummer",
+        age: "Alder",
+        lastChanged: "I Status Siden",
+        description: "Bemærkning",
+        status: "Status",
+        actions: "Handlinger",
+    };
 
     const fetchService = new FetchService();
 
     const [cursor, setCursor] = useState("pointer");
     const [tableData, setTableData] = useState();
     const [editApplicant, setEditApplicant] = useState(null);
-    const [sortBy, setSortedBy] = useState("asc")
-    const [cityList, setCityList] = useState([])
-    const [clickedTableHeadIndex, setClickedTableHeadIndex] = useState(-1)
+    const [sortBy, setSortedBy] = useState("asc");
+    const [cityList, setCityList] = useState([]);
+    const [clickedTableHeadIndex, setClickedTableHeadIndex] = useState(-1);
     const [editFormData, setEditFormData] = useState({
         name: "",
         age: "",
@@ -38,25 +38,36 @@ function ApplicantTable() {
         city: "",
         description: "",
     });
+    const [employee, setEmployee] = useState();
 
     const dropDownRef = useRef("1");
-    const employee = AuthService.getCurrentUser();
+    const { instance } = useMsal();
+    console.log("instance", instance.getActiveAccount().username);
 
     useEffect(() => {
+        if (!employee) {
+            fetchService
+                .getCurrentUser(instance.getActiveAccount())
+                .then((res) => {
+                    setEmployee(res);
+                    console.log("employee", res);
+                });
+        }
+        console.log(instance.getActiveAccount());
         fetchTableData();
         fetchService.fetchCities().then((response) => {
-            setCityList(response.data)
-        })
-    }, [])
-
+            setCityList(response.data);
+        });
+    }, [employee]);
 
     const fetchTableData = () => {
-        if(employee.roles[0] === "ADMINISTRATOR") {
+        console.log(employee);
+        if (true) {
             if (Number(dropDownRef.current.value) === 1) {
                 fetchService.fetchApplicants().then((response) => {
                     setCursor("pointer");
                     setTableData(() => response.data);
-                    console.log(response.data, " TABLEDATA")
+                    console.log(response.data, " TABLEDATA");
                 });
             } else {
                 fetchService.fetchWaitingList().then((response) => {
@@ -65,18 +76,24 @@ function ApplicantTable() {
                 });
             }
         } else {
+            /*
             if (Number(dropDownRef.current.value) === 1) {
-                fetchService.fetchApplicantsByCity(employee.city.id).then((response) => {
-                    setCursor("pointer");
-                    setTableData(() => response.data);
-                    console.log(response.data, " TABLEDATA")
-                });
+                fetchService
+                    .fetchApplicantsByCity(employee.city.id)
+                    .then((response) => {
+                        setCursor("pointer");
+                        setTableData(() => response.data);
+                        console.log(response.data, " TABLEDATA");
+                    });
             } else {
-                fetchService.fetchWaitingListByCity(employee.city.id).then((response) => {
-                    setCursor("pointer");
-                    setTableData(() => response.data);
-                });
+                fetchService
+                    .fetchWaitingListByCity(employee.city.id)
+                    .then((response) => {
+                        setCursor("pointer");
+                        setTableData(() => response.data);
+                    });
             }
+        */
         }
     };
 
@@ -85,15 +102,14 @@ function ApplicantTable() {
 
         const fieldName = event.target.getAttribute("name");
         let fieldValue = event.target.value;
-        if(fieldName === "city") {
-            fieldValue = cityList[event.target.value]
+        if (fieldName === "city") {
+            fieldValue = cityList[event.target.value];
         }
 
-
-        const newFormData = {...editFormData};
+        const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;
 
-        console.log(newFormData)
+        console.log(newFormData);
         setCursor("pointer");
         setEditFormData(newFormData);
         fetchTableData();
@@ -101,14 +117,12 @@ function ApplicantTable() {
 
     const handleDeleteClick = (applicantId) => {
         setCursor("wait");
-        fetchService.fetchDeleteApplicant(applicantId)
-            .then(fetchTableData);
+        fetchService.fetchDeleteApplicant(applicantId).then(fetchTableData);
     };
 
     const handleEditClick = (event, applicant) => {
         event.preventDefault();
         setEditApplicant(applicant.id);
-
 
         const formValues = {
             id: applicant.id,
@@ -121,7 +135,6 @@ function ApplicantTable() {
             city: applicant.city,
             description: applicant.description,
         };
-
 
         setCursor("wait");
         setEditFormData(formValues);
@@ -141,12 +154,12 @@ function ApplicantTable() {
             description: editFormData.description,
         };
         setCursor("wait");
-        fetchService.fetchPatchApplicant(editFormData.id, editedApplicant)
+        fetchService
+            .fetchPatchApplicant(editFormData.id, editedApplicant)
             .then(fetchTableData)
             .catch((error) => console.log(error));
 
         setEditApplicant(null);
-
     };
 
     const handleCancelClick = () => {
@@ -156,68 +169,68 @@ function ApplicantTable() {
     };
 
     const handleSort = (header) => {
-        const toSort = Object.keys(headers).find(key => headers[key] === header)
+        const toSort = Object.keys(headers).find(
+            (key) => headers[key] === header
+        );
 
         if (sortBy === "asc") {
-            setTableData(tableData?.sort((a, b) =>
-                a[toSort]
-                    .toString()
-                    .localeCompare(b[toSort].toString())
-            ))
+            setTableData(
+                tableData?.sort((a, b) =>
+                    a[toSort].toString().localeCompare(b[toSort].toString())
+                )
+            );
 
-            setSortedBy("dsc")
+            setSortedBy("dsc");
         }
 
         if (sortBy === "dsc") {
-            setTableData(tableData?.sort((a, b) =>
-                b[toSort]
-                    .toString()
-                    .localeCompare(a[toSort].toString())
-            ))
-            setSortedBy("asc")
+            setTableData(
+                tableData?.sort((a, b) =>
+                    b[toSort].toString().localeCompare(a[toSort].toString())
+                )
+            );
+            setSortedBy("asc");
         }
     };
 
     const getArrow = () => {
-
         if (sortBy === "asc") {
-            return "↑"
+            return "↑";
         } else {
-            return "↓"
+            return "↓";
         }
-    }
+    };
 
     const handleVisitationClick = (bookedDate, applicant) => {
         setCursor("wait");
-        fetchService.fetchVisitationRequest(applicant, bookedDate)
+        fetchService
+            .fetchVisitationRequest(applicant, bookedDate)
             .then((response) => {
-                fetchTableData()
+                fetchTableData();
                 console.log(response);
             });
     };
 
     const handleCancelVisitationClick = (reason, applicant) => {
         setCursor("wait");
-        fetchService.fetchCancelVisitation(applicant, reason)
+        fetchService
+            .fetchCancelVisitation(applicant, reason)
             .then((response) => {
-                fetchTableData()
-                console.log(response)
-            })
-    }
+                fetchTableData();
+                console.log(response);
+            });
+    };
 
     const handleConfirmVisitationClick = (applicant) => {
         setCursor("wait");
-        fetchService.fetchConfirmVisitation(applicant)
-            .then((response) => {
-                fetchTableData()
-                console.log(response)
-            })
-    }
-
+        fetchService.fetchConfirmVisitation(applicant).then((response) => {
+            fetchTableData();
+            console.log(response);
+        });
+    };
 
     return (
-
-        <div style={{"cursor" : cursor}} className="mt-5 mx-5 text-break">
+        <div style={{ cursor: cursor }} className="mt-5 mx-5 text-break">
             <div className="d-flex justify-content-between">
                 <h1>Venteliste</h1>
                 <select
@@ -232,32 +245,35 @@ function ApplicantTable() {
             <form className="form-horizontal">
                 <Table responsive striped bordered hover size="large">
                     <thead className="bg-primary text-white table-head-pointer">
-                    <tr>
-                        {Object.values(headers).map((header, index) => (
-                            <th key={index} onClick={() => {
-                                handleSort(header)
-                                setClickedTableHeadIndex(index)
-                            }}>
-                                {(() => {
-                                    let returnHeaderArrow = header + " ↕"
+                        <tr>
+                            {Object.values(headers).map((header, index) => (
+                                <th
+                                    key={index}
+                                    onClick={() => {
+                                        handleSort(header);
+                                        setClickedTableHeadIndex(index);
+                                    }}
+                                >
+                                    {(() => {
+                                        let returnHeaderArrow = header + " ↕";
 
-                                    if (header === "Handlinger") {
-                                        returnHeaderArrow = header
-                                    }
+                                        if (header === "Handlinger") {
+                                            returnHeaderArrow = header;
+                                        }
 
-                                    if (clickedTableHeadIndex === index) {
-                                        returnHeaderArrow = header + " " + getArrow()
-                                    }
+                                        if (clickedTableHeadIndex === index) {
+                                            returnHeaderArrow =
+                                                header + " " + getArrow();
+                                        }
 
-                                    return returnHeaderArrow
-                                })()}
-                            </th>
-                        ))}
-                    </tr>
+                                        return returnHeaderArrow;
+                                    })()}
+                                </th>
+                            ))}
+                        </tr>
                     </thead>
                     <tbody>
-                    {tableData
-                        ?.map((applicant) => (
+                        {tableData?.map((applicant) => (
                             <Fragment key={applicant.id}>
                                 {editApplicant === applicant.id ? (
                                     <ApplicantTableEditRows
@@ -276,9 +292,15 @@ function ApplicantTable() {
                                         applicant={applicant}
                                         handleDeleteClick={handleDeleteClick}
                                         handleEditClick={handleEditClick}
-                                        handleVisitationClick={handleVisitationClick}
-                                        handleCancelVisitationClick={handleCancelVisitationClick}
-                                        handleConfirmVisitationClick={handleConfirmVisitationClick}
+                                        handleVisitationClick={
+                                            handleVisitationClick
+                                        }
+                                        handleCancelVisitationClick={
+                                            handleCancelVisitationClick
+                                        }
+                                        handleConfirmVisitationClick={
+                                            handleConfirmVisitationClick
+                                        }
                                     />
                                 )}
                             </Fragment>
