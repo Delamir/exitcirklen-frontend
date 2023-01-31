@@ -48,11 +48,11 @@ function ApplicantTableReadOnly({
             <td>{applicant.email}</td>
             <td>{applicant.phoneNumber}</td>
             <td>{applicant.age}</td>
-            <td>{applicant.lastChanged.toString().replace("T", " ")}</td>
+            <td>{applicant.lastChanged?.toString().replace("T", " ")}</td>
             <td className="col-2">{applicant.description}</td>
             <td>
                 {(() => {
-                    let returnTd = applicant.status.replace("_", " ")
+                    let returnTd = applicant.status?.replace("_", " ")
 
                     // Modal for booking a visitation
                     if (applicant.status === "IKKE_VISITERET") {

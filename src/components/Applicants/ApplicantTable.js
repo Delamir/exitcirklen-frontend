@@ -61,7 +61,6 @@ function ApplicantTable() {
     }, [employee]);
 
     const fetchTableData = () => {
-        console.log(employee);
         if (true) {
             if (Number(dropDownRef.current.value) === 1) {
                 fetchService.fetchApplicants().then((response) => {
